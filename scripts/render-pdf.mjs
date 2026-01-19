@@ -50,26 +50,53 @@ function imageToBase64(imagePath) {
 function mdToHTML(text, outputFolder) {
   if (!text) return '';
 
-  let result = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, url) => {
-    let imgSrc = url;
+  let html = text;
 
-    // Corregir rutas de imágenes locales para PDF
+  // 1. Tablas Markdown (Misma lógica que en Slidev)
+  const tableRegex = /\|(.+)\|\n\|([-:| ]+)\|\n((?:\|.+\|\n?)+)/g;
+  html = html.replace(tableRegex, (match, header, separator, body) => {
+    const headers = header.split('|').map(s => s.trim()).filter(s => s);
+    const rows = body.trim().split('\n').map(row =>
+      row.split('|').map(s => s.trim()).filter(s => s)
+    );
+
+    let tableHtml = '<div class="table-container"><table><thead><tr>';
+    headers.forEach(h => { tableHtml += `<th>${h}</th>`; });
+    tableHtml += '</tr></thead><tbody>';
+    rows.forEach(row => {
+      tableHtml += '<tr>';
+      row.forEach(cell => { tableHtml += `<td>${cell}</td>`; });
+      tableHtml += '</tr>';
+    });
+    tableHtml += '</tbody></table></div>';
+    return tableHtml;
+  });
+
+  // 2. Imágenes
+  html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, url) => {
+    let imgSrc = url;
     if (url.startsWith('/img/')) {
-      // Ruta absoluta al sistema de archivos: output/taller/public/img/foto.webp
       imgSrc = 'file://' + join(outputFolder, 'public', url);
     } else if (url.startsWith('/')) {
       imgSrc = 'file://' + join(BANCO_ROOT, url);
     }
-
     const base64Url = imageToBase64(imgSrc);
     return `<img src="${base64Url}" alt="${alt}" class="img-pregunta">`;
   });
 
-  return result
+  // 3. Formato básico (sin romper LaTeX)
+  html = html
     .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-    .replace(/```([\s\S]*?)```/g, '<pre>$1</pre>')
-    .replace(/\n\n/g, '</p><p>')
-    .replace(/\n/g, '<br>');
+    .replace(/```([\s\S]*?)```/g, '<pre>$1</pre>');
+
+  // Reemplazar saltos de línea SOLO si no estamos dentro de una tabla o fórmula (simplificado)
+  // Para evitar romper LaTeX, no reemplazamos \n indiscriminadamente. 
+  // Usamos párrafos <p> para bloques de texto separados por \n\n
+
+  return html.split('\n\n').map(p => {
+    if (p.startsWith('<div') || p.startsWith('<table')) return p;
+    return `<p>${p.replace(/\n/g, '<br>')}</p>`;
+  }).join('');
 }
 
 /**
@@ -92,7 +119,7 @@ function generateExamenHTML(taller, outputFolder) {
     for (const p of bloque.preguntas) {
       const opcionesHTML = Object.entries(p.opciones)
         .map(([letra, texto]) =>
-          `<div class="opcion"><span class="letra">${letra}.</span> ${texto}</div>`
+          `<div class="opcion"><span class="letra">${letra}.</span> ${mdToHTML(texto, outputFolder)}</div>`
         )
         .join('');
 
@@ -116,6 +143,13 @@ function generateExamenHTML(taller, outputFolder) {
 <head>
   <meta charset="UTF-8">
   <title>EXAMEN: ${taller.titulo}</title>
+  
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body);"></script>
+
   <style>
     @page { size: letter; margin: 1.5cm; }
     @media print { .page-break { page-break-before: always; } }
@@ -127,6 +161,12 @@ function generateExamenHTML(taller, outputFolder) {
       color: #000;
       padding: 20px;
     }
+    /* Estilos de Tabla */
+    .table-container { margin: 15px 0; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 10pt; }
+    th, td { border: 1px solid #000; padding: 6px; text-align: center; }
+    th { background-color: #f0f0f0; font-weight: bold; }
+
     .header {
       text-align: center;
       margin-bottom: 20px;
@@ -155,6 +195,7 @@ function generateExamenHTML(taller, outputFolder) {
       margin-bottom: 15px;
       font-size: 10pt;
     }
+    .contexto p { margin-bottom: 10px; }
     .contexto pre {
       background: #eee;
       padding: 8px;
@@ -164,12 +205,35 @@ function generateExamenHTML(taller, outputFolder) {
     .pregunta-bloque {
       margin-bottom: 18px;
       page-break-inside: avoid;
+      position: relative; /* Referencia para el número absoluto */
+      padding-left: 30px; /* Espacio reservado para el "1." */
     }
-    .pregunta { margin-bottom: 8px; }
-    .pregunta .numero { font-weight: bold; }
-    .opciones { margin-left: 15px; page-break-inside: avoid; }
+    .pregunta { 
+      margin-bottom: 8px; 
+      display: block; /* VITAL: Block para que las tablas ocupen su línea */
+    }
+    .pregunta .numero { 
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-weight: bold; 
+    }
+    .pregunta p { margin-bottom: 8px; } /* Separación entre párrafos */
+    
+    /* Asegurar tablas ancho completo */
+    .table-container { 
+      width: 100%; 
+      overflow-x: auto; 
+      margin: 15px 0;
+    }
+    table { 
+      width: 100%; 
+      border-collapse: collapse; 
+      margin-bottom: 10px;
+    }
     .opcion { padding: 3px 0; page-break-inside: avoid; }
     .opcion .letra { font-weight: bold; margin-right: 6px; }
+    .opcion p { display: inline; } 
     .img-pregunta {
       max-width: 100%;
       height: auto;

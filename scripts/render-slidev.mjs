@@ -26,14 +26,47 @@ function extractImage(texto) {
 }
 
 /**
- * Limpia texto de markdown (imágenes, negrita)
+ * Renderiza markdown básico a HTML para Slidev
+ * Principalmente convierte tablas Markdown a HTML con estilos Tailwind.
+ * Deja el resto del texto (LaTeX, negritas) intacto para que Slidev lo procese.
  */
-function cleanText(texto) {
-    return (texto || '')
-        .replace(/!\[.*?\]\(.*?\)/g, '')  // Quitar imágenes
-        .replace(/\*\*(.+?)\*\*/g, '$1')  // Quitar negrita markdown
-        .replace(/---\s*$/gm, '')
-        .trim();
+function renderMarkdown(texto) {
+    if (!texto) return '';
+
+    let md = texto;
+
+    // 1. Tablas Markdown -> HTML Tailwind
+    // Es vital dejar líneas en blanco antes y después del HTML para que Slidev siga procesando MD
+    const tableRegex = /\|(.+)\|\n\|([-:| ]+)\|\n((?:\|.+\|\n?)+)/g;
+
+    if (md.match(tableRegex)) {
+        md = md.replace(tableRegex, (match, header, separator, body) => {
+            const headers = header.split('|').map(s => s.trim()).filter(s => s);
+            const rows = body.trim().split('\n').map(row =>
+                row.split('|').map(s => s.trim()).filter(s => s)
+            );
+
+            let tableHtml = '\n\n<div class="overflow-x-auto my-4"><table class="min-w-full border border-gray-500 bg-white text-gray-900 text-sm">';
+            tableHtml += '<thead class="bg-blue-100"><tr>';
+            headers.forEach(h => { tableHtml += `<th class="px-4 py-2 border border-gray-400 font-bold">${h}</th>`; });
+            tableHtml += '</tr></thead><tbody>';
+            rows.forEach(row => {
+                tableHtml += '<tr>';
+                row.forEach(cell => { tableHtml += `<td class="px-4 py-2 border border-gray-400">${cell}</td>`; });
+                tableHtml += '</tr>';
+            });
+            tableHtml += '</tbody></table></div>\n\n';
+            return tableHtml;
+        });
+    }
+
+    // 2. Imágenes: Eliminarlas si están inline (se manejan aparte)
+    md = md.replace(/!\[.*?\]\(.*?\)/g, '');
+
+    // NO reemplazamos \n por <br>. Dejamos que Slidev maneje los párrafos.
+    // NO tocamos LaTeX ($$ o $).
+
+    return md;
 }
 
 /**
@@ -117,7 +150,7 @@ ${taller.meta.area} / ${taller.meta.unidad}
  * Genera slide de contexto
  */
 function generateContextSlide(contexto, publicDir) {
-    const texto = cleanText(contexto);
+    const texto = renderMarkdown(contexto);
     const imgUrl = extractImage(contexto);
 
     let slide = `
@@ -155,13 +188,16 @@ layout: center
 /**
  * Genera slides de pregunta (pregunta + opciones + respuesta)
  */
+/**
+ * Genera slides de pregunta (pregunta + opciones + respuesta)
+ */
 function generateQuestionSlides(pregunta, publicDir) {
     const num = pregunta.numeroGlobal;
-    const texto = cleanText(pregunta.texto);
+    const texto = renderMarkdown(pregunta.texto);
     const imgUrl = extractImage(pregunta.texto);
     const opciones = pregunta.opciones || {};
     const respuestaCorrecta = pregunta.respuestaCorrecta;
-    const explicacion = cleanText(pregunta.explicacion);
+    const explicacion = renderMarkdown(pregunta.explicacion);
 
     let slides = '';
 
@@ -172,6 +208,7 @@ function generateQuestionSlides(pregunta, publicDir) {
 
 ---
 layout: default
+class: text-lg
 ---
 
 # Pregunta ${num}
@@ -179,27 +216,28 @@ layout: default
 ${texto}
 
 <div class="flex justify-center mt-4">
-  <img src="${processedImg}" class="h-70 rounded-xl shadow-2xl" />
+  <img src="${processedImg}" class="h-60 rounded-lg shadow-md border border-gray-200" />
 </div>`;
     } else {
         slides += `
 
 ---
 layout: default
+class: text-lg
 ---
 
 # Pregunta ${num}
 
-<div class="text-xl mt-8 leading-relaxed">
-${texto}
-</div>`;
+<br>
+
+${texto}`;
     }
 
-    // Slide de opciones con mejor estilo y alto contraste
+    // Slide de opciones (Estilo Examen: sobrio, letra negrita)
     const opcionesHTML = Object.entries(opciones).map(([letra, opcionTexto]) => `
-  <div class="p-5 bg-gradient-to-r from-slate-800 to-slate-700 rounded-xl border-2 border-slate-600 hover:border-blue-400 hover:from-blue-900/50 hover:to-slate-700 transition-all duration-300 cursor-pointer group flex items-start">
-    <span class="inline-block flex-shrink-0 w-10 h-10 bg-blue-500 text-white rounded-full text-center leading-10 font-bold mr-4 group-hover:bg-blue-400 shadow-md">${letra}</span>
-    <span class="text-xl text-white font-medium leading-relaxed">${opcionTexto}</span>
+  <div class="flex items-start p-3 hover:bg-gray-100 rounded-lg transition-colors duration-200">
+    <span class="font-bold text-blue-900 mr-3 text-lg">${letra}.</span>
+    <span class="text-gray-800 text-lg leading-snug">${opcionTexto}</span>
   </div>`).join('\n');
 
     slides += `
@@ -210,7 +248,7 @@ layout: default
 
 # Pregunta ${num} - Opciones
 
-<div class="space-y-4 mt-6">
+<div class="space-y-2 mt-6 bg-white p-6 rounded-xl shadow-sm border border-gray-200">
 ${opcionesHTML}
 </div>`;
 
@@ -229,7 +267,9 @@ ${opciones[respuestaCorrecta] || ''}
 </div>
 
 <div class="p-6 bg-green-800/30 rounded-xl max-w-3xl border border-green-700">
+
 ${explicacion || 'Es la opción correcta según el contexto proporcionado.'}
+
 </div>`;
 
     return slides;
