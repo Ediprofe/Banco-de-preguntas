@@ -1,0 +1,20 @@
+id: ciencias-contaminacion-prueba
+titulo: "Taller Contaminación Ambiental"
+descripcion: "Taller de prueba con preguntas de contaminación"
+
+meta:
+  area: ciencias
+  unidad: ecosistemas
+  objetivo_items: 3
+  tiempo_sugerido: 10
+
+seleccion:
+  - ciencias/ecosistemas/icfes-2023/01-contaminacion-rio
+
+outputs:
+  html_presentacion: true
+  html_examen:
+    tiempo_por_pregunta: 120
+    auto_avanzar: true
+  pdf_estudio: true
+  pdf_examen: true

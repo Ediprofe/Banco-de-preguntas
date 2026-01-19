@@ -1,0 +1,20 @@
+id: ciencias-niveles-prueba
+titulo: "Quiz Niveles de Organización – 3 ítems con imágenes CDN"
+descripcion: "Prueba de presentación con imágenes del CDN"
+
+meta:
+  area: ciencias
+  unidad: celula
+  objetivo_items: 3
+  tiempo_sugerido: 10
+
+seleccion:
+  - ciencias/celula/icfes-2023/02-niveles-organizacion
+
+outputs:
+  html_presentacion: true
+  html_examen:
+    tiempo_por_pregunta: 60
+    auto_avanzar: true
+  pdf_estudio: true
+  pdf_examen: true

@@ -1,0 +1,29 @@
+# Taller de prueba: La Célula
+
+id: ciencias-celula-prueba
+titulo: "Taller La Célula – 7 ítems"
+descripcion: "Taller de prueba para validar el sistema"
+
+meta:
+  area: ciencias
+  unidad: celula
+  objetivo_items: 7
+  tiempo_sugerido: 20
+
+seleccion:
+  - ciencias/celula/icfes-2023/01-osmosis      # 3 ítems
+  - ciencias/celula/icfes-2023/02-mitosis      # 2 ítems
+  - ciencias/celula/abel-mendoza/01-organelos  # 2 ítems
+
+outputs:
+  html_presentacion: true
+  
+  html_examen:
+    tiempo_por_pregunta: 120
+    auto_avance: true
+    
+  pdf_estudio: true
+  pdf_practica: true
+  
+  pdf_examen:
+    columnas: 2

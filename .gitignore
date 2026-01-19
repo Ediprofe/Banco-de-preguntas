@@ -1,0 +1,16 @@
+# Dependencias
+node_modules/
+.npm
+package-lock.json
+
+# Archivos generados (se crean con npm run taller)
+output/
+
+# macOS
+.DS_Store
+
+# Temporales de Slidev / Vite
+.vite
+.temp
+dist/
+stats.html
