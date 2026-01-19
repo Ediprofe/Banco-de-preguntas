@@ -8,14 +8,25 @@
 
 ```
 banco-saber/
-├── items/          # Banco de preguntas (.md)
-├── talleres/       # Definición de talleres (.yml)
-├── output/         # Archivos generados
-│   └── {taller}/   # Carpeta por taller
-│       ├── slides.md    # Presentación Slidev
-│       └── examen.pdf   # PDF sin respuestas
-└── scripts/        # 6 herramientas de generación
+├── items/                    # Banco de preguntas
+│   ├── ciencias/
+│   │   ├── celula/
+│   │   │   ├── 01-abel-organelos.md
+│   │   │   └── 02-icfes2023-osmosis.md
+│   │   └── ecosistemas/
+│   │       └── 01-icfes2023-contaminacion.md
+│   └── quimica/
+│       └── materia/
+│           └── 01-icfes2023-estados.md
+├── talleres/                 # Definiciones YAML
+├── output/                   # Generados
+└── scripts/
 ```
+
+**Convención de nombres:** `##-fuente-tema.md`
+- `##` = número de orden
+- `fuente` = origen (icfes2023, abel, instruimos)
+- `tema` = descripción
 
 ---
 
