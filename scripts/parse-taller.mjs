@@ -1,0 +1,134 @@
+#!/usr/bin/env node
+/**
+ * parse-taller.mjs
+ * 
+ * Parsea un archivo Markdown de taller directo (sin frontmatter).
+ * Extrae título del H1, área de la carpeta, preguntas del contenido.
+ */
+
+import { readFileSync } from 'fs';
+import { basename, dirname } from 'path';
+
+/**
+ * Parsea un taller desde un archivo Markdown
+ * @param {string} filePath - Ruta al archivo .md
+ * @returns {Object} Taller estructurado
+ */
+export function parseTallerMarkdown(filePath) {
+    const content = readFileSync(filePath, 'utf-8');
+    const fileName = basename(filePath, '.md');
+    const area = basename(dirname(filePath)); // Carpeta padre = área
+
+    // Extraer título del primer H1
+    const titleMatch = content.match(/^#\s+(.+)$/m);
+    const titulo = titleMatch ? titleMatch[1].trim() : fileName;
+
+    // Dividir por bloques de contexto (separados por ---)
+    const sections = content.split(/\n---\n/).filter(s => s.trim());
+
+    const bloques = [];
+    let currentBloque = null;
+    let numeroGlobal = 0;
+
+    for (const section of sections) {
+        // ¿Es una pregunta? (empieza con ## número)
+        const preguntaMatch = section.match(/^##\s*(\d+)\.\s*\n/m);
+
+        if (preguntaMatch) {
+            numeroGlobal++;
+            const pregunta = parsePregunta(section, numeroGlobal);
+
+            if (!currentBloque) {
+                currentBloque = { contexto: '', preguntas: [] };
+            }
+            currentBloque.preguntas.push(pregunta);
+        } else {
+            // Es un bloque de contexto
+            if (currentBloque && currentBloque.preguntas.length > 0) {
+                bloques.push(currentBloque);
+            }
+            currentBloque = {
+                contexto: section.replace(/^#\s+.+\n/, '').trim(), // Quitar título principal
+                preguntas: []
+            };
+        }
+    }
+
+    // Agregar último bloque
+    if (currentBloque && currentBloque.preguntas.length > 0) {
+        bloques.push(currentBloque);
+    }
+
+    return {
+        id: fileName,
+        titulo,
+        meta: {
+            area,
+            unidad: fileName,
+            tiempo_sugerido: Math.max(10, numeroGlobal * 3)
+        },
+        bloques,
+        totalItems: numeroGlobal
+    };
+}
+
+/**
+ * Parsea una sección de pregunta
+ */
+function parsePregunta(section, numeroGlobal) {
+    const lines = section.split('\n');
+
+    // Extraer texto de la pregunta (después del ## número)
+    let texto = '';
+    let inOpciones = false;
+    const opciones = {};
+    let respuestaCorrecta = '';
+    let explicacion = '';
+
+    // Buscar el texto después del encabezado
+    const headerIndex = lines.findIndex(l => l.match(/^##\s*\d+\./));
+
+    for (let i = headerIndex + 1; i < lines.length; i++) {
+        const line = lines[i];
+
+        // ¿Es opción?
+        const opcionMatch = line.match(/^-\s*([A-D])\.\s*(.+)$/);
+        if (opcionMatch) {
+            inOpciones = true;
+            opciones[opcionMatch[1]] = opcionMatch[2].trim();
+            continue;
+        }
+
+        // ¿Es inicio de respuesta?
+        if (line.includes('<details>')) {
+            // Buscar respuesta correcta
+            const restContent = lines.slice(i).join('\n');
+            const respMatch = restContent.match(/\*\*Respuesta:\s*([A-D])\*\*/);
+            if (respMatch) {
+                respuestaCorrecta = respMatch[1];
+            }
+
+            // Extraer explicación
+            const explMatch = restContent.match(/<\/summary>\s*\n\n\*\*Respuesta:[^*]+\*\*\s*\n\n([\s\S]*?)<\/details>/);
+            if (explMatch) {
+                explicacion = explMatch[1].trim();
+            }
+            break;
+        }
+
+        // Es texto de la pregunta
+        if (!inOpciones && line.trim()) {
+            texto += (texto ? '\n' : '') + line;
+        }
+    }
+
+    return {
+        numeroGlobal,
+        texto: texto.trim(),
+        opciones,
+        respuestaCorrecta,
+        explicacion
+    };
+}
+
+export default parseTallerMarkdown;

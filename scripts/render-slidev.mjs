@@ -38,37 +38,39 @@ function cleanText(texto) {
 
 /**
  * Procesa ruta de imagen para Slidev
- * Las imágenes deben estar en /public para que Slidev las encuentre
  */
 function processImagePath(imgUrl, publicDir) {
     if (!imgUrl) return null;
 
-    // Si es URL absoluta (CDN), usar directamente
-    if (imgUrl.startsWith('http')) {
-        return imgUrl;
-    }
+    // Si es URL web, dejarla igual
+    if (imgUrl.startsWith('http')) return imgUrl;
 
-    // Si es file:// o ruta local, copiar a public
-    let localPath = imgUrl;
-    if (imgUrl.startsWith('file://')) {
-        localPath = imgUrl.replace('file://', '');
-    }
+    let imgName = basename(imgUrl);
+    let srcPath = null;
 
-    // Buscar la imagen
+    // Buscar en:
+    // 1. img/ (carpeta raíz de imágenes optimizadas)
+    // 2. inbox/ (legacy)
     const possiblePaths = [
-        localPath,
-        join(BANCO_ROOT, localPath),
-        join(BANCO_ROOT, 'inbox', basename(localPath))
+        join(BANCO_ROOT, 'img', imgName),
+        join(BANCO_ROOT, 'inbox', imgName)
     ];
 
-    for (const path of possiblePaths) {
-        if (existsSync(path)) {
-            const imgName = basename(path);
-            const destPath = join(publicDir, 'images', imgName);
-            mkdirSync(dirname(destPath), { recursive: true });
-            copyFileSync(path, destPath);
-            return `/images/${imgName}`;
+    for (const p of possiblePaths) {
+        if (existsSync(p)) {
+            srcPath = p;
+            break;
         }
+    }
+
+    if (srcPath) {
+        // Copiar a public/img/ en el output
+        const destPath = join(publicDir, 'img', imgName);
+        mkdirSync(dirname(destPath), { recursive: true });
+        copyFileSync(srcPath, destPath);
+
+        // Retornar ruta relativa para Slidev y PDF
+        return `/img/${imgName}`;
     }
 
     console.warn(`  ⚠️  Imagen no encontrada: ${imgUrl}`);
@@ -296,22 +298,7 @@ export function renderSlidev(taller, outputPath) {
     writeFileSync(slidesPath, markdown);
     console.log(`   ✅ ${slidesPath}`);
 
-    // Copiar imágenes del inbox si existen
-    const inboxDir = join(BANCO_ROOT, 'inbox');
-    if (existsSync(inboxDir)) {
-        const images = readdirSync(inboxDir).filter(f =>
-            f.endsWith('.png') || f.endsWith('.jpg') || f.endsWith('.webp')
-        );
-        for (const img of images) {
-            const src = join(inboxDir, img);
-            const dest = join(publicDir, 'inbox', img);
-            mkdirSync(dirname(dest), { recursive: true });
-            copyFileSync(src, dest);
-        }
-        if (images.length > 0) {
-            console.log(`   📷 ${images.length} imágenes copiadas a public/inbox/`);
-        }
-    }
+
 
     return {
         tipo: 'slidev',

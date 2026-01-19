@@ -4,47 +4,52 @@
 
 ---
 
-## Estructura
+## Estructura del Proyecto
+
+El sistema soporta dos formas de trabajo. Elige la que prefieras:
+
+### 1. Modo Rápido (Recomendado)
+Escribes todo el taller en un solo archivo Markdown. Ideal para crear talleres nuevos rápidamente.
 
 ```
 banco-saber/
-├── items/                    # Banco de preguntas
+├── talleres/                 # Tus talleres
 │   ├── ciencias/
-│   │   ├── celula/
-│   │   │   ├── 01-abel-organelos.md
-│   │   │   └── 02-icfes2023-osmosis.md
-│   │   └── ecosistemas/
-│   │       └── 01-icfes2023-contaminacion.md
-│   └── quimica/
-│       └── materia/
-│           └── 01-icfes2023-estados.md
-├── talleres/                 # Definiciones YAML
-├── output/                   # Generados
-└── scripts/
+│   │   └── contaminacion.md  # ← Escribe aquí tu taller completo
+│   ├── quimica/
+│   └── matematicas/
+├── img/                      # Tus imágenes (fuente)
+├── output/                   # Archivos generados (PDFs, Slides)
+└── scripts/                  # Herramientas del sistema
 ```
 
-**Convención de nombres:** `##-fuente-tema.md`
-- `##` = número de orden
-- `fuente` = origen (icfes2023, abel, instruimos)
-- `tema` = descripción
+### 2. Modo Banco (Avanzado)
+Creas preguntas sueltas en `items/` y las ensamblas con un archivo YAML. Útil si quieres reutilizar la misma pregunta en varios talleres.
+
+```
+banco-saber/
+├── items/                    # Banco de preguntas sueltas
+│   └── ciencias/celula/01-pregunta.md
+├── talleres/
+│   └── taller-celula.yml     # Archivo de configuración que une items
+```
 
 ---
 
-## Comandos
+## Flujo de Trabajo (Modo Rápido)
 
-```bash
-# Menú interactivo
-npm run saber
+1. **Imágenes:**
+   - Guarda tus imágenes en `img/`.
+   - Ejecuta `npm run img` para optimizarlas y copiar el código Markdown.
 
-# Generar taller (Slidev + PDF)
-npm run taller <nombre-taller>
-npm run taller ciencias-contaminacion-prueba
+2. **Crear Taller:**
+   - Crea un archivo `.md` en `talleres/{area}/` (ej: `talleres/ciencias/mi-taller.md`).
+   - Estructura: `# Título` → Bloque de Contexto → `## 1. Pregunta`...
 
-# Con servidor automático
-npm run taller ciencias-contaminacion-prueba
-# Sin abrir navegador
-npm run taller ciencias-contaminacion-prueba -- --no-open
-```
+3. **Generar:**
+   - Ejecuta `npm run taller`.
+   - Selecciona tu área y taller del menú.
+   - El sistema generará la presentación Slidev y el examen PDF en `output/`.
 
 ---
 

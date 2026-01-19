@@ -47,15 +47,22 @@ function imageToBase64(imagePath) {
 /**
  * Convierte Markdown básico a HTML
  */
-function mdToHTML(text) {
+function mdToHTML(text, outputFolder) {
   if (!text) return '';
 
   let result = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, url) => {
-    if (url.startsWith('file://') || url.startsWith('/')) {
-      const base64Url = imageToBase64(url);
-      return `<img src="${base64Url}" alt="${alt}" class="img-pregunta">`;
+    let imgSrc = url;
+
+    // Corregir rutas de imágenes locales para PDF
+    if (url.startsWith('/img/')) {
+      // Ruta absoluta al sistema de archivos: output/taller/public/img/foto.webp
+      imgSrc = 'file://' + join(outputFolder, 'public', url);
+    } else if (url.startsWith('/')) {
+      imgSrc = 'file://' + join(BANCO_ROOT, url);
     }
-    return `<img src="${url}" alt="${alt}" class="img-pregunta">`;
+
+    const base64Url = imageToBase64(imgSrc);
+    return `<img src="${base64Url}" alt="${alt}" class="img-pregunta">`;
   });
 
   return result
@@ -68,7 +75,7 @@ function mdToHTML(text) {
 /**
  * Genera HTML para PDF de examen (sin respuestas)
  */
-function generateExamenHTML(taller) {
+function generateExamenHTML(taller, outputFolder) {
   let bloques = [];
 
   for (let b = 0; b < taller.bloques.length; b++) {
@@ -79,7 +86,7 @@ function generateExamenHTML(taller) {
       const contextoClean = bloque.contexto
         .replace(/^# .*\n*/m, '')
         .replace(/---\s*$/, '');
-      bloqueHTML += `<div class="contexto">${mdToHTML(contextoClean)}</div>`;
+      bloqueHTML += `<div class="contexto">${mdToHTML(contextoClean, outputFolder)}</div>`;
     }
 
     for (const p of bloque.preguntas) {
@@ -89,7 +96,7 @@ function generateExamenHTML(taller) {
         )
         .join('');
 
-      const preguntaTexto = mdToHTML(p.texto || '');
+      const preguntaTexto = mdToHTML(p.texto || '', outputFolder);
       bloqueHTML += `
         <div class="pregunta-bloque">
           <div class="pregunta">
@@ -220,7 +227,7 @@ export async function exportExamenPDF(taller, outputFolder) {
   const examenPath = join(outputFolder, 'examen.pdf');
 
   console.log('📋 Generando PDF examen (sin respuestas)...');
-  const html = generateExamenHTML(taller);
+  const html = generateExamenHTML(taller, outputFolder);
   await generatePDF(html, examenPath);
   console.log(`   ✅ ${examenPath}`);
 
