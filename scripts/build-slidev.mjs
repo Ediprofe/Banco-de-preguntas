@@ -138,9 +138,9 @@ async function main() {
         const result = renderSlidev(taller, OUTPUT_DIR);
         console.log();
 
-        // Generar PDF examen
-        const { exportExamenPDF } = await import('./render-pdf.mjs');
-        await exportExamenPDF(taller, result.path);
+        // Generar Word examen (Sustituye al PDF)
+        const { exportExamenWord } = await import('./render-word.mjs');
+        await exportExamenWord(taller, result.path);
         console.log();
 
         log('━'.repeat(50), 'cyan');
@@ -150,7 +150,7 @@ async function main() {
 
         log(`📂 Carpeta: ${result.path}`, 'cyan');
         log(`🎬 Presentación: slides.md`, 'dim');
-        log(`📋 PDF examen: examen.pdf`, 'dim');
+        log(`📋 Word examen: ${taller.id}.docx`, 'dim');
         console.log();
 
         log('🚀 Para ver la presentación:', 'yellow');

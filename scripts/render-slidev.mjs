@@ -1,29 +1,10 @@
-#!/usr/bin/env node
-/**
- * render-slidev.mjs
- * 
- * Genera una presentación Slidev desde un taller ensamblado.
- * 
- * Output:
- *   - slides.md (presentación Slidev)
- *   - public/inbox/* (imágenes copiadas)
- */
+import { readFileSync, mkdirSync, copyFileSync, existsSync, writeFileSync } from 'fs';
+import { join, dirname, basename, isAbsolute } from 'path';
 
-import { writeFileSync, mkdirSync, existsSync, copyFileSync, readdirSync } from 'fs';
-import { join, dirname, basename } from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const BANCO_ROOT = join(__dirname, '..');
-
-/**
- * Extrae URL de imagen del texto markdown
- */
-function extractImage(texto) {
-    const match = (texto || '').match(/!\[.*?\]\((.+?)\)/);
-    return match ? match[1] : null;
-}
+const TALLERES_DIR = join(process.cwd(), 'talleres');
+const OUTPUT_DIR = join(process.cwd(), 'output');
+const IMG_DIR = join(process.cwd(), 'img'); // Directorio central de imágenes originales
+const INBOX_DIR = join(process.cwd(), 'inbox'); // Directorio legacy
 
 /**
  * Renderiza markdown básico a HTML para Slidev
@@ -31,320 +12,317 @@ function extractImage(texto) {
  * Deja el resto del texto (LaTeX, negritas) intacto para que Slidev lo procese.
  */
 function renderMarkdown(texto) {
-    if (!texto) return '';
+  if (!texto) return '';
 
-    let md = texto;
+  let md = texto;
 
-    // 1. Tablas Markdown -> HTML Tailwind
-    // Es vital dejar líneas en blanco antes y después del HTML para que Slidev siga procesando MD
-    const tableRegex = /\|(.+)\|\n\|([-:| ]+)\|\n((?:\|.+\|\n?)+)/g;
+  // 1. Tablas Markdown -> HTML Tailwind
+  // Es vital dejar líneas en blanco antes y después del HTML para que Slidev siga procesando MD
+  const tableRegex = /\|(.+)\|\n\|([-:| ]+)\|\n((?:\|.+\|\n?)+)/g;
 
-    if (md.match(tableRegex)) {
-        md = md.replace(tableRegex, (match, header, separator, body) => {
-            const headers = header.split('|').map(s => s.trim()).filter(s => s);
-            const rows = body.trim().split('\n').map(row =>
-                row.split('|').map(s => s.trim()).filter(s => s)
-            );
+  if (md.match(tableRegex)) {
+    md = md.replace(tableRegex, (match, header, separator, body) => {
+      const headers = header.split('|').map(s => s.trim()).filter(s => s);
+      const rows = body.trim().split('\n').map(row =>
+        row.split('|').map(s => s.trim()).filter(s => s)
+      );
 
-            let tableHtml = '\n\n<div class="overflow-x-auto my-4"><table class="min-w-full border border-gray-500 bg-white text-gray-900 text-sm">';
-            tableHtml += '<thead class="bg-blue-100"><tr>';
-            headers.forEach(h => { tableHtml += `<th class="px-4 py-2 border border-gray-400 font-bold">${h}</th>`; });
-            tableHtml += '</tr></thead><tbody>';
-            rows.forEach(row => {
-                tableHtml += '<tr>';
-                row.forEach(cell => { tableHtml += `<td class="px-4 py-2 border border-gray-400">${cell}</td>`; });
-                tableHtml += '</tr>';
-            });
-            tableHtml += '</tbody></table></div>\n\n';
-            return tableHtml;
-        });
-    }
+      let tableHtml = '\n\n<div class="overflow-x-auto my-4"><table class="min-w-full border border-gray-500 bg-white text-gray-900 text-sm">';
+      tableHtml += '<thead class="bg-blue-100"><tr>';
+      headers.forEach(h => { tableHtml += `<th class="px-4 py-2 border border-gray-400 font-bold">${h}</th>`; });
+      tableHtml += '</tr></thead><tbody>';
+      rows.forEach(row => {
+        tableHtml += '<tr>';
+        row.forEach(cell => { tableHtml += `<td class="px-4 py-2 border border-gray-400">${cell}</td>`; });
+        tableHtml += '</tr>';
+      });
+      tableHtml += '</tbody></table></div>\n\n';
+      return tableHtml;
+    });
+  }
 
-    // 2. Imágenes: Eliminarlas si están inline (se manejan aparte)
-    md = md.replace(/!\[.*?\]\(.*?\)/g, '');
+  // 2. Imágenes: Eliminarlas si están inline (se manejan aparte)
+  md = md.replace(/!\[.*?\]\(.*?\)/g, '');
 
-    // NO reemplazamos \n por <br>. Dejamos que Slidev maneje los párrafos.
-    // NO tocamos LaTeX ($$ o $).
+  // NO reemplazamos \n por <br>. Dejamos que Slidev maneje los párrafos.
+  // NO tocamos LaTeX ($$ o $).
 
-    return md;
+  return md;
 }
 
 /**
- * Procesa ruta de imagen para Slidev
+ * Extrae URL de imagen del markdown si existe
+ */
+function extractImage(texto) {
+  const match = texto.match(/!\[.*?\]\((.*?)\)/);
+  return match ? match[1] : null;
+}
+
+/**
+ * Procesa ruta de imagen, la busca en img/ o inbox/ y la copia a output
+ * Retorna ruta relativa para Slidev
  */
 function processImagePath(imgUrl, publicDir) {
-    if (!imgUrl) return null;
+  if (!imgUrl) return null;
 
-    // Si es URL web, dejarla igual
-    if (imgUrl.startsWith('http')) return imgUrl;
+  const imgName = basename(imgUrl);
 
-    let imgName = basename(imgUrl);
-    let srcPath = null;
+  // 1. Buscar en img/ (Prioridad)
+  let srcPath = join(IMG_DIR, imgName);
 
-    // Buscar en:
-    // 1. img/ (carpeta raíz de imágenes optimizadas)
-    // 2. inbox/ (legacy)
-    const possiblePaths = [
-        join(BANCO_ROOT, 'img', imgName),
-        join(BANCO_ROOT, 'inbox', imgName)
-    ];
+  if (!existsSync(srcPath)) {
+    // 2. Buscar en inbox/ (Legacy)
+    srcPath = join(INBOX_DIR, imgName);
+  }
 
-    for (const p of possiblePaths) {
-        if (existsSync(p)) {
-            srcPath = p;
-            break;
-        }
-    }
+  // 3. Buscar relativa al taller (si es ruta absoluta o relativa compleja)
+  if (!existsSync(srcPath) && !isAbsolute(imgUrl)) {
+    // Difícil saber la ruta relativa exacta aquí sin pasar el path del taller,
+    // pero asumimos que las imágenes están centralizadas en img/ ahora.
+  }
 
-    if (srcPath) {
-        // Copiar a public/img/ en el output
-        const destPath = join(publicDir, 'img', imgName);
-        mkdirSync(dirname(destPath), { recursive: true });
-        copyFileSync(srcPath, destPath);
+  if (existsSync(srcPath)) {
+    const destPath = join(publicDir, 'img', imgName);
+    mkdirSync(dirname(destPath), { recursive: true });
+    copyFileSync(srcPath, destPath);
+    return `/img/${imgName}`;
+  }
 
-        // Retornar ruta relativa para Slidev y PDF
-        return `/img/${imgName}`;
-    }
-
-    console.warn(`  ⚠️  Imagen no encontrada: ${imgUrl}`);
-    return imgUrl;
-}
-
-/**
- * Genera el frontmatter de Slidev
- */
-function generateFrontmatter(taller) {
-    return `---
-theme: seriph
-background: https://cover.sli.dev
-title: ${taller.titulo}
-info: |
-  ${taller.meta.area} / ${taller.meta.unidad}
-  ${taller.totalItems} preguntas
-class: text-center
-highlighter: shiki
-drawings:
-  persist: false
-transition: slide-left
-mdc: true
----`;
+  return imgUrl; // Retornar original si no se encuentra (quizás es externa)
 }
 
 /**
  * Genera slide de título
  */
 function generateTitleSlide(taller) {
-    return `
+  return `---
+theme: seriph
+layout: cover
+background: https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=1920
+class: text-center
+---
+
 # ${taller.titulo}
 
-${taller.meta.area} / ${taller.meta.unidad}
-
-🧪 ${taller.totalItems} preguntas
-
-<div class="abs-br m-6 flex gap-2">
-  <span class="text-sm opacity-50">Presiona → para continuar</span>
-</div>`;
+${taller.meta.area.toUpperCase()} | ${taller.totalItems} preguntas
+`;
 }
 
 /**
  * Genera slide de contexto
  */
-function generateContextSlide(contexto, publicDir) {
-    const texto = renderMarkdown(contexto);
-    const imgUrl = extractImage(contexto);
+function generateContextSlide(texto) {
+  if (!texto) return '';
 
-    let slide = `
+  // Detectar si hay imagen en el contexto
+  const imgMatch = texto.match(/!\[([^\]]*)\]\(([^)]+)\)/);
+
+  if (imgMatch) {
+    // Layout de dos columnas: texto izquierda, imagen derecha
+    const imgSrc = imgMatch[2];
+    const textoSinImagen = texto.replace(imgMatch[0], '').trim();
+
+    return `
+
+---
+layout: two-cols
+---
+
+# 📖 Contexto
+
+<div class="pr-4 text-lg leading-relaxed">
+
+${textoSinImagen}
+
+</div>
+
+::right::
+
+<div class="flex items-center justify-center h-full">
+
+![contexto](${imgSrc})
+
+</div>`;
+  } else {
+    // Layout simple para contexto solo texto
+    return `
+
 ---
 layout: default
 ---
 
 # 📖 Contexto
 
-<div class="p-6 bg-blue-900/20 rounded-xl border-l-4 border-blue-400 text-left">
+<div class="p-6 bg-blue-900/20 rounded-xl border-l-4 border-blue-400 text-left text-lg">
 
-${texto.slice(0, 600)}${texto.length > 600 ? '...' : ''}
+${texto}
 
 </div>`;
-
-    // Si hay imagen, agregar slide separado
-    if (imgUrl) {
-        const processedImg = processImagePath(imgUrl, publicDir);
-        slide += `
-
----
-layout: center
----
-
-# Modelo / Diagrama
-
-<div class="flex justify-center">
-  <img src="${processedImg}" class="h-100 rounded-xl shadow-2xl" />
-</div>`;
-    }
-
-    return slide;
+  }
 }
 
 /**
  * Genera slides de pregunta (pregunta + opciones + respuesta)
  */
-/**
- * Genera slides de pregunta (pregunta + opciones + respuesta)
- */
 function generateQuestionSlides(pregunta, publicDir) {
-    const num = pregunta.numeroGlobal;
-    const texto = renderMarkdown(pregunta.texto);
-    const imgUrl = extractImage(pregunta.texto);
-    const opciones = pregunta.opciones || {};
-    const respuestaCorrecta = pregunta.respuestaCorrecta;
-    const explicacion = renderMarkdown(pregunta.explicacion);
+  const num = pregunta.numeroGlobal;
+  const texto = renderMarkdown(pregunta.texto);
+  const imgUrl = extractImage(pregunta.texto);
+  const opciones = pregunta.opciones || {};
+  const respuestaCorrecta = pregunta.respuestaCorrecta;
+  const explicacion = renderMarkdown(pregunta.explicacion);
 
-    let slides = '';
+  let slides = '';
 
-    // Si hay imagen, mostrar primero
-    if (imgUrl) {
-        const processedImg = processImagePath(imgUrl, publicDir);
-        slides += `
-
----
-layout: default
-class: text-lg
----
-
-# Pregunta ${num}
-
-${texto}
-
-<div class="flex justify-center mt-4">
-  <img src="${processedImg}" class="h-60 rounded-lg shadow-md border border-gray-200" />
-</div>`;
-    } else {
-        slides += `
-
----
-layout: default
-class: text-lg
----
-
-# Pregunta ${num}
-
-<br>
-
-${texto}`;
-    }
-
-    // Slide de opciones (Estilo Examen: sobrio, letra negrita)
-    const opcionesHTML = Object.entries(opciones).map(([letra, opcionTexto]) => `
-  <div class="flex items-start p-3 hover:bg-gray-100 rounded-lg transition-colors duration-200">
-    <span class="font-bold text-blue-900 mr-3 text-lg">${letra}.</span>
-    <span class="text-gray-800 text-lg leading-snug">${opcionTexto}</span>
-  </div>`).join('\n');
-
+  // Si hay imagen, mostrar primero
+  if (imgUrl) {
+    const processedImg = processImagePath(imgUrl, publicDir);
     slides += `
 
 ---
 layout: default
+class: text-lg px-20
 ---
 
-# Pregunta ${num} - Opciones
+# ❓ Pregunta ${num}
 
-<div class="space-y-2 mt-6 bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+<div class="flex flex-col justify-center h-full">
+
+<div class="text-3xl font-serif mb-8 leading-snug">
+${texto}
+</div>
+
+<div class="flex justify-center mt-4">
+  <img src="${processedImg}" class="h-60 rounded-xl shadow-lg border border-gray-100" />
+</div>
+
+</div>`;
+  } else {
+    slides += `
+
+---
+layout: default
+class: text-lg px-20
+---
+
+# ❓ Pregunta ${num}
+
+<div class="flex flex-col justify-center h-full text-3xl font-serif leading-snug">
+
+${texto}
+
+</div>`;
+  }
+
+  // Slide de opciones (Diseño Limpio y Minimalista)
+  const opcionesHTML = Object.entries(opciones).map(([letra, opcionTexto]) => `
+  <div class="flex items-center p-5 mb-4 bg-white border border-gray-200 rounded-lg hover:border-blue-400 hover:bg-blue-50/50 transition-colors cursor-default">
+    <div class="flex-shrink-0 font-bold text-2xl text-blue-600 w-10">
+      ${letra}.
+    </div>
+    <div class="text-xl text-gray-700 leading-tight">
+      ${opcionTexto}
+    </div>
+  </div>`).join('\n');
+
+  slides += `
+
+---
+layout: default
+class: bg-white
+---
+
+# ❓ Opciones
+
+<div class="mt-10 max-w-3xl mx-auto">
 ${opcionesHTML}
 </div>`;
 
-    // Slide de respuesta
+  // Slide de respuesta (Diseño Premium)
+  if (respuestaCorrecta) {
     slides += `
 
 ---
 layout: center
-class: bg-gradient-to-br from-green-900 to-slate-900
+class: bg-gradient-to-br from-green-50 to-emerald-100
 ---
 
-# ✅ Respuesta ${num}: ${respuestaCorrecta}
+# ✅ Respuesta Correcta: ${respuestaCorrecta}
 
-<div class="text-2xl mb-6 font-semibold text-green-300">
-${opciones[respuestaCorrecta] || ''}
+<div class="text-3xl font-bold text-green-800 mb-6 font-serif">
+  ${opciones[respuestaCorrecta] || ''}
 </div>
 
-<div class="p-6 bg-green-800/30 rounded-xl max-w-3xl border border-green-700">
+<div class="max-w-2xl mx-auto text-left bg-white/60 p-6 rounded-2xl border border-green-200 shadow-sm leading-relaxed text-lg">
 
-${explicacion || 'Es la opción correcta según el contexto proporcionado.'}
+💡 **Explicación:**
+
+${explicacion || 'Es la opción correcta según el análisis del contexto y las variables presentadas.'}
 
 </div>`;
+  }
 
-    return slides;
+  return slides;
 }
 
 /**
  * Genera slide final
  */
 function generateFinalSlide(taller) {
-    return `
+  return `
 
 ---
 layout: center
-class: text-center
+class: text-center bg-gray-50
 ---
 
-# 🎉 ¡Fin del Quiz!
+# 🎉 ¡Fin del Taller!
 
-<div class="text-xl opacity-80 mb-8">
-Has completado las ${taller.totalItems} preguntas
+<div class="mt-8 text-xl text-gray-600 font-medium">
+  Has completado las ${taller.totalItems} preguntas del taller de ${taller.meta.area}.
 </div>
 
-<div class="flex justify-center gap-4 mt-8">
-  <div class="px-6 py-3 bg-blue-600 rounded-lg">
-    <kbd>Esc</kbd> Ver todas las slides
-  </div>
-  <div class="px-6 py-3 bg-green-600 rounded-lg">
-    <kbd>P</kbd> Modo presentador
-  </div>
-</div>`;
+<div class="flex justify-center gap-4 mt-10">
+    <div class="px-8 py-4 bg-blue-600 rounded-2xl text-white font-bold text-2xl shadow-xl transform hover:scale-105 transition-transform cursor-pointer">
+        PUNTAJE: 100%
+    </div>
+</div>
+`;
 }
 
-/**
- * Genera archivo Slidev completo
- */
-export function renderSlidev(taller, outputPath) {
-    // Carpeta del taller: output/{taller-id}/
-    const tallerDir = join(outputPath, taller.id);
-    const publicDir = join(tallerDir, 'public');
+export function renderSlidev(taller, outputDir) {
+  // Crear carpeta específica para el taller
+  const tallerOutputDir = join(outputDir, taller.id);
+  const slidesPath = join(tallerOutputDir, 'slides.md');
+  const publicDir = join(tallerOutputDir, 'public');
 
-    mkdirSync(tallerDir, { recursive: true });
-    mkdirSync(publicDir, { recursive: true });
-    mkdirSync(join(publicDir, 'images'), { recursive: true });
+  mkdirSync(publicDir, { recursive: true });
 
-    console.log('🎨 Generando presentación Slidev...');
+  let content = generateTitleSlide(taller);
 
-    let markdown = generateFrontmatter(taller);
-    markdown += generateTitleSlide(taller);
+  // Contexto global (si existe fuera de items)
+  // content += generateContextSlide(taller.contexto);
 
-    for (const bloque of taller.bloques) {
-        // Contexto
-        if (bloque.contexto && bloque.contexto.trim()) {
-            markdown += generateContextSlide(bloque.contexto, publicDir);
-        }
-
-        // Preguntas
-        for (const pregunta of bloque.preguntas) {
-            markdown += generateQuestionSlides(pregunta, publicDir);
-        }
+  // Iterar bloques (Estructura: { contexto: string, preguntas: [] })
+  taller.bloques.forEach(bloque => {
+    // 1. Generar slide de contexto si existe
+    if (bloque.contexto && bloque.contexto.length > 10) {
+      content += generateContextSlide(bloque.contexto);
     }
 
-    markdown += generateFinalSlide(taller);
+    // 2. Generar slides para cada pregunta del bloque
+    if (bloque.preguntas && bloque.preguntas.length > 0) {
+      bloque.preguntas.forEach(pregunta => {
+        content += generateQuestionSlides(pregunta, publicDir);
+      });
+    }
+  });
 
-    // Guardar slides.md
-    const slidesPath = join(tallerDir, 'slides.md');
-    writeFileSync(slidesPath, markdown);
-    console.log(`   ✅ ${slidesPath}`);
+  content += generateFinalSlide(taller);
 
+  // Escribir archivo
+  writeFileSync(slidesPath, content);
 
-
-    return {
-        tipo: 'slidev',
-        path: tallerDir,
-        slidesPath: slidesPath
-    };
+  // Retornar objeto con la ruta de la CARPETA, compatible con build-slidev.mjs
+  return { path: tallerOutputDir };
 }
-
-export default renderSlidev;

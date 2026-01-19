@@ -116,8 +116,8 @@ function parsePregunta(section, numeroGlobal) {
             break;
         }
 
-        // Es texto de la pregunta
-        if (!inOpciones && line.trim()) {
+        // Es texto de la pregunta (mantener líneas vacías para Markdown/Tablas)
+        if (!inOpciones) {
             texto += (texto ? '\n' : '') + line;
         }
     }
