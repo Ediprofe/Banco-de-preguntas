@@ -1,0 +1,21 @@
+{
+    "files.exclude": {
+        "node_modules": true,
+        "output": true,
+        "scripts": true,
+        "templates": true,
+        "slidev": true,
+        "assets": true,
+        "inbox": true,
+        ".git": true,
+        ".gitignore": true,
+        "package-lock.json": true,
+        "*.md": false,
+        "0. Automating Slidev Presentations.md": true,
+        "Slidev Design Polish.md": true
+    },
+    "explorer.sortOrder": "type",
+    "editor.wordWrap": "on",
+    "editor.fontSize": 14,
+    "markdown.preview.fontSize": 16
+}

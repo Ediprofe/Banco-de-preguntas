@@ -4,8 +4,9 @@
     "type": "module",
     "description": "Sistema de talleres tipo Prueba Saber - Proyecto independiente",
     "scripts": {
+        "dev": "node scripts/dev.mjs",
+        "build": "node scripts/build-slidev.mjs",
         "saber": "node scripts/menu.mjs",
-        "taller": "node scripts/build-slidev.mjs",
         "img": "node scripts/img.mjs"
     },
     "dependencies": {
