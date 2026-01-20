@@ -71,12 +71,35 @@ function generateExamenMarkdown(taller, outputFolder) {
     md += `**Instrucciones:** Selecciona la única opción correcta. Tiempo sugerido: ${taller.meta.tiempo_sugerido || 30} min.\n\n`;
     md += `---\n\n`;
 
+    const PAGE_BREAK = '\n\n```{=openxml}\n<w:p><w:r><w:br w:type="page"/></w:r></w:p>\n```\n\n';
+    let isFirstGlobal = true;
+
     for (const bloque of taller.bloques) {
+        let hasContext = false;
+
+        // Si hay contexto, iniciamos página (salvo si es el puro inicio global)
         if (bloque.contexto && bloque.contexto.trim()) {
+            if (!isFirstGlobal) md += PAGE_BREAK;
             md += `::: {custom-style="Contexto"}\n${bloque.contexto.trim()}\n:::\n\n`;
+            hasContext = true;
+            isFirstGlobal = false;
         }
 
-        for (const p of bloque.preguntas) {
+        for (let i = 0; i < bloque.preguntas.length; i++) {
+            const p = bloque.preguntas[i];
+
+            // Salto de página si:
+            // 1. NO es el primer elemento global.
+            // 2. Y (No hay contexto previo O NO es la primera pregunta de este contexto)
+            //    Es decir: Si hay contexto y es la pregunta 0, se queda pegada al contexto.
+            if (!isFirstGlobal) {
+                if (hasContext && i === 0) {
+                    // Se queda con el contexto, no salto
+                } else {
+                    md += PAGE_BREAK;
+                }
+            }
+
             md += `### ${p.numeroGlobal}.\n\n`;
             md += `${p.texto.trim()}\n\n`;
 
@@ -84,6 +107,8 @@ function generateExamenMarkdown(taller, outputFolder) {
                 md += `*   **${letra}.** ${texto}\n`;
             });
             md += `\n`;
+
+            isFirstGlobal = false;
         }
     }
 

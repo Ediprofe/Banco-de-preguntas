@@ -19,6 +19,7 @@
         "katex": "0.16.27"
     },
     "devDependencies": {
+        "@marp-team/marp-cli": "4.2.3",
         "@slidev/cli": "latest",
         "@slidev/theme-seriph": "^0.25.0",
         "playwright": "^1.57.0"

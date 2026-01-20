@@ -9,14 +9,12 @@
  *   npm run taller
  */
 
-import { existsSync, readdirSync } from 'fs';
+import { existsSync, readdirSync, writeFileSync, mkdirSync } from 'fs';
 import { join, dirname, basename } from 'path';
 import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
 import { select } from '@inquirer/prompts';
-import { renderSlidev } from './render-slidev.mjs';
 import { parseTallerMarkdown } from './parse-taller.mjs';
-import { assembleTaller } from './assemble-taller.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -134,35 +132,34 @@ async function main() {
         log(`   ✅ ${taller.titulo} (${taller.totalItems} preguntas)`, 'green');
         console.log();
 
-        // Generar Slidev
-        const result = renderSlidev(taller, OUTPUT_DIR);
-        console.log();
+        // 1. Generar Lección Interactiva Premium (Web)
+        log('🌐 Generando Lección Interactiva Premium...', 'cyan');
+        const { renderInteractive } = await import('./render-interactive.mjs');
+        const result = renderInteractive(taller, OUTPUT_DIR);
+        log(`   ✅ Lección generada: leccion_interactiva.html`, 'green');
 
-        // Generar Word examen (Sustituye al PDF)
+        // 2. Generar PDF Imprimible
+        log('📄 Generando PDF de Alta Calidad...', 'cyan');
+        const { renderPDF } = await import('./render-pdf.mjs');
+        const pdfPath = await renderPDF(taller, result.path);
+
+        // 3. Generar Word examen (Editable)
+        log('📝 Generando Word (Editable)...', 'cyan');
         const { exportExamenWord } = await import('./render-word.mjs');
-        await exportExamenWord(taller, result.path);
-        console.log();
+        const wordPath = await exportExamenWord(taller, result.path);
 
+        log('\n━'.repeat(50), 'cyan');
+        log('✅ ¡Todo el Material Generado!', 'green');
         log('━'.repeat(50), 'cyan');
-        log('✅ ¡Taller generado!', 'green');
-        log('━'.repeat(50), 'cyan');
+        log(`📂 Carpeta: ${result.path}`, 'dim');
+        log(`🌐 Web Interactiva: leccion_interactiva.html`, 'dim');
+        if (pdfPath) log(`📄 PDF Imprimible: ${basename(pdfPath)}`, 'dim');
+        if (wordPath) log(`📝 Word Editable: ${basename(wordPath)}`, 'dim');
         console.log();
 
-        log(`📂 Carpeta: ${result.path}`, 'cyan');
-        log(`🎬 Presentación: slides.md`, 'dim');
-        log(`📋 Word examen: ${taller.id}.docx`, 'dim');
-        console.log();
-
-        log('🚀 Para ver la presentación:', 'yellow');
-        log(`   cd ${result.path} && npx slidev`, 'cyan');
-        console.log();
-
-        // Iniciar servidor automáticamente
-        log('🌐 Iniciando servidor Slidev...', 'yellow');
-        execSync('npx -y @slidev/cli@latest --open', {
-            cwd: result.path,
-            stdio: 'inherit'
-        });
+        // Abrir automáticamente la lección interactiva y la carpeta
+        execSync(`open "${result.htmlPath}"`);
+        execSync(`open "${result.path}"`);
 
     } catch (error) {
         log(`❌ Error: ${error.message}`, 'red');
@@ -172,3 +169,4 @@ async function main() {
 }
 
 main().catch(console.error);
+
