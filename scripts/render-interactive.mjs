@@ -118,7 +118,7 @@ export async function renderInteractive(taller, outputDir) {
 /**
  * Procesador de Markdown Robusto
  */
-function processMarkdown(text, imageMap) {
+function processMarkdown(text, imageMap, highlightMode = false) {
     if (!text) return '';
 
     let html = text;
@@ -156,7 +156,12 @@ function processMarkdown(text, imageMap) {
     });
 
     // 3. Bold: **text**
-    html = html.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-gray-900">$1</strong>');
+    // 3. Bold: **text**
+    html = html.replace(/\*\*(.*?)\*\*/g, (match, content) => {
+        return highlightMode
+            ? `<strong class="font-bold bg-yellow-300 text-yellow-900 px-1 rounded box-decoration-clone">${content}</strong>`
+            : `<strong class="font-bold">${content}</strong>`;
+    });
 
     // 4. Saltos de línea inteligentes (no romper dentro de HTML)
     const parts = html.split(/(<div.*?<\/div>|<table.*?<\/table>)/gs);
@@ -280,7 +285,7 @@ function generateHTML(taller, imageMap) {
                                     </template>
                                     <span class="ml-2 font-bold">La respuesta correcta es la ${pregunta.respuestaCorrecta}.</span>
                                 </p>
-                                ${processMarkdown(pregunta.explicacion, imageMap)}
+                                ${processMarkdown(pregunta.explicacion, imageMap, true)}
                             </div>
                         </div>
                     </section>

@@ -113,7 +113,7 @@ function parsePregunta(section, numeroGlobal) {
         const line = lines[i];
 
         // ¿Es opción?
-        const opcionMatch = line.match(/^-\s*([A-D])\.\s*(.+)$/);
+        const opcionMatch = line.match(/^\s*-\s*([A-D])\.\s*(.+)$/);
         if (opcionMatch) {
             inOpciones = true;
             opciones[opcionMatch[1]] = opcionMatch[2].trim();
@@ -130,7 +130,7 @@ function parsePregunta(section, numeroGlobal) {
             }
 
             // Extraer explicación
-            const explMatch = restContent.match(/<\/summary>\s*\n\n\*\*Respuesta:[^*]+\*\*\s*\n\n([\s\S]*?)<\/details>/);
+            const explMatch = restContent.match(/<\/summary>\s+\*\*Respuesta:[^*]+\*\*\s+([\s\S]*?)<\/details>/);
             if (explMatch) {
                 explicacion = explMatch[1].trim();
             }

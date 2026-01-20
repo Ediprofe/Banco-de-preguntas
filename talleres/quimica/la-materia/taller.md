@@ -111,3 +111,71 @@ Para encontrar la masa, utilizamos la relación $m = d \times v$. Calculamos la 
 Comparando los valores, el recipiente II contiene la mayor masa ($1,98 \text{ g}$).
 
 </details>
+
+## 5.
+
+Un investigador realizó un experimento en el que sometió un bloque de hierro a temperaturas muy altas. Él descubrió que la temperatura del hierro no cambia mientras cambia su fase. La siguiente tabla muestra los registros que hizo el investigador de temperatura, fase y cambios de fase del hierro durante su experimento.
+ 
+| Temperatura (°C) | Estado del hierro |
+| :---: | :---: |
+| 0 | Sólido |
+| 750 | Sólido |
+| 1.535 | Cambio de sólido a líquido |
+| 2.255 | Líquido |
+| 2.750 | Cambio de líquido a gaseoso |
+| 3.000 | Gaseoso |
+ 
+¿Cuál de las siguientes gráficas corresponde a los datos de temperatura en el tiempo registrados por el investigador?
+ 
+![cambios-de-fase](img/cambios-de-fase.webp)
+ 
+- A. Gráfica A
+- B. Gráfica B
+- C. Gráfica C
+- D. Gráfica D
+ 
+ <details>
+ <summary>Ver respuesta correcta</summary>
+ 
+ **Respuesta: C**
+ 
+ **Explicación:**
+ El enunciado establece claramente que **"la temperatura del hierro no cambia mientras cambia su fase"**. Esto es un principio fundamental de los cambios de estado (calor latente), lo que en una gráfica de Temperatura vs. Tiempo se representa como una **línea horizontal (meseta)** durante el cambio de fase.
+ 
+ Observando los datos:
+ *   A **1.535 °C** ocurre el cambio de sólido a líquido $\rightarrow$ **Debe haber una meseta horizontal**.
+ *   A **2.750 °C** ocurre el cambio de líquido a gaseoso $\rightarrow$ **Debe haber otra meseta horizontal**.
+ 
+ La **Gráfica C** es la única que muestra estos dos periodos de temperatura constante (líneas horizontales) correspondientes a los cambios de fase, mientras que en los estados intermedios (sólido, líquido, gaseoso) la temperatura aumenta (líneas diagonales).
+ </details>
+
+## 6.
+
+Para efectuar un procedimiento, un estudiante tiene las sustancias que se relacionan en la tabla.
+
+| Propiedad | Sustancia 1 | Sustancia 2 | Sustancia 3 | Sustancia 4 |
+| :--- | :---: | :---: | :---: | :---: |
+| Punto de ebullición (°C) | -196 | 59 | -188 | -34 |
+| ¿Es soluble en agua? | Sí | Sí | No | Sí |
+| ¿Es conductora? | Sí | Sí | No | No |
+
+Si el estudiante debe usar una sustancia cuyo punto de ebullición sea menor que 130 °C, soluble en agua y que no conduzca la electricidad, ¿cuál sustancia debería elegir?
+
+- A. La sustancia 1.
+- B. La sustancia 2.
+- C. La sustancia 3.
+- D. La sustancia 4.
+
+<details>
+<summary>✅ Respuesta</summary>
+
+**Respuesta: D**
+
+**Explicación:**
+Para elegir la sustancia correcta, debemos filtrar las opciones según los tres criterios solicitados:
+1.  **Punto de ebullición < 130 °C:** Todas las sustancias en la tabla cumplen este requisito (todas están por debajo de 60 °C).
+2.  **Soluble en agua:** Las sustancias 1, 2 y 4 son solubles. Se descarta la sustancia 3.
+3.  **No conductora de electricidad:** De las restantes (1, 2 y 4), la única que **no** es conductora es la **sustancia 4**. Las sustancias 1 y 2 sí conducen electricidad.
+
+Por lo tanto, la **sustancia 4** es la única que cumple simultáneamente con todas las condiciones.
+</details>
