@@ -21,6 +21,9 @@ export async function renderPDF(taller, outputDir) {
         // Cargar el HTML localmente
         await page.goto(`file://${htmlPath}`, { waitUntil: 'networkidle' });
 
+        // ⚠️ CRUCIAL: Esperar que KaTeX renderice las fórmulas matemáticas
+        await page.waitForTimeout(3000);
+
         // Generar PDF
         await page.pdf({
             path: pdfPath,
@@ -151,9 +154,15 @@ function generatePrintHTML(taller) {
     <meta charset="UTF-8">
     <title>${taller.titulo}</title>
     <!-- KaTeX para renderizar matemáticas en el PDF -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+      onload="renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ]
+      });"></script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Open+Sans:wght@400;600;700&display=swap');
