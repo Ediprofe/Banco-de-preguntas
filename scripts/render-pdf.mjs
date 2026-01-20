@@ -26,10 +26,10 @@ export async function renderPDF(taller, outputDir) {
             path: pdfPath,
             format: 'Letter', // Carta, estándar en Latam
             printBackground: true,
-            margin: { top: '2cm', right: '2cm', bottom: '2cm', left: '2cm' },
+            margin: { top: '1.5cm', right: '1.5cm', bottom: '1.5cm', left: '1.5cm' },
             displayHeaderFooter: true,
-            headerTemplate: '<div style="font-size:10px; margin-left:2cm; color:#666;">' + taller.titulo + '</div>',
-            footerTemplate: '<div style="font-size:10px; margin-left:2cm; width:100%; text-align:center;">Página <span class="pageNumber"></span> de <span class="totalPages"></span></div>'
+            headerTemplate: '<div style="font-size:10px; margin-left:1.5cm; color:#666;">' + taller.titulo + '</div>',
+            footerTemplate: '<div style="font-size:10px; margin-left:1.5cm; width:100%; text-align:center;">Página <span class="pageNumber"></span> de <span class="totalPages"></span></div>'
         });
 
         await browser.close();
@@ -81,7 +81,10 @@ function processMarkdown(text) {
         // Ecuaciones (KaTeX renderizado en cliente, aquí solo las protegemos)
         // Convertimos saltos de línea (cuidando no romper HTML)
         .split(/(<div.*?<\/div>|<table.*?<\/table>)/gs).map(part => {
-            return (part.startsWith('<div') || part.startsWith('<table')) ? part : part.replace(/\n/g, '<br>');
+            if (part.startsWith('<div') || part.startsWith('<table')) return part;
+            return part
+                .replace(/\r?\n\s*\r?\n/g, '<div class="paragraph-break"></div>') // Doble salto = espacio controlado
+                .replace(/\r?\n/g, '<br>'); // Salto simple = br
         })
         .join('')
         // Eliminar bloques <details> (respuestas)
@@ -166,11 +169,12 @@ function generatePrintHTML(taller) {
             background: white;
         }
 
-        /* Utilidades de Paginación */
+        /* Utilidades */
         .page-break { page-break-before: always; }
+        .paragraph-break { height: 8px; } /* Espacio reducido entre párrafos */
         
         /* Estilos del Documento */
-        .header-doc { text-align: center; border-bottom: 2px solid #000; padding-bottom: 20px; margin-bottom: 30px; }
+        .header-doc { text-align: center; border-bottom: 2px solid #000; padding-bottom: 15px; margin-bottom: 20px; } /* Compactado */
         .titulo-doc { font-family: 'Open Sans', sans-serif; font-size: 18pt; font-weight: 700; text-transform: uppercase; }
         .sub-doc { font-family: 'Open Sans', sans-serif; font-size: 10pt; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; }
 
@@ -178,25 +182,15 @@ function generatePrintHTML(taller) {
         .contexto-container { 
             border: 1px solid #333; 
             background-color: #f9f9f9; 
-            padding: 20px; 
+            padding: 15px; /* Reduced from 20px */
             border-radius: 4px; 
-            margin-bottom: 30px; 
-        }
-        .label-contexto { 
-            font-family: 'Open Sans', sans-serif; 
-            font-size: 9pt; 
-            font-weight: 700; 
-            text-transform: uppercase; 
-            color: #444; 
-            margin-bottom: 10px; 
-            border-bottom: 1px solid #ddd; 
-            padding-bottom: 5px; 
+            margin-bottom: 20px; /* Reduced from 30px */
         }
         .contexto-body { font-size: 11pt; text-align: justify; }
 
         /* Preguntas */
         .pregunta-container { 
-            margin-bottom: 20px; 
+            margin-bottom: 15px; /* Reduced from 20px */
             page-break-inside: avoid;
         }
         .pregunta-num { 
@@ -204,12 +198,17 @@ function generatePrintHTML(taller) {
             font-weight: 700; 
             font-size: 14pt; 
             color: #000; 
-            margin-bottom: 10px; 
+            margin-bottom: 5px; /* Reduced from 10px */
         }
-        .pregunta-texto { font-size: 12pt; margin-bottom: 20px; }
+        .pregunta-texto { font-size: 12pt; margin-bottom: 10px; /* Reduced from 20px */ }
 
         /* Opciones */
-        .opciones-grid { display: flex; flex-direction: column; gap: 10px; }
+        .opciones-grid { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px; 
+            page-break-inside: avoid; /* Mantener todas las opciones juntas */
+        }
         .opcion-item { 
             display: flex; 
             gap: 15px; 
@@ -230,7 +229,7 @@ function generatePrintHTML(taller) {
         .data-table { 
             width: 100%; 
             border-collapse: collapse; 
-            margin: 20px 0; 
+            margin: 10px 0; /* Reduced from 20px */
             font-family: 'Open Sans', sans-serif; 
             font-size: 10pt; 
         }
@@ -244,7 +243,7 @@ function generatePrintHTML(taller) {
             object-fit: contain;
             height: auto; 
             display: block; 
-            margin: 15px auto; 
+            margin: 5px auto; /* Reduced from 15px */
         }
         .img-container { text-align: center; }
 

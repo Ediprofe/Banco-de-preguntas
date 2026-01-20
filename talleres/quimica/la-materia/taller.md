@@ -1,5 +1,6 @@
 # Taller - La materia y separación de mezclas
 
+
 ## 1.
 
 En clase de Ciencias el profesor explica que los elementos son un conjunto de átomos del mismo tipo que presentan las mismas características y los compuestos son la unión de dos o más elementos donde existe transformación de la materia; también explica que en las mezclas no hay transformación de la materia y estas pueden ser homogéneas si se observa una sola fase o heterogéneas si se observan dos o más fases. 
@@ -72,5 +73,41 @@ Teniendo en cuenta que el punto de ebullición es la temperatura a la cual la pr
 **Respuesta: A**
 
 A mayor altitud, la presión atmosférica disminuye. Dado que el punto de ebullición es la temperatura donde la presión de vapor iguala la presión atmosférica, al haber menos presión externa, se requiere menos energía térmica (menor temperatura) para que el agua alcance el punto de ebullición.
+
+</details>
+
+## 4.
+
+La siguiente tabla muestra los valores de la densidad de tres sustancias:
+
+| Sustancia | Densidad (g/ml) a 25 °C |
+|---|---|
+| Tolueno | 0,78 |
+| Ácido acrílico | 1,06 |
+| Agua | 0,99 |
+
+En cuatro recipientes se colocan volúmenes diferentes de cada líquido como se muestra en el dibujo:
+
+![sustancias-y-densidades](img/sustancias-y-densidades.webp)
+
+De acuerdo con lo ilustrado es válido afirmar que:
+
+- A. el recipiente IV es el que contiene menor masa.
+- B. los recipientes II y IV contienen igual masa.
+- C. el recipiente III contiene menor masa que el I.
+- D. el recipiente II es el que contiene mayor masa.
+
+<details>
+<summary>✅ Respuesta</summary>
+
+**Respuesta: D**
+
+Para encontrar la masa, utilizamos la relación $m = d \times v$. Calculamos la masa para cada recipiente:
+- Recipiente I (Tolueno): $1 \text{ ml} \times 0,78 \text{ g/ml} = 0,78 \text{ g}$
+- Recipiente II (Agua): $2 \text{ ml} \times 0,99 \text{ g/ml} = 1,98 \text{ g}$
+- Recipiente III (Ácido acrílico): $1 \text{ ml} \times 1,06 \text{ g/ml} = 1,06 \text{ g}$
+- Recipiente IV (Tolueno): $2 \text{ ml} \times 0,78 \text{ g/ml} = 1,56 \text{ g}$
+
+Comparando los valores, el recipiente II contiene la mayor masa ($1,98 \text{ g}$).
 
 </details>
