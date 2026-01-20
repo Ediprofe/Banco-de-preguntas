@@ -24,7 +24,7 @@ function preprocessMarkdown(content, outputFolder) {
     while ((match = imgRegex.exec(content)) !== null) {
         let imgPath = match[1];
         if (imgPath.endsWith('.svg')) {
-            const absPath = imgPath.startsWith('/') ? join(BANCO_ROOT, imgPath) : join(outputFolder, 'public', imgPath);
+            const absPath = imgPath.startsWith('/') ? join(BANCO_ROOT, imgPath) : join(outputFolder, 'img', imgPath.replace(/^img\//, ''));
             const pngName = basename(imgPath, '.svg') + '.png';
             const pngPath = join(tempImagesDir, pngName);
 
@@ -37,10 +37,13 @@ function preprocessMarkdown(content, outputFolder) {
                     console.error(`❌ Error convirtiendo SVG: ${e.message}`);
                 }
             }
-        } else if (imgPath.startsWith('/img/')) {
-            // Ajustar rutas relativas para Pandoc
-            const absPath = join(outputFolder, 'public', imgPath);
-            processed = processed.replace(match[1], absPath);
+        } else {
+            // Ajustar rutas relativas para Pandoc (buscar en el output/img que ya creamos)
+            const filename = basename(imgPath);
+            const absPath = join(outputFolder, 'img', filename);
+            if (existsSync(absPath)) {
+                processed = processed.replace(match[1], absPath);
+            }
         }
     }
 
@@ -156,6 +159,15 @@ export async function exportExamenWord(taller, outputFolder) {
     } catch (error) {
         console.error('❌ Error generando Word:', error.message);
         throw error;
+    } finally {
+        // Limpieza de archivos temporales
+        if (existsSync(tempMdPath)) {
+            execSync(`rm "${tempMdPath}"`);
+        }
+        const tempImagesDir = join(outputFolder, 'temp_images');
+        if (existsSync(tempImagesDir)) {
+            execSync(`rm -rf "${tempImagesDir}"`);
+        }
     }
 }
 

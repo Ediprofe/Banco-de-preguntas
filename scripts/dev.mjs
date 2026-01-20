@@ -46,7 +46,7 @@ function showBanner() {
     console.log();
 }
 
-// Obtener lista de talleres por área
+// Obtener lista de talleres por área (soporta ambos formatos)
 function getTalleresByArea() {
     const areas = readdirSync(TALLERES_DIR, { withFileTypes: true })
         .filter(d => d.isDirectory())
@@ -55,9 +55,30 @@ function getTalleresByArea() {
     const talleresMap = {};
     for (const area of areas) {
         const areaPath = join(TALLERES_DIR, area);
-        const files = readdirSync(areaPath).filter(f => f.endsWith('.md'));
-        if (files.length > 0) {
-            talleresMap[area] = files;
+        const entries = readdirSync(areaPath, { withFileTypes: true });
+        const talleres = [];
+
+        for (const entry of entries) {
+            if (entry.isDirectory()) {
+                // Nuevo formato: carpeta con taller.md
+                const tallerMdPath = join(areaPath, entry.name, 'taller.md');
+                if (existsSync(tallerMdPath)) {
+                    talleres.push({
+                        name: entry.name,
+                        path: tallerMdPath
+                    });
+                }
+            } else if (entry.name.endsWith('.md') && !entry.name.startsWith('.')) {
+                // Legacy: archivo .md suelto
+                talleres.push({
+                    name: entry.name.replace('.md', ''),
+                    path: join(areaPath, entry.name)
+                });
+            }
+        }
+
+        if (talleres.length > 0) {
+            talleresMap[area] = talleres;
         }
     }
     return talleresMap;
@@ -100,16 +121,17 @@ function startServer(outputPath, port = 3000) {
     return server;
 }
 
-// Regenerar la lección
-function regenerate(tallerPath, outputDir) {
+// Regenerar la lección (output dentro de la carpeta del taller)
+function regenerate(tallerPath) {
     try {
         const taller = parseTallerMarkdown(tallerPath);
+        const outputDir = join(taller.tallerDir, 'output');
         renderInteractive(taller, outputDir);
         log(`   ✅ Regenerado: ${new Date().toLocaleTimeString()}`, 'green');
-        return true;
+        return { success: true, outputDir };
     } catch (e) {
         log(`   ❌ Error: ${e.message}`, 'red');
-        return false;
+        return { success: false };
     }
 }
 
@@ -128,27 +150,28 @@ async function main() {
         choices: areaChoices
     });
 
-    const tallerChoices = talleresMap[selectedArea].map(file => ({
-        name: file,
-        value: join(TALLERES_DIR, selectedArea, file)
+    const tallerChoices = talleresMap[selectedArea].map(t => ({
+        name: t.name,
+        value: t
     }));
 
-    const tallerPath = await select({
+    const selectedTaller = await select({
         message: 'Selecciona el taller:',
         choices: tallerChoices
     });
 
-    const tallerName = basename(tallerPath, '.md');
-    const outputPath = join(OUTPUT_DIR, tallerName);
+    const tallerPath = selectedTaller.path;
+    const tallerName = selectedTaller.name;
 
     // 2. Generación inicial
     log('\n📖 Generación inicial...', 'cyan');
-    if (!regenerate(tallerPath, OUTPUT_DIR)) {
+    const result = regenerate(tallerPath);
+    if (!result.success) {
         process.exit(1);
     }
 
-    // 3. Iniciar servidor
-    const server = startServer(outputPath);
+    // 3. Iniciar servidor (en la carpeta output del taller)
+    const server = startServer(result.outputDir);
 
     // 4. Iniciar watcher
     log(`\n👀 Observando cambios en: ${basename(tallerPath)}`, 'yellow');
@@ -162,7 +185,7 @@ async function main() {
             if (debounce) clearTimeout(debounce);
             debounce = setTimeout(() => {
                 log(`\n🔄 Cambio detectado...`, 'yellow');
-                regenerate(tallerPath, OUTPUT_DIR);
+                regenerate(tallerPath);
             }, 300);
         }
     });

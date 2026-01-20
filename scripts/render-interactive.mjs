@@ -1,37 +1,61 @@
-import { writeFileSync, mkdirSync, existsSync, copyFileSync } from 'fs';
+import { writeFileSync, mkdirSync, existsSync, copyFileSync, readdirSync } from 'fs';
 import { join, basename } from 'path';
 
-const IMG_DIR = join(process.cwd(), 'img');
+const GLOBAL_IMG_DIR = join(process.cwd(), 'img');
 
 /**
  * Prepara la lección interactiva con imágenes y tablas funcionales
  */
 export function renderInteractive(taller, outputDir) {
-    const tallerOutputDir = join(outputDir, taller.id);
-    const outputImgDir = join(tallerOutputDir, 'img');
+    const outputImgDir = join(outputDir, 'img');
+    const localImgDir = taller.tallerDir ? join(taller.tallerDir, 'img') : null;
 
-    mkdirSync(tallerOutputDir, { recursive: true });
+    mkdirSync(outputDir, { recursive: true });
     mkdirSync(outputImgDir, { recursive: true });
 
     // 1. Copiar imágenes referenciadas en el taller
-    // Buscamos en todo el objeto taller (convertido a string para buscar rápido)
+    // Buscar primero en carpeta local del taller, luego en global
     const tallerStr = JSON.stringify(taller);
     const imgRegex = /!\[.*?\]\((.*?)\)/g;
     let match;
     while ((match = imgRegex.exec(tallerStr)) !== null) {
         const fullPath = match[1];
         const fileName = basename(fullPath);
-        const srcPath = join(IMG_DIR, fileName);
-        if (existsSync(srcPath)) {
+
+        // Prioridad: Local > Global
+        let srcPath = null;
+        const localPath = localImgDir ? join(localImgDir, fileName) : null;
+        const globalPath = join(GLOBAL_IMG_DIR, fileName);
+
+        if (localPath && existsSync(localPath)) {
+            console.log(`   📷 Encontrada local: ${fileName}`);
+            srcPath = localPath;
+        } else if (existsSync(globalPath)) {
+            console.log(`   📷 Encontrada global: ${fileName}`);
+            srcPath = globalPath;
+        } else {
+            console.warn(`   ⚠️  No encontrada: ${fileName} (Buscada en ${localPath} y ${globalPath})`);
+        }
+
+        if (srcPath) {
             copyFileSync(srcPath, join(outputImgDir, fileName));
         }
     }
 
+    // 2. Copiar TODAS las imágenes de la carpeta local (por si no están referenciadas aún)
+    if (localImgDir && existsSync(localImgDir)) {
+        readdirSync(localImgDir).forEach(file => {
+            if (/\.(webp|png|jpg|jpeg|gif|svg)$/i.test(file)) {
+                copyFileSync(join(localImgDir, file), join(outputImgDir, file));
+            }
+        });
+    }
+
     const html = generateHTML(taller);
-    const htmlPath = join(tallerOutputDir, 'leccion_interactiva.html');
+    const htmlPath = join(outputDir, 'leccion_interactiva.html');
     writeFileSync(htmlPath, html);
 
-    return { path: tallerOutputDir, htmlPath };
+    return { path: outputDir, htmlPath };
 }
 
 /**

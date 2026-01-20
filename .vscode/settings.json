@@ -8,7 +8,6 @@
         "assets": true,
         "inbox": true,
         ".git": true,
-        ".gitignore": true,
         "package-lock.json": true,
         "*.md": false,
         "0. Automating Slidev Presentations.md": true,

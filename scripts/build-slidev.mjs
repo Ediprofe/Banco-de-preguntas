@@ -46,7 +46,7 @@ const areaIcons = {
 };
 
 /**
- * Obtiene las áreas disponibles (carpetas con talleres .md)
+ * Obtiene áreas disponibles con conteo de talleres
  */
 function getAreas() {
     const areas = [];
@@ -55,7 +55,7 @@ function getAreas() {
     for (const entry of entries) {
         if (entry.isDirectory()) {
             const areaPath = join(TALLERES_DIR, entry.name);
-            const talleres = readdirSync(areaPath).filter(f => f.endsWith('.md'));
+            const talleres = getTalleres(entry.name);
             if (talleres.length > 0) {
                 areas.push({
                     name: entry.name,
@@ -69,11 +69,38 @@ function getAreas() {
 }
 
 /**
- * Obtiene talleres de un área
+ * Obtiene talleres de un área.
+ * Soporta dos formatos:
+ *   1. Carpeta con taller.md (nuevo formato cápsula)
+ *   2. Archivo .md suelto (legacy)
  */
 function getTalleres(area) {
     const areaPath = join(TALLERES_DIR, area);
-    return readdirSync(areaPath).filter(f => f.endsWith('.md'));
+    const entries = readdirSync(areaPath, { withFileTypes: true });
+    const talleres = [];
+
+    for (const entry of entries) {
+        if (entry.isDirectory()) {
+            // Nuevo formato: carpeta con taller.md
+            const tallerMdPath = join(areaPath, entry.name, 'taller.md');
+            if (existsSync(tallerMdPath)) {
+                talleres.push({
+                    name: entry.name,
+                    path: tallerMdPath,
+                    isFolder: true
+                });
+            }
+        } else if (entry.name.endsWith('.md') && !entry.name.startsWith('.')) {
+            // Legacy: archivo .md suelto
+            talleres.push({
+                name: entry.name.replace('.md', ''),
+                path: join(areaPath, entry.name),
+                isFolder: false
+            });
+        }
+    }
+
+    return talleres;
 }
 
 async function main() {
@@ -107,7 +134,7 @@ async function main() {
     // Menú de talleres
     const talleres = getTalleres(selectedArea);
     const tallerChoices = talleres.map(t => ({
-        name: t,
+        name: t.name,
         value: t
     }));
 
@@ -116,8 +143,8 @@ async function main() {
         choices: tallerChoices
     });
 
-    const tallerPath = join(TALLERES_DIR, selectedArea, selectedTaller);
-    const tallerName = basename(selectedTaller, '.md');
+    const tallerPath = selectedTaller.path;
+    const tallerName = selectedTaller.name;
 
     console.log();
     log('━'.repeat(50), 'cyan');
@@ -132,26 +159,33 @@ async function main() {
         log(`   ✅ ${taller.titulo} (${taller.totalItems} preguntas)`, 'green');
         console.log();
 
+        // Definir carpeta de salida DENTRO del taller
+        const outputDir = join(taller.tallerDir, 'output');
+
+        // Limpiar y recrear carpeta output
+        execSync(`rm -rf "${outputDir}"`);
+        mkdirSync(outputDir, { recursive: true });
+
         // 1. Generar Lección Interactiva Premium (Web)
         log('🌐 Generando Lección Interactiva Premium...', 'cyan');
         const { renderInteractive } = await import('./render-interactive.mjs');
-        const result = renderInteractive(taller, OUTPUT_DIR);
+        const result = renderInteractive(taller, outputDir);
         log(`   ✅ Lección generada: leccion_interactiva.html`, 'green');
 
         // 2. Generar PDF Imprimible
         log('📄 Generando PDF de Alta Calidad...', 'cyan');
         const { renderPDF } = await import('./render-pdf.mjs');
-        const pdfPath = await renderPDF(taller, result.path);
+        const pdfPath = await renderPDF(taller, outputDir);
 
         // 3. Generar Word examen (Editable)
         log('📝 Generando Word (Editable)...', 'cyan');
         const { exportExamenWord } = await import('./render-word.mjs');
-        const wordPath = await exportExamenWord(taller, result.path);
+        const wordPath = await exportExamenWord(taller, outputDir);
 
         log('\n━'.repeat(50), 'cyan');
         log('✅ ¡Todo el Material Generado!', 'green');
         log('━'.repeat(50), 'cyan');
-        log(`📂 Carpeta: ${result.path}`, 'dim');
+        log(`📂 Carpeta: ${outputDir}`, 'dim');
         log(`🌐 Web Interactiva: leccion_interactiva.html`, 'dim');
         if (pdfPath) log(`📄 PDF Imprimible: ${basename(pdfPath)}`, 'dim');
         if (wordPath) log(`📝 Word Editable: ${basename(wordPath)}`, 'dim');
@@ -159,7 +193,7 @@ async function main() {
 
         // Abrir automáticamente la lección interactiva y la carpeta
         execSync(`open "${result.htmlPath}"`);
-        execSync(`open "${result.path}"`);
+        execSync(`open "${outputDir}"`);
 
     } catch (error) {
         log(`❌ Error: ${error.message}`, 'red');

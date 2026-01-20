@@ -3,9 +3,8 @@ node_modules/
 .npm
 package-lock.json
 
-# Archivos generados (se crean con npm run taller)
-output/
-
+# Archivos generados (se crean con npm run build)
+**/output/
 # macOS
 .DS_Store
 

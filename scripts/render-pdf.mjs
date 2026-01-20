@@ -38,6 +38,16 @@ export async function renderPDF(taller, outputDir) {
         console.error('Error generando PDF con Playwright:', e);
         // Fallback: Si falla Playwright, al menos tenemos el HTML
         return null;
+    } finally {
+        // Limpiar el HTML temporal usado para el PDF
+        const { execSync } = await import('child_process');
+        if (existsSync(htmlPath)) {
+            try {
+                execSync(`rm "${htmlPath}"`);
+            } catch (rmError) {
+                // Silencioso si falla el rm
+            }
+        }
     }
 }
 

@@ -33,7 +33,6 @@ De acuerdo con la explicación del profesor, un compuesto es la unión de dos o 
 ---
 
 ## 2.
-
 Para la clase de Ciencias, Juan investiga sobre la variación de la temperatura de ebullición del agua en ciudades ubicadas a distintas alturas sobre el nivel del mar (m s. n. m.). Él encuentra datos para cinco ciudades y los registra en la siguiente tabla.
 
 | Altitud (m s. n. m.) | 0 | 457 | 1.067 | 1.524 | 2.438 |
@@ -53,5 +52,26 @@ Con base en los datos obtenidos, Juan afirma que "a medida que aumenta la altitu
 **Respuesta: C**
 
 La afirmación de Juan es una conclusión porque resume el patrón o tendencia observado en los datos (a mayor altitud, menor temperatura). Una evidencia sería un dato puntual de la tabla, mientras que la generalización a partir de esos datos constituye una conclusión.
+
+</details>
+
+## 3.
+Una olla con agua hierve a una temperatura de 100 °C cuando está a una altura de 0 km. 
+
+![altura-y-presion-atmosferica](img/altura-y-presion-atmosferica.png)
+
+Teniendo en cuenta que el punto de ebullición es la temperatura a la cual la presión del vapor iguala a la presión atmosférica, si se pone a calentar la misma cantidad de agua a una altura de 25 km, puede afirmarse que el agua:
+
+- A. hierve a una temperatura menor que 100 °C, porque la presión es menor.
+- B. hierve a una temperatura mayor que 100 °C, porque la presión es menor.
+- C. nunca hierve porque a esa altura hay poca cantidad de aire.
+- D. se congelará porque al no haber aire, pasará a estado sólido.
+
+<details>
+<summary>✅ Respuesta</summary>
+
+**Respuesta: A**
+
+A mayor altitud, la presión atmosférica disminuye. Dado que el punto de ebullición es la temperatura donde la presión de vapor iguala la presión atmosférica, al haber menos presión externa, se requiere menos energía térmica (menor temperatura) para que el agua alcance el punto de ebullición.
 
 </details>

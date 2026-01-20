@@ -31,17 +31,32 @@ export function parseTallerMarkdown(filePath) {
     let numeroGlobal = 0;
 
     for (const section of sections) {
-        // ¿Es una pregunta? (empieza con ## número)
-        const preguntaMatch = section.match(/^##\s*(\d+)\.\s*\n/m);
+        // Verificar si la sección comienza con una pregunta
+        let isQuestion = section.match(/^##\s*\d+\./m);
 
-        if (preguntaMatch) {
-            numeroGlobal++;
-            const pregunta = parsePregunta(section, numeroGlobal);
+        if (isQuestion) {
+            // Si es pregunta, puede haber MÚLTIPLES preguntas en este bloque si no usaron separadores ---
+            // Dividimos por "## numero." (usando lookahead para no perder el delimitador si es posible, pero split es más fácil)
 
-            if (!currentBloque) {
-                currentBloque = { contexto: '', preguntas: [] };
+            // Estrategia: Split por `\n## ` pero conservando el delimitador es complejo en JS split.
+            // Mejor: Buscar todos las posiciones de `\n## ` y cortar.
+
+            const rawQuestions = section.split(/\n(?=##\s*\d+\.)/);
+
+            for (const qRaw of rawQuestions) {
+                // Verificar que sea realmente una pregunta (puede haber basura al inicio si el split falló)
+                if (qRaw.match(/^##\s*\d+\./) || qRaw.match(/^\s*##\s*\d+\./)) {
+                    numeroGlobal++;
+                    // Importante: parsePregunta espera el texto crudo de esa pregunta
+                    const pregunta = parsePregunta(qRaw, numeroGlobal);
+
+                    if (!currentBloque) {
+                        currentBloque = { contexto: '', preguntas: [] };
+                    }
+                    currentBloque.preguntas.push(pregunta);
+                }
             }
-            currentBloque.preguntas.push(pregunta);
+
         } else {
             // Es un bloque de contexto
             if (currentBloque && currentBloque.preguntas.length > 0) {
@@ -59,12 +74,18 @@ export function parseTallerMarkdown(filePath) {
         bloques.push(currentBloque);
     }
 
+    // Detectar si es estructura de carpeta (taller.md dentro de carpeta)
+    // o archivo suelto (old style)
+    const tallerDir = fileName === 'taller' ? dirname(filePath) : dirname(filePath);
+    const tallerId = fileName === 'taller' ? basename(dirname(filePath)) : fileName;
+
     return {
-        id: fileName,
+        id: tallerId,
         titulo,
+        tallerDir, // Ruta a la carpeta del taller (para imágenes locales)
         meta: {
             area,
-            unidad: fileName,
+            unidad: tallerId,
             tiempo_sugerido: Math.max(10, numeroGlobal * 3)
         },
         bloques,
