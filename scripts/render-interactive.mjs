@@ -131,15 +131,14 @@ function processMarkdown(text, imageMap) {
             row.split('|').map(s => s.trim()).filter(s => s !== '')
         );
 
-        if (headers.length === 0) return match;
-
-        let tableHtml = '<div class="overflow-x-auto my-8 bg-white rounded-xl border border-gray-200 shadow-sm"> <table class="min-w-full divide-y divide-gray-200"> <thead class="bg-gray-100"> <tr>';
-        headers.forEach(h => { tableHtml += `<th class="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase tracking-wider">${h}</th>`; });
-        tableHtml += '</tr></thead><tbody class="bg-white divide-y divide-gray-100">';
-        rows.forEach(row => {
+        let tableHtml = '<div class="w-full my-8 overflow-x-auto rounded-2xl border border-gray-200 shadow-sm bg-white"> <table class="min-w-full divide-y divide-gray-100">';
+        tableHtml += '<thead class="bg-gray-100"> <tr>';
+        headers.forEach(h => { tableHtml += `<th scope="col" class="px-6 py-5 text-left text-base font-extrabold text-black tracking-tight">${h}</th>`; });
+        tableHtml += '</tr></thead><tbody class="divide-y divide-gray-100 bg-white">';
+        rows.forEach((row, idx) => {
             if (row.length === 0) return;
-            tableHtml += '<tr>';
-            row.forEach(cell => { tableHtml += `<td class="px-6 py-4 text-sm text-gray-600 font-medium">${cell}</td>`; });
+            tableHtml += '<tr class="hover:bg-gray-50 transition-colors">';
+            row.forEach(cell => { tableHtml += `<td class="px-6 py-5 whitespace-normal text-lg text-gray-800 font-medium leading-relaxed">${cell}</td>`; });
             tableHtml += '</tr>';
         });
         tableHtml += '</tbody></table></div>';
@@ -214,7 +213,7 @@ function generateHTML(taller, imageMap) {
     <main class="max-w-6xl mx-auto px-8 py-16 space-y-20">
         
         <section class="text-center space-y-6">
-            <h2 class="text-5xl sm:text-7xl font-black text-gray-900 leading-tight tracking-tighter">
+            <h2 class="text-4xl sm:text-6xl font-black text-gray-900 leading-tight tracking-tighter">
                 ${taller.titulo}
             </h2>
             <div class="w-24 h-2 bg-blue-600 mx-auto rounded-full"></div>
@@ -240,7 +239,7 @@ function generateHTML(taller, imageMap) {
                             <span class="flex-shrink-0 w-16 h-16 bg-gray-900 text-white rounded-[1.25rem] flex items-center justify-center font-black text-3xl">
                                 ${pregunta.numeroGlobal}
                             </span>
-                            <div class="text-2xl sm:text-4xl font-bold text-gray-800 leading-tight pt-2">
+                            <div class="text-xl sm:text-2xl font-bold text-gray-800 leading-relaxed pt-3">
                                 ${processMarkdown(pregunta.texto, imageMap)}
                             </div>
                         </div>
