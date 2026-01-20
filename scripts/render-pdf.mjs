@@ -82,7 +82,10 @@ function processMarkdown(text) {
         // Convertimos saltos de línea (cuidando no romper HTML)
         .split(/(<div.*?<\/div>|<table.*?<\/table>)/gs).map(part => {
             return (part.startsWith('<div') || part.startsWith('<table')) ? part : part.replace(/\n/g, '<br>');
-        }).join('');
+        })
+        .join('')
+        // Eliminar bloques <details> (respuestas)
+        .replace(/<details>[\s\S]*?<\/details>/g, '');
 
     return html;
 }
@@ -100,7 +103,6 @@ function generatePrintHTML(taller) {
             if (!isFirstPage) content += '<div class="page-break"></div>';
 
             content += `<div class="contexto-container">
-                <div class="label-contexto">LECTURA DE CONTEXTO</div>
                 <div class="contexto-body">${processMarkdown(bloque.contexto)}</div>
             </div>`;
             isFirstPage = false;
@@ -193,7 +195,10 @@ function generatePrintHTML(taller) {
         .contexto-body { font-size: 11pt; text-align: justify; }
 
         /* Preguntas */
-        .pregunta-container { margin-bottom: 20px; }
+        .pregunta-container { 
+            margin-bottom: 20px; 
+            page-break-inside: avoid;
+        }
         .pregunta-num { 
             font-family: 'Open Sans', sans-serif; 
             font-weight: 700; 
@@ -233,7 +238,14 @@ function generatePrintHTML(taller) {
         .data-table td { border: 1px solid #333; padding: 8px; text-align: center; }
 
         /* Imágenes */
-        img { max-width: 100%; height: auto; display: block; margin: 15px auto; }
+        img { 
+            max-width: 100%; 
+            max-height: 400px; /* Limit height to help fit on page */
+            object-fit: contain;
+            height: auto; 
+            display: block; 
+            margin: 15px auto; 
+        }
         .img-container { text-align: center; }
 
     </style>

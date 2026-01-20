@@ -1,20 +1,94 @@
 import { writeFileSync, mkdirSync, existsSync, copyFileSync, readdirSync } from 'fs';
-import { join, basename } from 'path';
+import { join, basename, extname } from 'path';
+import sharp from 'sharp';
 
 const GLOBAL_IMG_DIR = join(process.cwd(), 'img');
 
 /**
- * Prepara la lección interactiva con imágenes y tablas funcionales
+ * Optimiza una imagen a WebP EN LA CARPETA FUENTE (si no existe ya el WebP)
+ * y la copia al directorio de salida.
+ * 
+ * - La imagen original (.png/.jpg) se conserva.
+ * - Se crea una versión .webp junto a ella.
+ * - Se copia el .webp al output.
+ * 
+ * @param {string} srcDir - Directorio fuente (donde está la imagen original)
+ * @param {string} destDir - Directorio de salida
+ * @param {string} fileName - Nombre del archivo original
+ * @returns {Promise<string>} - Nombre del archivo WebP (para usar en HTML)
  */
-export function renderInteractive(taller, outputDir) {
+async function optimizeAndCopyImage(srcDir, destDir, fileName) {
+    const ext = extname(fileName).toLowerCase();
+    const srcPath = join(srcDir, fileName);
+
+    // SVG: copiar tal cual (no se convierte)
+    if (ext === '.svg') {
+        copyFileSync(srcPath, join(destDir, fileName));
+        return fileName;
+    }
+
+    // Ya es WebP: copiar directamente
+    if (ext === '.webp') {
+        copyFileSync(srcPath, join(destDir, fileName));
+        return fileName;
+    }
+
+    // PNG, JPG, JPEG -> Generar WebP en la carpeta FUENTE (si no existe)
+    if (['.png', '.jpg', '.jpeg'].includes(ext)) {
+        const webpName = fileName.replace(/\.(png|jpg|jpeg)$/i, '.webp');
+        const webpPathInSource = join(srcDir, webpName);
+
+        // Solo optimizar si el webp no existe aún en la fuente
+        if (!existsSync(webpPathInSource)) {
+            await sharp(srcPath)
+                .webp({ quality: 85 })
+                .toFile(webpPathInSource);
+            console.log(`   🖼️  Optimizado: ${fileName} → ${webpName}`);
+        }
+
+        // Copiar el webp al output
+        copyFileSync(webpPathInSource, join(destDir, webpName));
+        return webpName;
+    }
+
+    // Otros formatos: copiar sin modificar
+    copyFileSync(srcPath, join(destDir, fileName));
+    return fileName;
+}
+
+/**
+ * Prepara la lección interactiva con imágenes optimizadas
+ */
+export async function renderInteractive(taller, outputDir) {
     const outputImgDir = join(outputDir, 'img');
     const localImgDir = taller.tallerDir ? join(taller.tallerDir, 'img') : null;
 
     mkdirSync(outputDir, { recursive: true });
     mkdirSync(outputImgDir, { recursive: true });
 
-    // 1. Copiar imágenes referenciadas en el taller
-    // Buscar primero en carpeta local del taller, luego en global
+    // Mapa de nombres originales -> nombres optimizados (para actualizar referencias)
+    const imageMap = new Map();
+
+    // 1. Procesar TODAS las imágenes de la carpeta local
+    if (localImgDir && existsSync(localImgDir)) {
+        // Solo procesar archivos que NO son ya webp (para evitar duplicados)
+        const files = readdirSync(localImgDir).filter(f => /\.(png|jpg|jpeg|gif|svg)$/i.test(f));
+        for (const file of files) {
+            const optimizedName = await optimizeAndCopyImage(localImgDir, outputImgDir, file);
+            imageMap.set(file, optimizedName);
+            // También mapear con ruta img/ por si el markdown lo referencia así
+            imageMap.set(`img/${file}`, optimizedName);
+        }
+
+        // Copiar también los webp existentes
+        const webpFiles = readdirSync(localImgDir).filter(f => /\.webp$/i.test(f));
+        for (const file of webpFiles) {
+            copyFileSync(join(localImgDir, file), join(outputImgDir, file));
+            imageMap.set(file, file);
+        }
+    }
+
+    // 2. Buscar imágenes referenciadas en el contenido del taller (fallback a global)
     const tallerStr = JSON.stringify(taller);
     const imgRegex = /!\[.*?\]\((.*?)\)/g;
     let match;
@@ -22,36 +96,19 @@ export function renderInteractive(taller, outputDir) {
         const fullPath = match[1];
         const fileName = basename(fullPath);
 
-        // Prioridad: Local > Global
-        let srcPath = null;
-        const localPath = localImgDir ? join(localImgDir, fileName) : null;
+        // Si ya la procesamos del local, skip
+        if (imageMap.has(fileName)) continue;
+
+        // Buscar en global
         const globalPath = join(GLOBAL_IMG_DIR, fileName);
-
-        if (localPath && existsSync(localPath)) {
-            console.log(`   📷 Encontrada local: ${fileName}`);
-            srcPath = localPath;
-        } else if (existsSync(globalPath)) {
-            console.log(`   📷 Encontrada global: ${fileName}`);
-            srcPath = globalPath;
-        } else {
-            console.warn(`   ⚠️  No encontrada: ${fileName} (Buscada en ${localPath} y ${globalPath})`);
-        }
-
-        if (srcPath) {
-            copyFileSync(srcPath, join(outputImgDir, fileName));
+        if (existsSync(globalPath)) {
+            const optimizedName = await optimizeAndCopyImage(GLOBAL_IMG_DIR, outputImgDir, fileName);
+            imageMap.set(fileName, optimizedName);
         }
     }
 
-    // 2. Copiar TODAS las imágenes de la carpeta local (por si no están referenciadas aún)
-    if (localImgDir && existsSync(localImgDir)) {
-        readdirSync(localImgDir).forEach(file => {
-            if (/\.(webp|png|jpg|jpeg|gif|svg)$/i.test(file)) {
-                copyFileSync(join(localImgDir, file), join(outputImgDir, file));
-            }
-        });
-    }
-
-    const html = generateHTML(taller);
+    // Generar HTML (las imágenes se referencian con su nombre optimizado)
+    const html = generateHTML(taller, imageMap);
     const htmlPath = join(outputDir, 'leccion_interactiva.html');
     writeFileSync(htmlPath, html);
 
@@ -61,7 +118,7 @@ export function renderInteractive(taller, outputDir) {
 /**
  * Procesador de Markdown Robusto
  */
-function processMarkdown(text) {
+function processMarkdown(text, imageMap) {
     if (!text) return '';
 
     let html = text;
@@ -89,10 +146,14 @@ function processMarkdown(text) {
         return tableHtml;
     });
 
-    // 2. Imágenes: ![alt](src) -> Usamos basename para evitar problemas de ruta
+    // 2. Imágenes: ![alt](src) -> Usar nombre optimizado del imageMap
     html = html.replace(/!\[(.*?)\]\((.*?)\)/g, (m, alt, src) => {
-        const fileName = basename(src);
-        return `<div class="my-10 flex justify-center"><img src="img/${fileName}" alt="${alt}" class="rounded-3xl shadow-2xl border-4 border-white max-w-full md:max-w-2xl h-auto"></div>`;
+        const originalFileName = basename(src);
+        // Buscar en imageMap o usar el original
+        const optimizedName = imageMap && imageMap.has(originalFileName)
+            ? imageMap.get(originalFileName)
+            : originalFileName.replace(/\.(png|jpg|jpeg)$/i, '.webp');
+        return `<div class="my-10 flex justify-center"><img src="img/${optimizedName}" alt="${alt}" class="rounded-3xl shadow-2xl border-4 border-white max-w-full md:max-w-2xl h-auto"></div>`;
     });
 
     // 3. Bold: **text**
@@ -108,7 +169,7 @@ function processMarkdown(text) {
     return html;
 }
 
-function generateHTML(taller) {
+function generateHTML(taller, imageMap) {
     return `<!DOCTYPE html>
 <html lang="es" class="scroll-smooth">
 <head>
@@ -168,7 +229,7 @@ function generateHTML(taller) {
                         <h3 class="text-3xl font-bold tracking-tight text-gray-800">Lectura de Contexto</h3>
                     </div>
                     <div class="text-xl text-gray-700 leading-relaxed space-y-6">
-                        ${processMarkdown(bloque.contexto)}
+                        ${processMarkdown(bloque.contexto, imageMap)}
                     </div>
                 </article>
                 ` : ''}
@@ -180,7 +241,7 @@ function generateHTML(taller) {
                                 ${pregunta.numeroGlobal}
                             </span>
                             <div class="text-2xl sm:text-4xl font-bold text-gray-800 leading-tight pt-2">
-                                ${processMarkdown(pregunta.texto)}
+                                ${processMarkdown(pregunta.texto, imageMap)}
                             </div>
                         </div>
 
@@ -199,7 +260,7 @@ function generateHTML(taller) {
                                               :class="revealed && '${letra}' === '${pregunta.respuestaCorrecta}' ? 'bg-green-600 text-white' : (revealed && selected === '${letra}' ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-900')">
                                             ${letra}
                                         </span>
-                                        <span class="text-xl font-bold tracking-tight text-gray-800">${processMarkdown(texto)}</span>
+                                        <span class="text-xl font-bold tracking-tight text-gray-800">${processMarkdown(texto, imageMap)}</span>
                                     </div>
                                 </button>
                             `).join('')}
@@ -220,7 +281,7 @@ function generateHTML(taller) {
                                     </template>
                                     <span class="ml-2 font-bold">La respuesta correcta es la ${pregunta.respuestaCorrecta}.</span>
                                 </p>
-                                ${processMarkdown(pregunta.explicacion)}
+                                ${processMarkdown(pregunta.explicacion, imageMap)}
                             </div>
                         </div>
                     </section>

@@ -32,7 +32,7 @@ export function parseTallerMarkdown(filePath) {
 
     for (const section of sections) {
         // Verificar si la sección comienza con una pregunta
-        let isQuestion = section.match(/^##\s*\d+\./m);
+        let isQuestion = section.match(/^\s*##\s*\d+\./m);
 
         if (isQuestion) {
             // Si es pregunta, puede haber MÚLTIPLES preguntas en este bloque si no usaron separadores ---

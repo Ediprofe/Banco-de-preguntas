@@ -169,7 +169,7 @@ async function main() {
         // 1. Generar Lección Interactiva Premium (Web)
         log('🌐 Generando Lección Interactiva Premium...', 'cyan');
         const { renderInteractive } = await import('./render-interactive.mjs');
-        const result = renderInteractive(taller, outputDir);
+        const result = await renderInteractive(taller, outputDir);
         log(`   ✅ Lección generada: leccion_interactiva.html`, 'green');
 
         // 2. Generar PDF Imprimible

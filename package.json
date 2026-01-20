@@ -17,7 +17,8 @@
         "gray-matter": "^4.0.3",
         "inquirer": "^13.1.0",
         "js-yaml": "^4.1.0",
-        "katex": "0.16.27"
+        "katex": "0.16.27",
+        "sharp": "0.34.5"
     },
     "devDependencies": {
         "@marp-team/marp-cli": "4.2.3",

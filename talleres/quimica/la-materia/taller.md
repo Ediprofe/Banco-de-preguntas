@@ -1,5 +1,7 @@
 # Taller - La materia y separación de mezclas
 
+## 1.
+
 En clase de Ciencias el profesor explica que los elementos son un conjunto de átomos del mismo tipo que presentan las mismas características y los compuestos son la unión de dos o más elementos donde existe transformación de la materia; también explica que en las mezclas no hay transformación de la materia y estas pueden ser homogéneas si se observa una sola fase o heterogéneas si se observan dos o más fases. 
 
 El profesor muestra la siguiente imagen con la transformación que tiene un candado de hierro (Fe) al ser expuesto al aire. Después de un tiempo, se observa un cambio en la coloración del candado.
@@ -10,9 +12,6 @@ El profesor indica que este proceso se puede explicar por medio de la siguiente 
 
 $$4Fe + 3O_2 \rightarrow 2Fe_2O_3$$
 
----
-
-## 1.
 
 Teniendo en cuenta la información anterior, ¿qué tipo de sustancia se forma?
 
@@ -58,12 +57,12 @@ La afirmación de Juan es una conclusión porque resume el patrón o tendencia o
 ## 3.
 Una olla con agua hierve a una temperatura de 100 °C cuando está a una altura de 0 km. 
 
-![altura-y-presion-atmosferica](img/altura-y-presion-atmosferica.png)
+![altura-y-presion-atmosferica](img/altura-y-presion-atmosferica.webp)
 
 Teniendo en cuenta que el punto de ebullición es la temperatura a la cual la presión del vapor iguala a la presión atmosférica, si se pone a calentar la misma cantidad de agua a una altura de 25 km, puede afirmarse que el agua:
 
 - A. hierve a una temperatura menor que 100 °C, porque la presión es menor.
-- B. hierve a una temperatura mayor que 100 °C, porque la presión es menor.
+- B. hierve a una temperatuzra mayor que 100 °C, porque la presión es menor.
 - C. nunca hierve porque a esa altura hay poca cantidad de aire.
 - D. se congelará porque al no haber aire, pasará a estado sólido.
 
