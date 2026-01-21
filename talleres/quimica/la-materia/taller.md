@@ -33,6 +33,20 @@ Teniendo en cuenta la información anterior, ¿qué tipo de sustancia se forma?
 <details>
 <summary>✅ Respuesta</summary>
 
+<!-- RETROALIMENTACIÓN CON MARCADORES -->
+El profesor explica que ==los compuestos son la unión de dos o más elementos donde existe transformación de la materia==...
+
+El profesor muestra... un candado de hierro ($Fe$) al ser expuesto al aire... ==un cambio en la coloración==.
+
+$$4Fe + 3O_2 \rightarrow 2Fe_2O_3$$
+
+==¿qué tipo de sustancia se forma?==
+
+- A. ==Un compuesto==. ✅
+- B. Una mezcla homogénea. ~~(No hay transformación química en las mezclas)~~
+- C. Un elemento. ~~(El producto tiene más de un elemento: Fe y O)~~
+- D. Una mezcla heterogénea. ~~(No hay transformación química en las mezclas)~~
+
 **Respuesta: A**
 
 De acuerdo con la explicación del profesor, un compuesto es la unión de dos o más elementos donde existe una transformación de la materia. En la reacción mostrada, el hierro ($Fe$) y el oxígeno ($O_2$) se combinan químicamente para formar óxido de hierro ($Fe_2O_3$), que es una sustancia nueva con características diferentes a los elementos originales.
@@ -63,6 +77,16 @@ Con base en los datos obtenidos, Juan afirma que "a medida que aumenta la altitu
 <details>
 <summary>✅ Respuesta</summary>
 
+<!-- RETROALIMENTACIÓN CON MARCADORES -->
+Juan encuentra datos... y los registra en la siguiente tabla... ==a medida que aumenta la altitud, disminuye la temperatura de ebullición==.
+
+==¿Esta afirmación puede considerarse una evidencia o una conclusión?==
+
+- A. Una conclusión, porque ~~da una posible explicación al fenómeno~~ (describe tendencia, no explica)
+- B. ~~Una evidencia~~, porque tiene en cuenta las variables...
+- C. ==Una conclusión==, porque ==evalúa la tendencia de los datos== ✅
+- D. ~~Una evidencia~~, porque los datos proceden de diferentes mediciones...
+
 **Respuesta: C**
 
 La afirmación de Juan es una conclusión porque resume el patrón o tendencia observado en los datos (a mayor altitud, menor temperatura). Una evidencia sería un dato puntual de la tabla, mientras que la generalización a partir de esos datos constituye una conclusión.
@@ -83,6 +107,18 @@ Teniendo en cuenta que el punto de ebullición es la temperatura a la cual la pr
 
 <details>
 <summary>✅ Respuesta</summary>
+
+<!-- RETROALIMENTACIÓN CON MARCADORES -->
+==El punto de ebullición es la temperatura a la cual la presión del vapor iguala a la presión atmosférica==.
+
+Si se calienta agua a ==una altura de 25 km== (donde la gráfica muestra ==menor presión==)...
+
+==¿puede afirmarse que el agua...?==
+
+- A. ==hierve a una temperatura menor que 100 °C, porque la presión es menor== ✅
+- B. hierve a una temperatura mayor... ~~porque la presión es menor~~ (contradice: menor presión = menor T de ebullición)
+- C. ~~nunca hierve~~ porque a esa altura hay poca cantidad de aire.
+- D. ~~se congelará~~ porque al no haber aire...
 
 **Respuesta: A**
 
@@ -118,6 +154,18 @@ De acuerdo con lo ilustrado es válido afirmar que:
 
 <details>
 <summary>✅ Respuesta</summary>
+
+<!-- RETROALIMENTACIÓN CON MARCADORES -->
+La tabla muestra ==densidad== (g/ml). El dibujo muestra ==volúmenes diferentes==.
+
+Para encontrar la masa: ==m = d × v==
+
+==De acuerdo con lo ilustrado es válido afirmar que:==
+
+- A. el recipiente IV es el que contiene menor masa. ~~(IV = 2ml × 0.78 = 1.56g, no es la menor)~~
+- B. los recipientes II y IV contienen igual masa. ~~(II = 1.98g ≠ IV = 1.56g)~~
+- C. el recipiente III contiene menor masa que el I. ~~(III = 1.06g > I = 0.78g)~~
+- D. ==el recipiente II es el que contiene mayor masa== ✅ (II = 2ml × 0.99 = ==1.98g==)
 
 **Respuesta: D**
 
@@ -160,7 +208,19 @@ Un investigador realizó un experimento en el que sometió un bloque de hierro a
  
  <details>
  <summary>Ver respuesta correcta</summary>
- 
+
+<!-- RETROALIMENTACIÓN CON MARCADORES -->
+El investigador descubrió que ==la temperatura del hierro no cambia mientras cambia su fase==.
+
+La tabla muestra: a ==1.535 °C== (cambio sólido→líquido) y a ==2.750 °C== (cambio líquido→gas).
+
+==¿Cuál de las siguientes gráficas corresponde...?==
+
+- A. Gráfica A ~~(no muestra mesetas horizontales)~~
+- B. Gráfica B ~~(solo una meseta o patrón incorrecto)~~
+- C. ==Gráfica C== ✅ (==dos mesetas horizontales== en los puntos de cambio de fase)
+- D. Gráfica D ~~(patrón incorrecto)~~
+
  **Respuesta: C**
  
  **Explicación:**
@@ -198,6 +258,19 @@ Si el estudiante debe usar una sustancia cuyo punto de ebullición sea menor que
 <details>
 <summary>✅ Respuesta</summary>
 
+<!-- RETROALIMENTACIÓN CON MARCADORES -->
+El estudiante debe usar una sustancia con:
+1. ==punto de ebullición menor que 130 °C== ✓ (todas cumplen)
+2. ==soluble en agua== → 1, 2 y 4 cumplen. ~~Sustancia 3 descartada~~
+3. ==no conduzca electricidad== → Solo la ==sustancia 4== cumple
+
+==¿cuál sustancia debería elegir?==
+
+- A. La sustancia 1. ~~(Sí conduce electricidad)~~
+- B. La sustancia 2. ~~(Sí conduce electricidad)~~
+- C. La sustancia 3. ~~(No es soluble en agua)~~
+- D. ==La sustancia 4== ✅
+
 **Respuesta: D**
 
 **Explicación:**
@@ -234,6 +307,18 @@ Si se desea elegir un material con baja densidad que pueda ser usado para la ela
 
 <details>
 <summary>✅ Respuesta</summary>
+
+<!-- RETROALIMENTACIÓN CON MARCADORES -->
+Se desea un material con ==baja densidad== para ==láminas== (latas de gaseosa).
+
+La tabla muestra: Aluminio tiene ==2,70 g/cm³== (la ==menor densidad==) y es ==maleable (Sí)==.
+
+==¿cuál sería el más adecuado?==
+
+- A. Cobre... ~~tiene mayor conductividad~~ (no es el criterio solicitado)
+- B. Acero inoxidable... ~~alta densidad~~ (lo contrario de lo pedido)
+- C. ==Aluminio==, porque posee la ==menor densidad== y es ==maleable== ✅
+- D. Hierro... ~~la mayor densidad~~ (lo contrario de lo pedido)
 
 **Respuesta: C**
 
@@ -325,6 +410,16 @@ De acuerdo con el modelo, ¿cuál es el manejo apropiado que se debe hacer para 
 <details>
 <summary>✅ Respuesta</summary>
 
+<!-- RETROALIMENTACIÓN CON MARCADORES -->
+El modelo muestra un biodigestor con una ==válvula de seguridad==.
+
+==¿cuál es el manejo apropiado que se debe hacer para evitar la acumulación de gases y el aumento en la presión?==
+
+- A. Depositar... ~~todo tipo de residuos orgánicos e inorgánicos~~ (solo orgánicos)
+- B. ~~Aumentar drásticamente la temperatura~~ (puede dañar el sistema)
+- C. ==Revisar constantemente la válvula de seguridad== para ==evitar la acumulación de gases== ✅
+- D. ~~Retirar la válvula de seguridad~~ (peligroso, sin control de presión)
+
 **Respuesta: C**
 
 **Explicación:**
@@ -348,6 +443,16 @@ De acuerdo con los datos reportados en la gráfica, ¿cuál de las siguientes co
 
 <details>
 <summary>✅ Respuesta</summary>
+
+<!-- RETROALIMENTACIÓN CON MARCADORES -->
+La gráfica muestra: año ==2000== ≈ ==6.000 toneladas==, año ==2020== > ==14.000 toneladas==.
+
+==¿cuál de las siguientes conclusiones responde...?==
+
+- A. Las emisiones ==aumentaron a más del doble== entre el 2000 y el 2020 ✅ (14.000 > 12.000 = 2×6.000)
+- B. ...se duplicaron entre el 2009 y el 2011. ~~(periodo muy corto para duplicarse)~~
+- C. ...~~se triplicaron~~ entre el 2016 y el 2020. (no hay evidencia de esto)
+- D. ...~~se mantuvieron constantes~~ (la gráfica muestra aumento)
 
 **Respuesta: A**
 
@@ -375,6 +480,16 @@ Se desea clasificar la mezcla inicial que se forma al agregar los residuos orgá
 
 <details>
 <summary>✅ Respuesta</summary>
+
+<!-- RETROALIMENTACIÓN CON MARCADORES -->
+Mezcla ==homogénea==: no se diferencian las partes. Mezcla ==heterogénea==: se diferencian las partes.
+
+==¿qué tipo de mezcla se tiene al inicio del proceso?==
+
+- A. Una mezcla heterogénea de ~~biogás y fertilizantes~~ (estos son productos finales, no iniciales)
+- B. Una mezcla ~~homogénea~~ de dióxido de carbono... (el CO₂ es producto final)
+- C. Una mezcla ==heterogénea== de ==estiércol, residuos de alimentos y agua== ✅ (se distinguen a simple vista)
+- D. Una mezcla ~~homogénea~~ de bacterias ~~aerobias~~ (el proceso es anaerobio)
 
 **Respuesta: C**
 
@@ -406,6 +521,18 @@ Si partimos del punto X, donde el agua existe al mismo tiempo como líquido y ga
 <details>
 <summary>✅ Respuesta</summary>
 
+<!-- RETROALIMENTACIÓN CON MARCADORES -->
+En el punto X: agua como ==líquido y gas==. Al ==aumentar la temperatura== a ==presión constante==...
+
+El diagrama muestra: moverse a la derecha = entrar en zona ==Gaseoso==.
+
+==¿qué imagen representa el estado resultante del agua?==
+
+- A. Imagen A ~~(líquido)~~
+- B. Imagen B ~~(mezcla líquido-gas)~~
+- C. Imagen C ~~(no corresponde al estado gaseoso)~~
+- D. ==Imagen D== ✅ (tanque lleno de ==gas==, todo el líquido se evaporó)
+
 **Respuesta: D**
 
 **Explicación:**
@@ -433,6 +560,16 @@ Al analizar los resultados, ¿será válida la hipótesis del estudiante y qué 
 
 <details>
 <summary>✅ Respuesta</summary>
+
+<!-- RETROALIMENTACIÓN CON MARCADORES -->
+Hipótesis: ==formando una solución homogénea==. Resultado: ==se forman dos capas==.
+
+==¿será válida la hipótesis del estudiante y qué conclusión se puede dar?==
+
+- A. ~~La hipótesis es válida~~ y se concluye que... ~~no se mezclaron~~ (contradice su hipótesis de mezcla)
+- B. ~~La hipótesis es válida~~... (la hipótesis es falsa porque predijo homogénea)
+- C. La hipótesis es falsa y... ~~es de carácter homogéneo~~ (falso, hay dos capas = heterogénea)
+- D. La hipótesis es ==falsa== y se concluye que... ==se obtiene una mezcla heterogénea== ✅
 
 **Respuesta: D**
 
@@ -468,6 +605,16 @@ Los estudiantes afirman que a $35$ °C la sustancia 3 se encuentra en estado lí
 <details>
 <summary>✅ Respuesta</summary>
 
+<!-- RETROALIMENTACIÓN CON MARCADORES -->
+Afirmación: a 35°C, sustancia 3 (fusión ==31°C== < 35) está en ==estado líquido==. Sustancias 1 (fusión ==41°C== > 35) y 2 (fusión ==35°C== = límite) están en ==estado sólido==.
+
+==¿qué debe hacer el profesor para comprobar la afirmación?==
+
+- A. ~~Determinar... usando diferentes sustancias~~ (no valida los datos originales)
+- B. ==Determinar los puntos de fusión y ebullición usando las mismas sustancias== ✅ (repetibilidad)
+- C. ~~Determinar... de las sustancias 1 y 3~~ (incompleto)
+- D. ~~Determinar... de las sustancias 2 y 3~~ (incompleto)
+
 **Respuesta: B**
 
 **Explicación:**
@@ -496,6 +643,16 @@ De acuerdo con las observaciones del estudiante, ¿qué es el arroz con leche?
 
 <details>
 <summary>✅ Respuesta</summary>
+
+<!-- RETROALIMENTACIÓN CON MARCADORES -->
+El arroz con leche tiene: ==arroz==, ==leche==, ==uvas pasas==, ==azúcar==... Las ==proporciones pueden variar== según el gusto.
+
+==¿qué es el arroz con leche?==
+
+- A. Una mezcla homogénea ~~(los componentes se distinguen a simple vista)~~
+- B. Un compuesto ~~(las proporciones varían; en compuestos son fijas)~~
+- C. ==Una mezcla heterogénea== ✅ (componentes distinguibles: arroz, uvas pasas)
+- D. Un elemento ~~(tiene múltiples sustancias)~~
 
 **Respuesta: C**
 
@@ -531,6 +688,18 @@ Teniendo en cuenta la información anterior, ¿qué puede decir Andrés sobre su
 <details>
 <summary>✅ Respuesta</summary>
 
+<!-- RETROALIMENTACIÓN CON MARCADORES -->
+Hipótesis: ==A medida que aumenta la presión, la temperatura de ebullición disminuye==.
+
+Datos: Presión (==56 → 150==) → Temperatura (==92 → 120==). ==Ambos aumentan==.
+
+==¿qué puede decir Andrés sobre su hipótesis?==
+
+- A. Es falsa, porque... ~~disminuye la presión~~ (no corresponde a los datos)
+- B. ~~Es verdadera~~... ~~la presión permanece constante~~ (la presión varía)
+- C. ==Es falsa==, porque a medida que ==aumenta la presión==, la ==temperatura de ebullición aumenta== ✅
+- D. ~~Es verdadera~~... ~~la presión es constante~~ (contradice los datos)
+
 **Respuesta: C**
 
 **Explicación:**
@@ -556,6 +725,16 @@ Una fábrica produce diversas soluciones acuosas para diferentes usos industrial
 
 <details>
 <summary>✅ Respuesta</summary>
+
+<!-- RETROALIMENTACIÓN CON MARCADORES -->
+Se requiere medir el ==grado de acidez== de las soluciones acuosas.
+
+==¿Qué instrumento de medida es el más apropiado...?==
+
+- A. Una balanza ~~(mide masa, no acidez)~~
+- B. Un densímetro ~~(mide densidad, no acidez)~~
+- C. ==Un peachímetro== ✅ (mide el ==pH== = grado de acidez)
+- D. Una probeta ~~(mide volumen, no acidez)~~
 
 **Respuesta: C**
 
@@ -595,6 +774,18 @@ De acuerdo con lo anterior, ¿cuál es la sustancia que se obtiene después de a
 <details>
 <summary>✅ Respuesta</summary>
 
+<!-- RETROALIMENTACIÓN CON MARCADORES -->
+Resultado: una solución ==totalmente líquida, uniforme y de color amarillo==. No se forman ==fases visibles==.
+
+Según la tabla: Mezcla ==homogénea== → componentes ==distribuidos uniformemente sin formar fases==.
+
+==¿cuál es la sustancia que se obtiene...?==
+
+- A. Un elemento... ~~se obtienen sustancias más simples~~ (una mezcla no simplifica elementos)
+- B. Una mezcla heterogénea... ~~no se disuelve uniformemente~~ (contradice el resultado: es uniforme)
+- C. Un compuesto... ~~reaccionó, volviéndose amarilla~~ (el color amarillo es del KI disuelto, no una reacción)
+- D. ==Una mezcla homogénea==, porque el KI ==se disuelve uniformemente==... ==no presenta fases== ✅
+
 **Respuesta: D**
 
 **Explicación:**
@@ -622,6 +813,18 @@ Al día siguiente, hace la misma práctica, pero, como no tiene agua en la never
 
 <details>
 <summary>✅ Respuesta</summary>
+
+<!-- RETROALIMENTACIÓN CON MARCADORES -->
+Día 1: agua a ==4 °C==. Día 2: agua a ==15 °C==. Objetivo: ==80 °C==.
+
+Resultados: los ==tiempos son muy diferentes==.
+
+==¿Qué pudo haber ocasionado este cambio en las mediciones?==
+
+- A. La olla ~~cambió sus propiedades~~ (poco probable, no se menciona deterioro)
+- B. ~~Se modificó la cantidad de agua~~ (se usaron 100 mL ambos días)
+- C. ~~Se utilizaron líquidos distintos~~ (ambos eran agua)
+- D. Las ==temperaturas iniciales del agua fueron distintas== ✅ (4°C vs 15°C)
 
 **Respuesta: D**
 
@@ -656,6 +859,18 @@ Con base en la información contenida en la tabla, el estudiante afirma: "A mayo
 <details>
 <summary>✅ Respuesta</summary>
 
+<!-- RETROALIMENTACIÓN CON MARCADORES -->
+Afirmación: "==A mayor calor específico, se obtiene menor cambio de temperatura=="
+
+Datos: Calor 0.5 → T=33°C, Calor 1.0 → T=21°C. ==Tendencia clara==.
+
+==¿Esta afirmación es una conclusión o una evidencia?==
+
+- A. Una conclusión... ~~toma como referencia el comportamiento de una sustancia~~ (evalúa todas)
+- B. ~~Una evidencia~~... ~~toma en cuenta todos los datos~~ (la evidencia es cada dato individual)
+- C. ==Una conclusión==, porque hace referencia a la ==tendencia del comportamiento de los datos== ✅
+- D. ~~Una evidencia~~... toma como base el cambio de temperatura... (sintetiza, no solo observa)
+
 **Respuesta: C**
 
 **Explicación:**
@@ -683,6 +898,16 @@ Un grupo de investigación desea extraer compuestos químicos naturales a partir
 
 <details>
 <summary>✅ Respuesta</summary>
+
+<!-- RETROALIMENTACIÓN CON MARCADORES -->
+Los investigadores deben ==determinar la masa== de los compuestos y de las plantas.
+
+==¿Qué instrumento de medida deben usar...?==
+
+- A. Un densímetro ~~(mide densidad, no masa)~~
+- B. Una probeta ~~(mide volumen, no masa)~~
+- C. Un peachímetro ~~(mide pH, no masa)~~
+- D. ==Una balanza== ✅ (mide ==masa==)
 
 **Respuesta: D**
 
@@ -718,6 +943,19 @@ Teniendo en cuenta la información anterior, ¿cuál es el método de separació
 <details>
 <summary>✅ Respuesta</summary>
 
+<!-- RETROALIMENTACIÓN CON MARCADORES -->
+Proceso descrito: esencias en agua → ==calor== → ==estado gaseoso== → ==enfriar== → obtener ==líquido== (perfume).
+
+Definiciones:
+- ==Destilación==: calor para ==evaporar== y luego ==condensar== para separar.
+
+==¿cuál es el método de separación que se utiliza en la producción de perfumes?==
+
+- A. ==La destilación==, ya que ==separa las esencias== gracias a los ==cambios de temperatura== ✅
+- B. La evaporación... ~~obtienen sustancias sólidas~~ (el perfume es líquido)
+- C. La cristalización... ~~sólidos cristalinos~~ (el perfume no es sólido)
+- D. La decantación... ~~según la densidad~~ (no se describe este método)
+
 **Respuesta: A**
 
 **Explicación:**
@@ -747,6 +985,20 @@ De acuerdo con la información anterior, ¿cuáles métodos se pueden aplicar pa
 
 <details>
 <summary>✅ Respuesta</summary>
+
+<!-- RETROALIMENTACIÓN CON MARCADORES -->
+Mezcla: ==agua + sal disuelta + arena== (insoluble).
+
+Separación:
+1. ==Filtración==: separa sólido ==insoluble== (arena) del líquido
+2. ==Evaporación==: separa sólido ==disuelto== (sal) del líquido (agua)
+
+==¿cuáles métodos se pueden aplicar...?==
+
+- A. Filtración... ~~y destilación para separar la arena disuelta~~ (la arena no está disuelta)
+- B. ~~Decantación~~... (la arena no flota ni forma capas por densidad)
+- C. ==Filtración==, para ==separar la arena== de la disolución de agua y sal, y ==evaporación== para ==separar la sal disuelta== ✅
+- D. ~~Decantación~~... (no es el método adecuado para arena mezclada)
 
 **Respuesta: C**
 
@@ -795,6 +1047,16 @@ La profesora les pregunta, ¿cuáles son los métodos de separación que se debe
 <details>
 <summary>✅ Respuesta</summary>
 
+<!-- RETROALIMENTACIÓN CON MARCADORES -->
+Propiedades clave: X: ==no soluble en agua==; Z: ==soluble en agua==. Ambos: mismo tamaño (1mm), sin propiedades magnéticas.
+
+==¿cuáles son los métodos de separación...?==
+
+- A. Agregar tolueno para disolver el sólido X... ~~(X no es soluble en tolueno)~~
+- B. Usar tamizado... ~~por la diferencia en el tamaño~~ (ambos tienen 1mm = mismo tamaño)
+- C. ==Agregar agua para disolver el sólido Z==, luego, ==filtrar para separar el sólido X==, y ==evaporar el agua para obtener el sólido Z== ✅
+- D. Usar imantación... ~~propiedades magnéticas del sólido Z~~ (ninguno tiene propiedades magnéticas)
+
 **Respuesta: C**
 
 **Explicación:**
@@ -831,6 +1093,17 @@ Después de analizar los experimentos, concluye que ambas sustancias son diferen
 <details>
 <summary>✅ Respuesta</summary>
 
+<!-- RETROALIMENTACIÓN CON MARCADORES -->
+Sustancia X: ==una sola fase==, composición ==uniforme==, se separa por ==destilación==.
+Sustancia Y: ==debe agitarse==, en reposo ==se separa en dos fases==, se separa por ==decantación==.
+
+==¿Es correcta la conclusión de la estudiante?==
+
+- A. ~~Sí~~, porque la sustancia X es ~~una mezcla heterogénea~~ (X tiene una sola fase = homogénea)
+- B. ~~No~~, porque ~~ambas son mezclas heterogéneas~~ (X es homogénea)
+- C. ==Sí==, porque la sustancia X es una ==mezcla homogénea== (una fase) y la sustancia Y es una ==mezcla heterogénea== (dos fases) ✅
+- D. ~~No~~, porque ~~ambas son mezclas homogéneas~~ (Y se separa en fases)
+
 **Respuesta: C**
 
 **Explicación:**
@@ -860,6 +1133,18 @@ Una estudiante tiene la hipótesis de que, al hacer reaccionar agua oxigenada co
 
 <details>
 <summary>✅ Respuesta</summary>
+
+<!-- RETROALIMENTACIÓN CON MARCADORES -->
+Hipótesis: ==entre más grande sea el trozo de papa, mayor será el tiempo de reacción==.
+
+Relación: ==Tamaño → Grande, Mediana, Pequeña==. Tiempo: ==Grande > Mediana > Pequeña==.
+
+==¿cuál de las siguientes gráficas debe elegir?==
+
+- A. Gráfica A ~~(muestra mayor tiempo para mediana, no para grande)~~
+- B. Gráfica B ~~(gráfica circular, no muestra comparación adecuada)~~
+- C. ==Gráfica C== ✅ (barras: ==Grande es la más alta==, Mediana intermedia, Pequeña la más baja)
+- D. Gráfica D ~~(gráfica circular, no muestra comparación adecuada)~~
 
 **Respuesta: C**
 

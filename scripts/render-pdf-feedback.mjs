@@ -143,7 +143,8 @@ function generateFeedbackHTML(taller) {
             // ═══════════════════════════════════════════════════════
             // SECCIÓN 2: RETROALIMENTACIÓN (con resaltados ==, ~~)
             // ═══════════════════════════════════════════════════════
-            content += `<div class="retroalimentacion-section">
+            content += `<div class="page-break"></div>
+            <div class="retroalimentacion-section">
                 <div class="retro-titulo">🎯 Análisis de la Pregunta ${pregunta.numeroGlobal}</div>
                 
                 ${pregunta.retroalimentacion ? `
