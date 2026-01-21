@@ -170,10 +170,18 @@ export async function renderInteractive(taller, outputDir) {
 /**
  * Procesador de Markdown Robusto
  */
-function processMarkdown(text, imageMap, highlightMode = false) {
+function processMarkdown(text, imageMap, highlightMode = false, isFeedbackMode = false) {
     if (!text) return '';
 
     let html = text;
+
+    // 0. Procesar marcadores de retroalimentación (solo en feedbackMode)
+    if (isFeedbackMode) {
+        // ==texto== → Resaltar (fondo amarillo)
+        html = html.replace(/==([^=]+)==/g, '<mark class="bg-yellow-200 text-yellow-900 px-1 rounded font-semibold">$1</mark>');
+        // ~~texto~~ → Tachar (rojo con línea)
+        html = html.replace(/~~([^~]+)~~/g, '<del class="text-red-600 line-through bg-red-100 px-1 rounded">$1</del>');
+    }
 
     // 1. Manejo de tablas Markdown (Mejorado para detectar variaciones de espacios y nuevas líneas)
     const tableRegex = /\|(.+)\|\s*\n\s*\|([-:| ]+)\|\s*\n\s*((?:\|.+\|\s*\n?)+)/g;
@@ -214,6 +222,13 @@ function processMarkdown(text, imageMap, highlightMode = false) {
             ? `<strong class="font-bold bg-yellow-300 text-yellow-900 px-1 rounded box-decoration-clone">${content}</strong>`
             : `<strong class="font-bold">${content}</strong>`;
     });
+
+    // 3.5 Listas de opciones en retroalimentación
+    if (isFeedbackMode) {
+        html = html.replace(/^- ([A-D])\. (.+)$/gm, (match, letra, texto) => {
+            return `<div class="flex items-start gap-3 py-2"><span class="font-bold text-gray-700 min-w-[24px]">${letra}.</span><span>${texto}</span></div>`;
+        });
+    }
 
     // 4. Saltos de línea inteligentes (no romper dentro de HTML)
     const parts = html.split(/(<div.*?<\/div>|<table.*?<\/table>)/gs);
@@ -353,6 +368,14 @@ function generateHTML(taller, imageMap) {
                                 </p>
                                 ${processMarkdown(pregunta.explicacion, imageMap, true)}
                             </div>
+                            ${pregunta.retroalimentacion ? `
+                            <div class="mt-8 pt-6 border-t border-blue-700">
+                                <button @click="$dispatch('open-modal', { id: 'modal-${pregunta.numeroGlobal}' })"
+                                        class="bg-yellow-400 hover:bg-yellow-300 text-yellow-900 px-6 py-3 rounded-xl font-bold text-lg transition-all flex items-center gap-2">
+                                    🎯 Ver Análisis Detallado
+                                </button>
+                            </div>
+                            ` : ''}
                         </div>
                     </section>
                 `).join('')}
@@ -366,6 +389,64 @@ function generateHTML(taller, imageMap) {
             </button>
         </footer>
     </main>
+
+    <!-- MODALES DE RETROALIMENTACIÓN DETALLADA -->
+    ${taller.bloques.flatMap(bloque =>
+        bloque.preguntas.filter(p => p.retroalimentacion).map(pregunta => `
+        <div x-data="{ open: false }" 
+             x-show="open" 
+             x-cloak
+             @open-modal.window="if ($event.detail.id === 'modal-${pregunta.numeroGlobal}') open = true"
+             @keydown.escape.window="open = false"
+             class="fixed inset-0 z-[100] overflow-y-auto">
+            <!-- Overlay -->
+            <div class="fixed inset-0 bg-black/60 backdrop-blur-sm" @click="open = false"></div>
+            
+            <!-- Modal Content -->
+            <div class="relative min-h-screen flex items-center justify-center p-4">
+                <div class="relative bg-white rounded-[2rem] max-w-7xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0 scale-90"
+                     x-transition:enter-end="opacity-100 scale-100"
+                     x-transition:leave="transition ease-in duration-200"
+                     x-transition:leave-start="opacity-100 scale-100"
+                     x-transition:leave-end="opacity-0 scale-90">
+                    
+                    <!-- Header -->
+                    <div class="sticky top-0 bg-gradient-to-r from-yellow-400 to-amber-500 p-6 rounded-t-[2rem]">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-2xl font-black text-yellow-900 flex items-center gap-3">
+                                🎯 Análisis de la Pregunta ${pregunta.numeroGlobal}
+                            </h3>
+                            <button @click="open = false" class="w-10 h-10 bg-yellow-600/20 hover:bg-yellow-600/40 rounded-full flex items-center justify-center text-yellow-900 font-bold text-xl transition-colors">
+                                ✕
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Body -->
+                    <div class="p-8 space-y-6">
+                        <div class="text-lg leading-relaxed text-gray-800">
+                            ${processMarkdown(pregunta.retroalimentacion, imageMap, false, true)}
+                        </div>
+                        
+                        <!-- Respuesta correcta -->
+                        <div class="bg-green-50 border-2 border-green-500 rounded-2xl p-6 text-center">
+                            <span class="text-green-700 font-black text-xl">✅ Respuesta correcta: ${pregunta.respuestaCorrecta}</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Footer -->
+                    <div class="p-6 border-t border-gray-100 text-center">
+                        <button @click="open = false" class="bg-gray-900 hover:bg-gray-800 text-white px-8 py-3 rounded-xl font-bold text-lg transition-all">
+                            Cerrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `).join('')
+    ).join('')}
 
     <script>
         function tallerApp() {
