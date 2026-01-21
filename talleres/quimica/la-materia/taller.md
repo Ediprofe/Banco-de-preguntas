@@ -2,7 +2,9 @@
 
 ## Resumen de conceptos
 
-![Resumen de conceptos](/img/quimica/resumen-de-conceptos-la-materia.webp)
+![Resumen - La Materia](/img/quimica/resumen-la-materia-parte-1.webp)
+
+![Resumen - Métodos de Separación](/img/quimica/resumen-metodos-de-separacion.png)
 
 ## 1.
 <!--
@@ -682,8 +684,155 @@ Para determinar la **masa** de una sustancia o de un objeto (como las plantas re
 
 </details>
 
-
 ## 22.
+
+<!-- 
+fuente: ICFES
+año: 2025 
+-->
+
+Los perfumes se crean a partir de la extracción de las esencias de flores, semillas, hierbas y cáscaras, que han sido sumergidas en agua por horas; después, por acción del calor, se separan los componentes que han cambiado a estado gaseoso en la mezcla, para luego enfriar y obtener un líquido que posteriormente se envasa para su comercialización. Para realizar el proceso de separación y obtener el perfume se cuenta con los siguientes métodos de separación de mezclas:
+
+- **Destilación:** consiste en aplicar calor a la mezcla para evaporar un componente y luego condensarlo para separarlo de la mezcla.
+- **Evaporación:** consiste en aplicar calor a la mezcla hasta que llegue a su punto de ebullición para evaporar algunos componentes y así obtener el componente sólido de la mezcla.
+- **Cristalización:** consiste en disminuir la temperatura para obtener cristales de algún componente y así separarlo de los otros componentes de la mezcla.
+- **Decantación:** consiste en la separación a simple vista de los componentes de la mezcla por la diferencia de las densidades entre estos.
+
+Teniendo en cuenta la información anterior, ¿cuál es el método de separación que se utiliza en la producción de perfumes?
+
+- A. La destilación, ya que separa las esencias de la mezcla de líquidos gracias a los cambios de temperatura.
+- B. La evaporación, ya que obtienen las sustancias sólidas del perfume y las separa de la mezcla inicial.
+- C. La cristalización, ya que se obtienen sólidos cristalinos del perfume gracias a cambios de temperatura.
+- D. La decantación, ya que separa el perfume de otras sustancias según la densidad de cada componente.
+
+<details>
+<summary>✅ Respuesta</summary>
+
+**Respuesta: A**
+
+**Explicación:**
+El proceso descrito en el enunciado menciona que las esencias se calientan para pasar a estado gaseoso (evaporación) y luego se enfrían para obtener un líquido (condensación). Según las definiciones proporcionadas, la **destilación** es el método que consiste precisamente en aplicar calor para evaporar y luego condensar un componente para separarlo. Las otras opciones (evaporación para obtener sólidos, cristalización o decantación por densidad) no coinciden con la descripción del proceso de obtención del perfume líquido.
+
+</details>
+
+
+
+## 23.
+
+<!-- 
+fuente: ICFES
+año: 2024 
+-->
+
+En un laboratorio, un grupo de estudiantes realiza el siguiente experimento: se mezcla agua y sal y se agita hasta que la sal se disuelve completamente; luego, se añade arena y se agita. Para poder separar la mezcla anterior los estudiantes observan la siguiente tabla donde se muestran los métodos de separación.
+
+![Métodos de separación de mezclas](/img/quimica/metodos-de-separacion-1.webp)
+
+De acuerdo con la información anterior, ¿cuáles métodos se pueden aplicar para separar los componentes de la mezcla realizada en el laboratorio?
+
+- A. Filtración, para separar la disolución de agua y sal, y destilación para separar la arena disuelta.
+- B. Decantación, para separar la disolución de agua y sal; y evaporación para separar la arena disuelta.
+- C. Filtración, para separar la arena de la disolución de agua y sal, y evaporación para separar la sal disuelta.
+- D. Decantación, para separar la arena de la disolución de agua y sal, y destilación para separar la sal disuelta.
+
+<details>
+<summary>✅ Respuesta</summary>
+
+**Respuesta: C**
+
+**Explicación:**
+La mezcla contiene tres componentes: agua, sal (disuelta) y arena (insoluble). 
+1. Primero se usa la **filtración** para separar el sólido que no se disuelve (arena) del líquido (mezcla de agua y sal). 
+2. Luego, se utiliza la **evaporación** para separar el sólido disuelto (sal) del líquido (agua), calentando la mezcla hasta que el agua pase a estado gaseoso y quede el residuo sólido.
+
+</details>
+
+
+
+
+
+## 24.
+
+
+<!-- 
+fuente: ICFES
+año: 2025 
+-->
+
+En clase de Ciencias, la profesora realiza una explicación acerca de algunos métodos de separación de mezclas y sus características, como se muestra en la siguiente tabla:
+
+| Método | Característica |
+| :--- | :--- |
+| **Tamizado** | Separación de dos sustancias sólidas de diferentes tamaños. |
+| **Filtración** | Separación de un sólido insoluble en un líquido por medio de un material poroso como el papel de filtro. |
+| **Magnetismo** | Separación de sólidos por medio de un imán, donde uno de ellos tiene propiedades magnéticas. |
+| **Evaporación** | Separación de un sólido disuelto en un líquido, calentando la mezcla hasta evaporar el líquido. |
+
+Luego de esta explicación, les muestra la siguiente tabla con dos sustancias desconocidas que se encuentran mezcladas y algunas de sus propiedades:
+
+| Sustancia | Solubilidad en agua | Solubilidad en tolueno | Tamaño de partículas (mm) | Propiedades magnéticas |
+| :--- | :--- | :--- | :--- | :--- |
+| Sólido X | No | No | 1 | No |
+| Sólido Z | Sí | No | 1 | No |
+
+La profesora les pregunta, ¿cuáles son los métodos de separación que se deben usar para separar el sólido X del sólido Z?
+
+- A. Agregar tolueno para disolver el sólido X, luego, filtrar para separar el sólido Z de la mezcla y, por último, evaporar el tolueno para obtener el sólido X.
+- B. Usar el método de tamizado para separar el sólido X del Z, por la diferencia en el tamaño de las partículas y, luego, filtrar para separar los dos sólidos.
+- C. Agregar agua para disolver el sólido Z, luego, filtrar para separar el sólido X de la mezcla y, por último, evaporar el agua para obtener el sólido Z.
+- D. Usar el método de imantación para separar el sólido X del Z, por las propiedades magnéticas del sólido Z, y, luego, evaporar para separar los sólidos.
+
+<details>
+<summary>✅ Respuesta</summary>
+
+**Respuesta: C**
+
+**Explicación:**
+Para separar una mezcla de dos sólidos, debemos buscar una propiedad en la que se diferencien:
+1. **Solubilidad:** El sólido Z es soluble en agua, mientras que el sólido X no lo es. Al agregar agua, el sólido Z se disolverá formando una solución líquida, mientras que el sólido X permanecerá en estado sólido.
+2. **Filtración:** Al pasar la mezcla por un filtro, el sólido X (insoluble) quedará atrapado, separándose del líquido que contiene al sólido Z disuelto.
+3. **Evaporación:** Para recuperar el sólido Z que quedó en el agua, se calienta la mezcla hasta que el agua se evapore, dejando el sólido puro.
+
+Los otros métodos no funcionan porque ambos sólidos tienen el mismo tamaño (no sirve el tamizado) y ninguno tiene propiedades magnéticas (no sirve el magnetismo).
+
+</details>
+
+## 25.
+
+<!-- 
+fuente: Instruimos
+año: 2025 
+-->
+
+
+Para clasificar dos sustancias según el tipo de mezcla que forman, una estudiante investigó las diferencias entre mezclas homogéneas y heterogéneas. Descubrió que las mezclas homogéneas tienen una composición uniforme, mientras que las heterogéneas no. Luego, realizó experimentos con las sustancias X y Y, cuyos resultados se detallan en la siguiente imagen.
+
+![Destilación y decantación](/img/quimica/destilacion-y-decantacion.webp)
+
+La sustancia X es un líquido de una sola fase que se puede separar en dos compuestos mediante destilación. Por otro lado, la sustancia Y es un líquido que debe agitarse para mantenerse mezclado, pero si se deja reposar en un embudo de decantación, se separa fácilmente en dos fases.
+
+Después de analizar los experimentos, concluye que ambas sustancias son diferentes tipos de mezclas. ¿Es correcta la conclusión de la estudiante?
+
+- A. Sí, porque la sustancia X es una mezcla heterogénea y la sustancia Y es una mezcla homogénea.
+- B. No, porque ambas son mezclas heterogéneas.
+- C. Sí, porque la sustancia X es una mezcla homogénea y la sustancia Y es una mezcla heterogénea.
+- D. No, porque ambas son mezclas homogéneas.
+
+<details>
+<summary>✅ Respuesta</summary>
+
+**Respuesta: C**
+
+**Explicación:**
+De acuerdo con las observaciones experimentales:
+- La **sustancia X** presenta una sola fase y composición uniforme, lo cual define a una **mezcla homogénea** (disolución). Además, el hecho de ser separable por destilación confirma que es una mezcla de líquidos con diferentes puntos de ebullición.
+- La **sustancia Y** requiere agitación para mantenerse unida y se separa en dos fases distintas al reposar, lo cual es la característica principal de una **mezcla heterogénea** (como una suspensión o emulsión).
+
+Por lo tanto, la estudiante tiene razón al concluir que son tipos de mezclas diferentes.
+
+</details>
+
+## 26.
 
 <!-- 
 fuente: ICFES
