@@ -252,9 +252,9 @@ fuente: ICFES
 año: 2024
 -->
 
-En una práctica de laboratorio, el profesor afirma que el agua y el aceite no se mezclan y pregunta: ¿el alcohol y el aceite se mezclan? Para responder la pregunta, solicita que mezclen las dos sustancias. 
+En una práctica de laboratorio, el profesor afirma que el agua y el aceite no se mezclan y pregunta: ¿el alcohol y el aceite se mezclan? Para responder la pregunta, solicita que mezclen las dos sustancias.
 
-Un estudiante escribe como hipótesis que estos dos líquidos se mezclan formando una solución homogénea; luego, vierte los dos líquidos en un recipiente, los agita y pasados unos minutos observa que se forman dos capas: en el fondo se encuentra el aceite y en la capa superior está el alcohol. 
+Un estudiante escribe como hipótesis que estos dos líquidos se mezclan formando una solución homogénea; luego, vierte los dos líquidos en un recipiente, los agita y pasados unos minutos observa que se forman dos capas: en el fondo se encuentra el aceite y en la capa superior está el alcohol.
 
 Al analizar los resultados, ¿será válida la hipótesis del estudiante y qué conclusión se puede dar?
 
@@ -265,6 +265,16 @@ Al analizar los resultados, ¿será válida la hipótesis del estudiante y qué 
 
 <details>
 <summary>✅ Respuesta</summary>
+
+<!-- RETROALIMENTACIÓN CON MARCADORES -->
+Un estudiante escribe como hipótesis que estos dos líquidos se mezclan ==formando una solución homogénea==; luego, vierte los dos líquidos... observa que ==se forman dos capas==...
+
+==¿será válida la hipótesis del estudiante y qué conclusión se puede dar?==
+
+- A. ~~La hipótesis es válida~~ y se concluye que los resultados...
+- B. ~~La hipótesis es válida~~ y se concluye que el alcohol tiene...
+- C. La hipótesis es falsa y se concluye que... ~~es de carácter homogéneo~~.
+- D. La hipótesis es ==falsa== y se concluye que... ==se obtiene una mezcla heterogénea==.
 
 **Respuesta: D**
 

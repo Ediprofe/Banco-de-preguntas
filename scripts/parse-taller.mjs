@@ -128,6 +128,7 @@ function parsePregunta(section, numeroGlobal) {
     const opciones = {};
     let respuestaCorrecta = '';
     let explicacion = '';
+    let retroalimentacion = '';  // NUEVO: contenido con marcadores ==resaltado== y ~~tachado~~
 
     // Buscar el texto después del encabezado
     const headerIndex = lines.findIndex(l => l.match(/^##\s*\d+\./));
@@ -160,7 +161,14 @@ function parsePregunta(section, numeroGlobal) {
                 respuestaCorrecta = respMatch[1];
             }
 
-            // Extraer explicación
+            // Extraer retroalimentación (contenido antes de **Respuesta:**)
+            // Esto es donde van los marcadores ==resaltado== y ~~tachado~~
+            const retroMatch = restContent.match(/<\/summary>\s+([\s\S]*?)\*\*Respuesta:/);
+            if (retroMatch && retroMatch[1].trim()) {
+                retroalimentacion = retroMatch[1].trim();
+            }
+
+            // Extraer explicación (contenido después de **Respuesta: X**)
             const explMatch = restContent.match(/<\/summary>\s+\*\*Respuesta:[^*]+\*\*\s+([\s\S]*?)<\/details>/);
             if (explMatch) {
                 explicacion = explMatch[1].trim();
@@ -196,12 +204,13 @@ function parsePregunta(section, numeroGlobal) {
     return {
         numeroGlobal,
         texto: texto.trim(),       // Mantener para compatibilidad
-        contexto,                   // NUEVO: Todo excepto último párrafo
-        enunciado,                  // NUEVO: Último párrafo (la pregunta)
+        contexto,                   // Todo excepto último párrafo
+        enunciado,                  // Último párrafo (la pregunta)
         opciones,
         respuestaCorrecta,
         explicacion,
-        metadatos  // Nuevo campo con fuente, año, etc.
+        retroalimentacion,          // NUEVO: Versión con marcadores ==resaltado== y ~~tachado~~
+        metadatos
     };
 }
 

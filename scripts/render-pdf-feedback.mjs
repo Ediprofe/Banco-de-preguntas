@@ -48,14 +48,25 @@ export async function renderPDFFeedback(taller, outputDir) {
     }
 }
 
-function processMarkdown(text) {
+function processMarkdown(text, isFeedbackMode = false) {
     if (!text) return '';
     let html = text
+        // Imágenes
         .replace(/!\[(.*?)\]\((.*?)\)/g, (match, alt, src) => {
             const filename = src.split('/').pop();
             return `<div class="img-container"><img src="img/${filename}" alt="${alt}"></div>`;
         })
+        // ==resaltado== → Solo en modo retroalimentación
+        .replace(/==(.*?)==/g, (match, content) => {
+            return isFeedbackMode ? `<mark class="highlight">${content}</mark>` : content;
+        })
+        // ~~tachado~~ → Solo en modo retroalimentación
+        .replace(/~~(.*?)~~/g, (match, content) => {
+            return isFeedbackMode ? `<del class="strikethrough">${content}</del>` : content;
+        })
+        // Negritas
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        // Tablas
         .replace(/\|(.+)\|\s*\n\s*\|([-:| ]+)\|\s*\n\s*((?:\|.+\|\s*\n?)+)/g, (match, header, separator, body) => {
             const headers = header.split('|').map(s => s.trim()).filter(s => s);
             const rows = body.trim().split(/\r?\n/).map(row =>
@@ -83,6 +94,7 @@ function processMarkdown(text) {
     return html;
 }
 
+
 function generateFeedbackHTML(taller) {
     let content = '';
 
@@ -90,7 +102,7 @@ function generateFeedbackHTML(taller) {
     if (taller.resumen) {
         content += `<div class="resumen-container">
             <div class="resumen-titulo">📋 Resumen de Conceptos</div>
-            <div class="resumen-body">${processMarkdown(taller.resumen.replace(/^##\s+Resumen[^\n]*\n/, ''))}</div>
+            <div class="resumen-body">${processMarkdown(taller.resumen.replace(/^##\s+Resumen[^\n]*\n/, ''), true)}</div>
         </div>
         <div class="page-break"></div>`;
     }
@@ -100,36 +112,66 @@ function generateFeedbackHTML(taller) {
         // Contexto del bloque (si existe)
         if (bloque.contexto && bloque.contexto.trim()) {
             content += `<div class="contexto-container">
-                <div class="contexto-body">${processMarkdown(bloque.contexto)}</div>
+                <div class="contexto-body">${processMarkdown(bloque.contexto, true)}</div>
             </div>`;
         }
 
         bloque.preguntas.forEach((pregunta) => {
+            // ═══════════════════════════════════════════════════════
+            // SECCIÓN 1: PREGUNTA NORMAL (sin resaltados)
+            // ═══════════════════════════════════════════════════════
             content += `<div class="pregunta-container">
                 <div class="pregunta-num">Pregunta ${pregunta.numeroGlobal}</div>
                 
-                <!-- Contexto de la pregunta (si hay) -->
-                ${pregunta.contexto ? `<div class="pregunta-contexto">${processMarkdown(pregunta.contexto)}</div>` : ''}
+                <!-- Contexto de la pregunta (sin marcadores) -->
+                ${pregunta.contexto ? `<div class="pregunta-contexto">${processMarkdown(pregunta.contexto, false)}</div>` : ''}
                 
-                <!-- Enunciado resaltado -->
-                <div class="pregunta-enunciado">${processMarkdown(pregunta.enunciado)}</div>
+                <!-- Enunciado (sin marcadores) -->
+                <div class="pregunta-enunciado">${processMarkdown(pregunta.enunciado, false)}</div>
                 
-                <!-- Opciones con marcas -->
+                <!-- Opciones normales -->
+                <div class="opciones-grid opciones-normales">
+                    ${Object.entries(pregunta.opciones).map(([letra, texto]) => {
+                return `<div class="opcion-item opcion-normal">
+                            <span class="opcion-letra">${letra}</span>
+                            <span class="opcion-texto">${processMarkdown(texto, false)}</span>
+                        </div>`;
+            }).join('')}
+                </div>
+            </div>`;
+
+            // ═══════════════════════════════════════════════════════
+            // SECCIÓN 2: RETROALIMENTACIÓN (con resaltados ==, ~~)
+            // ═══════════════════════════════════════════════════════
+            content += `<div class="retroalimentacion-section">
+                <div class="retro-titulo">🎯 Análisis de la Pregunta ${pregunta.numeroGlobal}</div>
+                
+                ${pregunta.retroalimentacion ? `
+                <!-- Versión con marcadores (del <details>) -->
+                <div class="retro-contenido">${processMarkdown(pregunta.retroalimentacion, true)}</div>
+                ` : `
+                <!-- Sin retroalimentación especial, mostrar opciones marcadas -->
                 <div class="opciones-grid">
                     ${Object.entries(pregunta.opciones).map(([letra, texto]) => {
                 const isCorrect = letra === pregunta.respuestaCorrecta;
                 return `<div class="opcion-item ${isCorrect ? 'opcion-correcta' : 'opcion-incorrecta'}">
                             <span class="opcion-marca">${isCorrect ? '✅' : '❌'}</span>
                             <span class="opcion-letra">${letra}</span>
-                            <span class="opcion-texto ${isCorrect ? '' : 'texto-tachado'}">${processMarkdown(texto)}</span>
+                            <span class="opcion-texto">${processMarkdown(texto, true)}</span>
                         </div>`;
             }).join('')}
                 </div>
+                `}
                 
-                <!-- Explicación visible -->
+                <!-- Respuesta correcta -->
+                <div class="respuesta-correcta">
+                    <strong>Respuesta: ${pregunta.respuestaCorrecta}</strong>
+                </div>
+                
+                <!-- Explicación -->
                 ${pregunta.explicacion ? `<div class="explicacion-container">
                     <div class="explicacion-titulo">💡 Explicación</div>
-                    <div class="explicacion-body">${processMarkdown(pregunta.explicacion)}</div>
+                    <div class="explicacion-body">${processMarkdown(pregunta.explicacion, true)}</div>
                 </div>` : ''}
             </div>
             <div class="page-break"></div>`;
@@ -214,14 +256,28 @@ function generateFeedbackHTML(taller) {
             text-align: justify;
         }
         
-        /* ENUNCIADO RESALTADO */
+        /* Enunciado (sin fondo automático, usa ==marcadores==) */
         .pregunta-enunciado { 
             font-size: 12pt; 
             margin-bottom: 15px;
-            background-color: #fef08a; /* Amarillo */
-            padding: 12px 15px;
-            border-left: 4px solid #eab308;
-            border-radius: 4px;
+            padding: 10px 15px;
+            border-left: 3px solid #2563eb;
+            background-color: #f8fafc;
+        }
+
+        /* MARCADORES DE RETROALIMENTACIÓN */
+        .highlight {
+            background-color: #fef08a; /* Amarillo resaltado */
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+        .strikethrough {
+            text-decoration: line-through;
+            color: #dc2626; /* Rojo */
+            background-color: #fecaca;
+            padding: 1px 3px;
+            border-radius: 2px;
         }
 
         /* Opciones */
@@ -246,6 +302,10 @@ function generateFeedbackHTML(taller) {
             background-color: #fee2e2; /* Rojo claro */
             border: 1px solid #dc2626;
         }
+        .opcion-normal {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+        }
         .opcion-marca { font-size: 14pt; min-width: 25px; }
         .opcion-letra { 
             font-family: 'Open Sans', sans-serif; 
@@ -253,7 +313,39 @@ function generateFeedbackHTML(taller) {
             min-width: 25px; 
         }
         .opcion-texto { font-family: 'Open Sans', sans-serif; font-size: 11pt; }
-        .texto-tachado { text-decoration: line-through; color: #666; }
+
+        /* SECCIÓN DE RETROALIMENTACIÓN */
+        .retroalimentacion-section {
+            background-color: #fefce8; /* Amarillo muy claro */
+            border: 2px solid #eab308;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .retro-titulo {
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 700;
+            font-size: 14pt;
+            color: #a16207;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #eab308;
+            padding-bottom: 8px;
+        }
+        .retro-contenido {
+            font-size: 11pt;
+            line-height: 1.7;
+        }
+        .respuesta-correcta {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 12pt;
+            color: #16a34a;
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #dcfce7;
+            border-radius: 6px;
+            text-align: center;
+        }
 
         /* Explicación */
         .explicacion-container {
