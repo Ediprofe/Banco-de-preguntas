@@ -244,6 +244,8 @@ function generateHTML(taller, imageMap) {
         [x-cloak] { display: none !important; }
         .shake { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
         @keyframes shake { 10%, 90% { transform: translate3d(-1px, 0, 0); } 20%, 80% { transform: translate3d(2px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-4px, 0, 0); } 40%, 60% { transform: translate3d(4px, 0, 0); } }
+        /* Imágenes del resumen: ocupar ancho completo */
+        .resumen-images img { width: 100%; max-width: 100%; height: auto; border-radius: 1rem; margin-bottom: 1rem; }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-900 antialiased" x-data="tallerApp()">
@@ -282,7 +284,7 @@ function generateHTML(taller, imageMap) {
                 <span class="w-12 h-12 bg-blue-600 text-white rounded-xl flex items-center justify-center font-bold text-xl">📋</span>
                 <h3 class="text-3xl font-bold tracking-tight text-gray-800">Resumen de Conceptos</h3>
             </div>
-            <div class="text-xl text-gray-700 leading-relaxed space-y-6">
+            <div class="text-xl text-gray-700 leading-relaxed space-y-6 resumen-images">
                 ${processMarkdown(taller.resumen.replace(/^##\s+Resumen[^\n]*\n/, ''), imageMap)}
             </div>
         </article>

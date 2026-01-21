@@ -213,6 +213,14 @@ function generatePrintHTML(taller) {
             margin-bottom: 10px;
         }
         .resumen-body { font-size: 11pt; text-align: justify; }
+        /* Imágenes del resumen: ancho completo */
+        .resumen-body img {
+            max-width: 100%;
+            width: 100%;
+            max-height: none;
+            height: auto;
+            margin: 10px 0;
+        }
 
         /* Contexto */
         .contexto-container { 
