@@ -111,5 +111,55 @@ seleccion:
 
 | Output | Archivo | Uso |
 |--------|---------|-----|
-| **Slidev** | `slides.md` | Presentación interactiva |
-| **PDF Examen** | `examen.pdf` | Evaluación sin respuestas |
+| **HTML Interactivo** | `leccion_interactiva.html` | Lección web con feedback |
+| **PDF Imprimible** | `{nombre}.pdf` | Evaluación sin respuestas |
+| **PDF Retroalimentación** | `{nombre}_retroalimentacion.pdf` | Análisis pedagógico completo |
+| **Word** | `{nombre}.docx` | Editable sin retroalimentación |
+
+---
+
+## Workflows Disponibles
+
+| Comando | Descripción |
+|---------|-------------|
+| `/crear-taller` | Crear un nuevo taller desde cero |
+| `/agregar-pregunta` | Añadir una pregunta desde imagen |
+
+---
+
+## Formato de Retroalimentación (Referencia Rápida)
+
+### Marcadores dentro de `<details>`
+```markdown
+==texto== → Resaltar información clave (amarillo)
+~~texto~~ → Tachar razón de descarte (rojo)
+✅        → Marcar opción correcta
+```
+
+### Estructura de pregunta con retroalimentación
+```markdown
+## N.
+[Contexto y enunciado normal, sin marcadores]
+
+- A. Opción
+- B. Opción
+- C. Opción
+- D. Opción
+
+<details>
+<summary>✅ Respuesta</summary>
+
+<!-- RETROALIMENTACIÓN CON MARCADORES -->
+[Versión del contexto con ==resaltados==]
+[Opciones con ~~tachados~~ y ==correctas== ✅]
+
+**Respuesta: X**
+
+**Explicación:**
+[Justificación pedagógica]
+
+</details>
+```
+
+> 📖 Ver workflow `/agregar-pregunta` para ejemplo completo.
+
