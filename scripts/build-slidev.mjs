@@ -182,12 +182,19 @@ async function main() {
         const { exportExamenWord } = await import('./render-word.mjs');
         const wordPath = await exportExamenWord(taller, outputDir);
 
+        // 4. Generar PDF de Retroalimentación
+        log('📋 Generando PDF de Retroalimentación...', 'cyan');
+        const { renderPDFFeedback } = await import('./render-pdf-feedback.mjs');
+        const feedbackPdfPath = await renderPDFFeedback(taller, outputDir);
+        if (feedbackPdfPath) log(`   ✅ PDF Retroalimentación generado`, 'green');
+
         log('\n━'.repeat(50), 'cyan');
         log('✅ ¡Todo el Material Generado!', 'green');
         log('━'.repeat(50), 'cyan');
         log(`📂 Carpeta: ${outputDir}`, 'dim');
         log(`🌐 Web Interactiva: leccion_interactiva.html`, 'dim');
         if (pdfPath) log(`📄 PDF Imprimible: ${basename(pdfPath)}`, 'dim');
+        if (feedbackPdfPath) log(`📋 PDF Retroalimentación: ${basename(feedbackPdfPath)}`, 'dim');
         if (wordPath) log(`📝 Word Editable: ${basename(wordPath)}`, 'dim');
         console.log();
 

@@ -177,9 +177,27 @@ function parsePregunta(section, numeroGlobal) {
     // Limpiar el texto de metadatos residuales (comentarios multi-línea)
     texto = texto.replace(/<!--[\s\S]*?-->/g, '').trim();
 
+    // Separar CONTEXTO y ENUNCIADO automáticamente
+    // Regla: El último párrafo antes de las opciones = ENUNCIADO
+    //        Todo lo anterior = CONTEXTO
+    let contexto = '';
+    let enunciado = texto;
+
+    // Dividir por párrafos (doble salto de línea o línea vacía)
+    const parrafos = texto.split(/\n\s*\n/).filter(p => p.trim());
+
+    if (parrafos.length > 1) {
+        // El último párrafo es el enunciado
+        enunciado = parrafos[parrafos.length - 1].trim();
+        // El resto es contexto
+        contexto = parrafos.slice(0, -1).join('\n\n').trim();
+    }
+
     return {
         numeroGlobal,
-        texto: texto.trim(),
+        texto: texto.trim(),       // Mantener para compatibilidad
+        contexto,                   // NUEVO: Todo excepto último párrafo
+        enunciado,                  // NUEVO: Último párrafo (la pregunta)
         opciones,
         respuestaCorrecta,
         explicacion,
