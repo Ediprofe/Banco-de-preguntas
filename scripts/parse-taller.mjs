@@ -99,6 +99,21 @@ export function parseTallerMarkdown(filePath) {
 function parsePregunta(section, numeroGlobal) {
     const lines = section.split('\n');
 
+    // Extraer metadatos del comentario HTML (si existe)
+    // Formato: <!-- fuente: ICFES | año: 2020 | tema: clasificación -->
+    const metadatos = {};
+    const metaMatch = section.match(/<!--\s*([\s\S]*?)\s*-->/);
+    if (metaMatch) {
+        const metaContent = metaMatch[1];
+        // Parsear líneas tipo YAML: "fuente: valor"
+        metaContent.split('\n').forEach(line => {
+            const kvMatch = line.match(/^\s*([a-zA-Z_áéíóúñ]+)\s*:\s*(.+?)\s*$/);
+            if (kvMatch) {
+                metadatos[kvMatch[1].toLowerCase()] = kvMatch[2].trim();
+            }
+        });
+    }
+
     // Extraer texto de la pregunta (después del ## número)
     let texto = '';
     let inOpciones = false;
@@ -108,9 +123,17 @@ function parsePregunta(section, numeroGlobal) {
 
     // Buscar el texto después del encabezado
     const headerIndex = lines.findIndex(l => l.match(/^##\s*\d+\./));
+    let inComment = false; // Rastrear si estamos dentro de un comentario HTML
 
     for (let i = headerIndex + 1; i < lines.length; i++) {
         const line = lines[i];
+
+        // Manejar comentarios HTML multi-línea
+        if (line.includes('<!--')) inComment = true;
+        if (inComment) {
+            if (line.includes('-->')) inComment = false;
+            continue; // Saltar toda la línea si estamos en comentario
+        }
 
         // ¿Es opción?
         const opcionMatch = line.match(/^\s*-\s*([A-D])\.\s*(.+)$/);
@@ -143,12 +166,16 @@ function parsePregunta(section, numeroGlobal) {
         }
     }
 
+    // Limpiar el texto de metadatos residuales (comentarios multi-línea)
+    texto = texto.replace(/<!--[\s\S]*?-->/g, '').trim();
+
     return {
         numeroGlobal,
         texto: texto.trim(),
         opciones,
         respuestaCorrecta,
-        explicacion
+        explicacion,
+        metadatos  // Nuevo campo con fuente, año, etc.
     };
 }
 
