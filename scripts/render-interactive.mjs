@@ -276,6 +276,18 @@ function generateHTML(taller, imageMap) {
             <div class="w-24 h-2 bg-blue-600 mx-auto rounded-full"></div>
         </section>
 
+        ${taller.resumen ? `
+        <article class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-[2.5rem] p-12 shadow-xl border border-blue-100">
+            <div class="flex items-center gap-4 mb-10">
+                <span class="w-12 h-12 bg-blue-600 text-white rounded-xl flex items-center justify-center font-bold text-xl">📋</span>
+                <h3 class="text-3xl font-bold tracking-tight text-gray-800">Resumen de Conceptos</h3>
+            </div>
+            <div class="text-xl text-gray-700 leading-relaxed space-y-6">
+                ${processMarkdown(taller.resumen.replace(/^##\s+Resumen[^\n]*\n/, ''), imageMap)}
+            </div>
+        </article>
+        ` : ''}
+
         ${taller.bloques.map((bloque) => `
             <div class="space-y-16">
                 ${bloque.contexto ? `

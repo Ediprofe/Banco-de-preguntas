@@ -100,6 +100,15 @@ function generatePrintHTML(taller) {
     let content = '';
     let isFirstPage = true;
 
+    // Renderizar sección de Resumen si existe
+    if (taller.resumen) {
+        content += `<div class="resumen-container">
+            <div class="resumen-titulo">📋 Resumen de Conceptos</div>
+            <div class="resumen-body">${processMarkdown(taller.resumen.replace(/^##\s+Resumen[^\n]*\n/, ''))}</div>
+        </div>`;
+        isFirstPage = false;
+    }
+
     taller.bloques.forEach((bloque, bIndex) => {
         let hasContext = (bloque.contexto && bloque.contexto.trim().length > 0);
 
@@ -186,6 +195,24 @@ function generatePrintHTML(taller) {
         .header-doc { text-align: center; border-bottom: 2px solid #000; padding-bottom: 15px; margin-bottom: 20px; } /* Compactado */
         .titulo-doc { font-family: 'Open Sans', sans-serif; font-size: 18pt; font-weight: 700; text-transform: uppercase; }
         .sub-doc { font-family: 'Open Sans', sans-serif; font-size: 10pt; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; }
+
+        /* Resumen de Conceptos */
+        .resumen-container { 
+            border: 2px solid #2563eb; 
+            background-color: #eff6ff; 
+            padding: 15px;
+            border-radius: 8px; 
+            margin-bottom: 25px;
+            page-break-after: always;
+        }
+        .resumen-titulo { 
+            font-family: 'Open Sans', sans-serif; 
+            font-weight: 700; 
+            font-size: 14pt; 
+            color: #1e40af; 
+            margin-bottom: 10px;
+        }
+        .resumen-body { font-size: 11pt; text-align: justify; }
 
         /* Contexto */
         .contexto-container { 

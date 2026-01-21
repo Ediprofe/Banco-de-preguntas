@@ -23,6 +23,13 @@ export function parseTallerMarkdown(filePath) {
     const titleMatch = content.match(/^#\s+(.+)$/m);
     const titulo = titleMatch ? titleMatch[1].trim() : fileName;
 
+    // Extraer sección de Resumen (## Resumen...) si existe ANTES de la primera pregunta
+    let resumen = null;
+    const resumenMatch = content.match(/^##\s+Resumen[^\n]*\n([\s\S]*?)(?=\n##\s+\d+\.|\n---)/m);
+    if (resumenMatch) {
+        resumen = resumenMatch[0].trim();
+    }
+
     // Dividir por bloques de contexto (separados por ---)
     const sections = content.split(/\n---\n/).filter(s => s.trim());
 
@@ -82,6 +89,7 @@ export function parseTallerMarkdown(filePath) {
     return {
         id: tallerId,
         titulo,
+        resumen,  // Nueva propiedad para contenido introductorio
         tallerDir, // Ruta a la carpeta del taller (para imágenes locales)
         meta: {
             area,

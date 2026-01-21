@@ -1,4 +1,8 @@
-# Taller 1: La materia
+# Taller: La materia
+
+## Resumen de conceptos
+
+![Resumen de conceptos](/img/quimica/resumen-de-conceptos-la-materia.webp)
 
 ## 1.
 <!--

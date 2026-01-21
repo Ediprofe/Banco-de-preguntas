@@ -74,6 +74,15 @@ function generateExamenMarkdown(taller, outputFolder) {
     md += `**Instrucciones:** Selecciona la única opción correcta. Tiempo sugerido: ${taller.meta.tiempo_sugerido || 30} min.\n\n`;
     md += `---\n\n`;
 
+    // Renderizar sección de Resumen si existe
+    if (taller.resumen) {
+        md += `::: {custom-style="Resumen"}\n`;
+        md += `**📋 Resumen de Conceptos**\n\n`;
+        md += `${taller.resumen.replace(/^##\s+Resumen[^\n]*\n/, '').trim()}\n`;
+        md += `:::\n\n`;
+        md += `---\n\n`;
+    }
+
     const PAGE_BREAK = '\n\n```{=openxml}\n<w:p><w:r><w:br w:type="page"/></w:r></w:p>\n```\n\n';
     let isFirstGlobal = true;
 
