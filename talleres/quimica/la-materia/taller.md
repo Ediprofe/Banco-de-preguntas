@@ -4,7 +4,7 @@
 
 ![Resumen - La Materia](/img/quimica/resumen-la-materia-parte-1.webp)
 
-![Resumen - Métodos de Separación](/img/quimica/resumen-metodos-de-separacion.png)
+![Resumen - Métodos de Separación](/img/quimica/resumen-metodos-de-separacion.webp)
 
 ## 1.
 <!--
