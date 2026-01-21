@@ -67,6 +67,27 @@ function findImgDirectories(dir, imgDirs = []) {
 }
 
 /**
+ * Busca TODAS las subcarpetas dentro de un directorio (para img/ global)
+ * Esto permite estructuras como img/quimica/la-materia/
+ */
+function findAllSubdirectories(dir, subDirs = []) {
+    if (!existsSync(dir)) return subDirs;
+
+    const entries = readdirSync(dir, { withFileTypes: true });
+
+    for (const entry of entries) {
+        if (entry.isDirectory()) {
+            const fullPath = join(dir, entry.name);
+            subDirs.push(fullPath);
+            // Buscar recursivamente en subcarpetas
+            findAllSubdirectories(fullPath, subDirs);
+        }
+    }
+
+    return subDirs;
+}
+
+/**
  * Obtiene imágenes que NO tienen su versión .webp en una carpeta
  */
 function getImagesToProcess(imgDir) {
@@ -137,9 +158,11 @@ async function main() {
     // 1. Encontrar todas las carpetas img/ en talleres/
     const imgDirectories = findImgDirectories(TALLERES_DIR);
 
-    // También incluir la carpeta img/ global
+    // 2. Incluir la carpeta img/ global Y sus subcarpetas (para estructura organizada)
     if (existsSync(GLOBAL_IMG_DIR)) {
         imgDirectories.unshift(GLOBAL_IMG_DIR);
+        // Buscar subcarpetas dentro de img/ global (ej: img/quimica/la-materia/)
+        findAllSubdirectories(GLOBAL_IMG_DIR, imgDirectories);
     }
 
     if (imgDirectories.length === 0) {

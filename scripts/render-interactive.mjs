@@ -1,8 +1,30 @@
 import { writeFileSync, mkdirSync, existsSync, copyFileSync, readdirSync } from 'fs';
-import { join, basename, extname } from 'path';
+import { join, basename, extname, dirname } from 'path';
 import sharp from 'sharp';
 
 const GLOBAL_IMG_DIR = join(process.cwd(), 'img');
+
+/**
+ * Busca un archivo de imagen recursivamente en un directorio y sus subcarpetas
+ * @returns {string|null} - Ruta completa del archivo o null si no se encuentra
+ */
+function findImageRecursive(dir, fileName) {
+    if (!existsSync(dir)) return null;
+
+    const entries = readdirSync(dir, { withFileTypes: true });
+
+    for (const entry of entries) {
+        const fullPath = join(dir, entry.name);
+        if (entry.isFile() && entry.name === fileName) {
+            return fullPath;
+        }
+        if (entry.isDirectory()) {
+            const found = findImageRecursive(fullPath, fileName);
+            if (found) return found;
+        }
+    }
+    return null;
+}
 
 /**
  * Optimiza una imagen a WebP EN LA CARPETA FUENTE (si no existe ya el WebP)
@@ -99,11 +121,41 @@ export async function renderInteractive(taller, outputDir) {
         // Si ya la procesamos del local, skip
         if (imageMap.has(fileName)) continue;
 
-        // Buscar en global
-        const globalPath = join(GLOBAL_IMG_DIR, fileName);
-        if (existsSync(globalPath)) {
-            const optimizedName = await optimizeAndCopyImage(GLOBAL_IMG_DIR, outputImgDir, fileName);
+        // Determinar la ruta de búsqueda
+        let imgSourceDir = null;
+        let imgSourcePath = null;
+
+        // Caso 1: Ruta absoluta desde raíz (ej: /img/quimica/la-materia/archivo.webp)
+        if (fullPath.startsWith('/img/')) {
+            const relativePath = fullPath.slice(1); // Quitar el / inicial
+            imgSourcePath = join(process.cwd(), relativePath);
+            if (existsSync(imgSourcePath)) {
+                imgSourceDir = dirname(imgSourcePath);
+            }
+        }
+
+        // Caso 2: Buscar directamente en img/ global (compatibilidad hacia atrás)
+        if (!imgSourceDir) {
+            const globalPath = join(GLOBAL_IMG_DIR, fileName);
+            if (existsSync(globalPath)) {
+                imgSourceDir = GLOBAL_IMG_DIR;
+                imgSourcePath = globalPath;
+            }
+        }
+
+        // Caso 3: Buscar recursivamente en subcarpetas de img/
+        if (!imgSourceDir) {
+            imgSourcePath = findImageRecursive(GLOBAL_IMG_DIR, fileName);
+            if (imgSourcePath) {
+                imgSourceDir = dirname(imgSourcePath);
+            }
+        }
+
+        if (imgSourceDir && imgSourcePath) {
+            const optimizedName = await optimizeAndCopyImage(imgSourceDir, outputImgDir, fileName);
             imageMap.set(fileName, optimizedName);
+            // También mapear la ruta completa por si se referencia así
+            imageMap.set(fullPath, optimizedName);
         }
     }
 

@@ -10,7 +10,7 @@ En clase de Ciencias el profesor explica que los elementos son un conjunto de á
 
 El profesor muestra la siguiente imagen con la transformación que tiene un candado de hierro (Fe) al ser expuesto al aire. Después de un tiempo, se observa un cambio en la coloración del candado.
 
-![candado-de-hierro](/img/candado-de-hierro.webp)
+![Candado de hierro](/img/quimica/candado-de-hierro.webp)
 
 El profesor indica que este proceso se puede explicar por medio de la siguiente reacción química:
 
@@ -66,7 +66,7 @@ La afirmación de Juan es una conclusión porque resume el patrón o tendencia o
 ## 3.
 Una olla con agua hierve a una temperatura de 100 °C cuando está a una altura de 0 km. 
 
-![altura-y-presion-atmosferica](img/altura-y-presion-atmosferica.webp)
+![altura-y-presion-atmosferica](/img/quimica/altura-y-presion-atmosferica.webp)
 
 Teniendo en cuenta que el punto de ebullición es la temperatura a la cual la presión del vapor iguala a la presión atmosférica, si se pone a calentar la misma cantidad de agua a una altura de 25 km, puede afirmarse que el agua:
 
@@ -101,7 +101,7 @@ La siguiente tabla muestra los valores de la densidad de tres sustancias:
 
 En cuatro recipientes se colocan volúmenes diferentes de cada líquido como se muestra en el dibujo:
 
-![sustancias-y-densidades](img/sustancias-y-densidades.webp)
+![sustancias-y-densidades](/img/quimica/sustancias-y-densidades.webp)
 
 De acuerdo con lo ilustrado es válido afirmar que:
 
@@ -145,7 +145,7 @@ Un investigador realizó un experimento en el que sometió un bloque de hierro a
  
 ¿Cuál de las siguientes gráficas corresponde a los datos de temperatura en el tiempo registrados por el investigador?
  
-![cambios-de-fase](img/cambios-de-fase.webp)
+![cambios-de-fase](/img/quimica/cambios-de-fase.webp)
  
 - A. Gráfica A
 - B. Gráfica B
@@ -284,7 +284,7 @@ Las actividades agrícolas y ganaderas, así como la industria alimentaria, prod
 
 Un grupo de científicos realizó una consulta para determinar cuál ha sido el comportamiento de las emisiones anuales de $CH_4$ entre el 2000 e el 2020. Los resultados encontrados se muestran en la siguiente gráfica:
 
-![Toneladas de metano al año](img/toneladas-metano-al-año.webp)
+![Toneladas de metano al año](/img/quimica/toneladas-metano-al-año.webp)
 
 Luego de analizar los resultados, los científicos proponen implementar el uso de biodigestores a pequeña escala en las poblaciones rurales que generan grandes cantidades de residuos orgánicos. Los biodigestores aprovechan la **digestión anaerobia** (en ausencia de oxígeno) que realizan las bacterias para transformar los desechos orgánicos mezclados con agua en biogás y fertilizantes. El modelo y las especificaciones del biodigestor se muestran a continuación:
 
@@ -376,11 +376,11 @@ año: 2024
 
 El siguiente diagrama muestra cómo el agua cambia de estado al variar la presión y la temperatura:
 
-![Diagrama de fases del agua](img/diagrama-de-fases.webp)
+![Diagrama de fases del agua](/img/quimica/diagrama-de-fases.webp)
 
 Si partimos del punto X, donde el agua existe al mismo tiempo como líquido y gas dentro de un tanque cilíndrico, y aumentamos la temperatura del tanque a presión constante, ¿qué imagen representa el estado resultante del agua?
 
-![Agua líquida y gaseosa](img/agua-liquida-y-gaseosa.webp)
+![Agua líquida y gaseosa](/img/quimica/agua-liquida-y-gaseosa.webp)
 
 - A. Imagen A
 - B. Imagen B
@@ -531,7 +531,7 @@ año: 2024
 
 Una fábrica produce diversas soluciones acuosas para diferentes usos industriales. Para asegurar la calidad de sus productos, es fundamental controlar el grado de acidez de cada solución. Por lo tanto, se requiere un instrumento que permita medir con precisión el grado de acidez de las soluciones acuosas en diferentes etapas del proceso productivo. ¿Qué instrumento de medida es el más apropiado para determinar el grado de acidez de las soluciones acuosas en esta fábrica?
 
-![instrumentos-medida](img/instrumentos-medida.webp)
+![instrumentos-medida](/img/quimica/instrumentos-medida.webp)
 
 - A. Una balanza.
 - B. Un densímetro.
@@ -567,7 +567,7 @@ En clase de Ciencias Naturales, la profesora explica la clasificación de la mat
 
 Posteriormente, la profesora muestra un ejemplo donde se tiene un tubo de ensayo con agua al que se agrega una pequeña cantidad de yoduro de potasio (KI) y, luego, se agita, obteniendo una solución que se ve totalmente líquida, uniforme y de color amarillo.
 
-![Solución amarilla](img/solucion-amarilla.webp)
+![Solución amarilla](/img/quimica/solucion-amarilla.webp)
 
 De acuerdo con lo anterior, ¿cuál es la sustancia que se obtiene después de agitar el contenido del tubo?
 
@@ -595,7 +595,7 @@ año: 2025
 
 Un estudiante desea determinar cuánto tiempo tarda una olla con agua, sometida al fuego de una estufa, en calentarse hasta los 80 °C. Para esto, él prepara el experimento sacando de la nevera 100 mL de agua a 4 °C y procede a verterla en la olla y calentarla a fuego lento, como se muestra en la figura.
 
-![Olla caliente](img/olla-caliente.webp)
+![Olla caliente](/img/quimica/olla-caliente.webp)
 
 Al día siguiente, hace la misma práctica, pero, como no tiene agua en la nevera, utiliza 100 mL de agua del grifo del lavaplatos, a temperatura ambiente de 15 °C, y mide el tiempo que tarda en alcanzar los 80 °C a fuego lento; sin embargo, los resultados del tiempo son muy diferentes entre ambos días. ¿Qué pudo haber ocasionado este cambio en las mediciones?
 
@@ -658,7 +658,7 @@ Un grupo de investigación desea extraer compuestos químicos naturales a partir
 
 ¿Qué instrumento de medida deben usar los investigadores para determinar la masa de los compuestos obtenidos y de las plantas recolectadas?
 
-![instrumentos-medida](img/instrumentos-medida.webp)
+![instrumentos-medida](/img/quimica/instrumentos-medida.webp)
 
 - A. Un densímetro.
 - B. Una probeta.
@@ -686,7 +686,7 @@ fuente: ICFES
 año: 2024
 -->
 
-![Tiempo de reacción y tamaño de la papa](img/tiempo-de-reaccion-y-tamaño-de-la-papa.webp)
+![Tiempo de reacción y tamaño de la papa](/img/quimica/tiempo-de-reaccion-y-tamaño-de-la-papa.webp)
 
 Una estudiante tiene la hipótesis de que, al hacer reaccionar agua oxigenada con papa criolla, entre más grande sea el trozo de papa, mayor será el tiempo que dure reaccionando con el agua oxigenada. Si ella quiere representar gráficamente este fenómeno, ¿cuál de las siguientes gráficas debe elegir?
 
