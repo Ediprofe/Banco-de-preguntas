@@ -205,8 +205,8 @@ async function main() {
         console.log();
 
         // Abrir automáticamente la lección interactiva y la carpeta
-        execSync(`open "${result.htmlPath}"`);
-        execSync(`open "${outputDir}"`);
+        // execSync(`open "${result.htmlPath}"`);
+        // execSync(`open "${outputDir}"`);
 
     } catch (error) {
         log(`❌ Error: ${error.message}`, 'red');
