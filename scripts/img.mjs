@@ -174,6 +174,7 @@ async function main() {
 
     let totalProcessed = 0;
     let totalErrors = 0;
+    const copiedMarkdown = [];
 
     // 2. Procesar cada carpeta
     for (const imgDir of imgDirectories) {
@@ -192,6 +193,13 @@ async function main() {
             if (result.success) {
                 log(`   ✓ ${result.fileName} → ${formatBytes(result.originalSize)} → ${formatBytes(result.newSize)} (-${result.savings}%)`, 'green');
                 totalProcessed++;
+
+                // Generar Markdown
+                const altText = result.fileName.replace(/\.[^/.]+$/, "").replace(/-/g, " "); // Quitar extensión y guiones
+                // Capitalizar primera letra (opcional)
+                const formattedAlt = altText.charAt(0).toUpperCase() + altText.slice(1);
+
+                copiedMarkdown.push(`![${formattedAlt}](/${relativePath}/${result.fileName.replace(/\.[^/.]+$/, ".webp")})`);
             } else {
                 log(`   ✗ ${result.fileName}: ${result.error}`, 'red');
                 totalErrors++;
@@ -206,6 +214,19 @@ async function main() {
         log('✨ Todas las imágenes ya están optimizadas', 'green');
     } else {
         log(`✅ Procesadas: ${totalProcessed} | ❌ Errores: ${totalErrors}`, totalErrors > 0 ? 'yellow' : 'green');
+    }
+
+    // 4. Copiar al portapapeles Markdown
+    if (copiedMarkdown.length > 0) {
+        const clipboardContent = copiedMarkdown.join('\n\n');
+        try {
+            const { spawnSync } = await import('child_process');
+            spawnSync('pbcopy', { input: clipboardContent });
+            log('\n📋 Markdown copiado al portapapeles:', 'green');
+            copiedMarkdown.forEach(line => console.log(`   ${line}`));
+        } catch (err) {
+            log(`\n⚠️ No se pudo copiar al portapapeles: ${err.message}`, 'red');
+        }
     }
 
     log('━'.repeat(50), 'cyan');

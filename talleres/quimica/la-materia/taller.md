@@ -1351,5 +1351,3 @@ En una **cromatografía en papel**, el número de manchas obtenidas al final del
 </details>
 
 ---
-
-
