@@ -188,6 +188,11 @@ async function main() {
         const feedbackPdfPath = await renderPDFFeedback(taller, outputDir);
         if (feedbackPdfPath) log(`   ✅ PDF Retroalimentación generado`, 'green');
 
+        // 5. Generar PDF Imprimible Económico (Doble Columna)
+        log('📑 Generando PDF Imprimible Económico...', 'cyan');
+        const { renderPDFImprimible } = await import('./render-pdf-imprimible.mjs');
+        const imprimiblePdfPath = await renderPDFImprimible(taller, outputDir);
+
         log('\n━'.repeat(50), 'cyan');
         log('✅ ¡Todo el Material Generado!', 'green');
         log('━'.repeat(50), 'cyan');
@@ -195,6 +200,7 @@ async function main() {
         log(`🌐 Web Interactiva: leccion_interactiva.html`, 'dim');
         if (pdfPath) log(`📄 PDF Imprimible: ${basename(pdfPath)}`, 'dim');
         if (feedbackPdfPath) log(`📋 PDF Retroalimentación: ${basename(feedbackPdfPath)}`, 'dim');
+        if (imprimiblePdfPath) log(`📑 PDF Económico (2 columnas): ${basename(imprimiblePdfPath)}`, 'dim');
         if (wordPath) log(`📝 Word Editable: ${basename(wordPath)}`, 'dim');
         console.log();
 

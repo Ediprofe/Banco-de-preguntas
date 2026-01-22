@@ -114,6 +114,7 @@ seleccion:
 | **HTML Interactivo** | `leccion_interactiva.html` | Lección web con feedback |
 | **PDF Imprimible** | `{nombre}.pdf` | Evaluación sin respuestas |
 | **PDF Retroalimentación** | `{nombre}_retroalimentacion.pdf` | Análisis pedagógico completo |
+| **PDF Económico** | `{nombre}_imprimible.pdf` | 2 Columnas, sin resumen (ahorro) |
 | **Word** | `{nombre}.docx` | Editable sin retroalimentación |
 
 ---
