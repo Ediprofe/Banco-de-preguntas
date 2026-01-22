@@ -83,6 +83,8 @@ function processMarkdown(text) {
         .split(/(<div.*?<\/div>|<table.*?<\/table>)/gs).map(part => {
             if (part.startsWith('<div') || part.startsWith('<table')) return part;
             return part
+                // Detectar párrafos completamente en mayúsculas (con al menos 10 letras) y centrarlos
+                .replace(/^([A-ZÁÉÍÓÚÑ0-9\s:.,-]{10,})$/gm, '<div style="text-align: center; font-weight: bold;">$1</div>')
                 .replace(/\r?\n\s*\r?\n/g, '<div class="paragraph-break"></div>')
                 .replace(/\r?\n/g, '<br>');
         })
@@ -113,9 +115,9 @@ function generatePrintableHTML(taller) {
         }
 
         bloque.preguntas.forEach((pregunta) => {
-            // Verificar si esta pregunta necesita ancho completo (por el raw del texto)
+            // Verificar si esta pregunta necesita ancho completo
             const rawText = pregunta.texto || '';
-            const needsFullWidth = rawText.includes('<!-- imprimible: ancho-completo -->');
+            const needsFullWidth = pregunta.fullWidth || rawText.includes('<!-- imprimible: ancho-completo -->');
             const cleanText = rawText.replace(/<!--.*?-->/gs, '');
 
             content += `<div class="pregunta-container ${needsFullWidth ? 'full-width' : ''}">

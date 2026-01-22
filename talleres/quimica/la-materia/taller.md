@@ -374,7 +374,9 @@ Por lo tanto, la evidencia experimental contradice la suposición inicial, hacie
 
 ---
 
-RESPONDA LAS PREGUNTAS 9 A 12 DE ACUERDO CON LA SIGUIENTE INFORMACIÓN
+<!-- imprimible: ancho-completo -->
+
+RESPONDA LAS PREGUNTAS 9 A 11 DE ACUERDO CON LA SIGUIENTE INFORMACIÓN
 
 <!--
 fuente: ICFES
@@ -963,8 +965,6 @@ El proceso descrito en el enunciado menciona que las esencias se calientan para 
 
 </details>
 
-
-
 ## 23.
 
 <!-- 
@@ -1008,9 +1008,6 @@ La mezcla contiene tres componentes: agua, sal (disuelta) y arena (insoluble).
 2. Luego, se utiliza la **evaporación** para separar el sólido disuelto (sal) del líquido (agua), calentando la mezcla hasta que el agua pase a estado gaseoso y quede el residuo sólido.
 
 </details>
-
-
-
 
 
 ## 24.
@@ -1076,7 +1073,6 @@ fuente: Instruimos
 año: 2025 
 -->
 
-
 Para clasificar dos sustancias según el tipo de mezcla que forman, una estudiante investigó las diferencias entre mezclas homogéneas y heterogéneas. Descubrió que las mezclas homogéneas tienen una composición uniforme, mientras que las heterogéneas no. Luego, realizó experimentos con las sustancias X y Y, cuyos resultados se detallan en la siguiente imagen.
 
 ![Destilación y decantación](/img/quimica/destilacion-y-decantacion.webp)
@@ -1115,43 +1111,245 @@ Por lo tanto, la estudiante tiene razón al concluir que son tipos de mezclas di
 
 </details>
 
+
 ## 26.
 
-<!-- 
-fuente: ICFES
-año: 2024
+<!--
+fuente: AM
+año: 2021
 -->
 
-![Tiempo de reacción y tamaño de la papa](/img/quimica/tiempo-de-reaccion-y-tamaño-de-la-papa.webp)
+Un estudiante decide separar dos mezclas por filtración. La primera está conformada por agua y cloruro de sodio, mientras que la segunda por agua y carbonato de calcio tal como se muestra a continuación.
 
-Una estudiante tiene la hipótesis de que, al hacer reaccionar agua oxigenada con papa criolla, entre más grande sea el trozo de papa, mayor será el tiempo que dure reaccionando con el agua oxigenada. Si ella quiere representar gráficamente este fenómeno, ¿cuál de las siguientes gráficas debe elegir?
+![Filtración de agua con sal y agua con carbonato de calcio](/img/quimica/filtracion-agua-sal-y-agua-carbonato.webp)
 
-- A. Gráfica A
-- B. Gráfica B
-- C. Gráfica C
-- D. Gráfica D
+El estudiante afirma que al filtrar las dos mezclas se obtienen sustancias puras en los vasos de precipitados. De acuerdo con este procedimiento su aseveración es
+
+- A. válida, debido a que en ambos procedimientos queda agua en el vaso de precipitados y los sólidos son retenidos por el papel filtro.
+- B. inválida, porque en el vaso de precipitados usado en la separación de la mezcla 2 hay una mezcla de agua y carbonato de calcio.
+- C. válida, ya que en el momento de la filtración los componentes de las mezclas forman nuevos compuestos.
+- D. inválida, puesto que en el vaso de precipitados de la mezcla 1 hay una mezcla de agua y cloruro de sodio.
 
 <details>
 <summary>✅ Respuesta</summary>
 
 <!-- RETROALIMENTACIÓN CON MARCADORES -->
-Hipótesis: ==entre más grande sea el trozo de papa, mayor será el tiempo de reacción==.
+Un estudiante decide ==separar dos mezclas por filtración==. La primera: ==agua y cloruro de sodio (sal disuelta)==... la segunda: agua y carbonato de calcio...
 
-Relación: ==Tamaño → Grande, Mediana, Pequeña==. Tiempo: ==Grande > Mediana > Pequeña==.
+Afirma que en ambos casos se ==obtienen sustancias puras en los vasos==.
 
-==¿cuál de las siguientes gráficas debe elegir?==
+==De acuerdo con este procedimiento su aseveración es:==
 
-- A. Gráfica A ~~(muestra mayor tiempo para mediana, no para grande)~~
-- B. Gráfica B ~~(gráfica circular, no muestra comparación adecuada)~~
-- C. ==Gráfica C== ✅ (barras: ==Grande es la más alta==, Mediana intermedia, Pequeña la más baja)
-- D. Gráfica D ~~(gráfica circular, no muestra comparación adecuada)~~
+- A. ~~válida~~, debido a que en ambos procedimientos... ~~(en la mezcla 1 el sólido no es retenido)~~
+- B. inválida, porque en el vaso... de la mezcla 2 ~~hay una mezcla de agua y carbonato de calcio~~. (falso: el sólido es retenido)
+- C. ~~válida~~, ya que... ~~forman nuevos compuestos~~. (es una separación física, no química)
+- D. ==inválida==, puesto que en el vaso... de la ==mezcla 1 hay una mezcla de agua y cloruro de sodio==. ✅
 
-**Respuesta: C**
+**Respuesta: D**
 
 **Explicación:**
-La hipótesis establece una relación directamente proporcional: a **mayor tamaño** de la papa, **mayor tiempo** de reacción. Al observar las opciones:
-- La **Gráfica C** es la única que muestra esta tendencia correctamente en un diagrama de barras, donde la barra de la papa "Grande" es la más alta (mayor tiempo), seguida por la "Mediana" y finalmente la "Pequeña" con el menor tiempo.
-- La Gráfica A muestra el mayor tiempo para la papa mediana, lo cual contradice la hipótesis.
-- Las gráficas circulares (B y D) no son las más adecuadas para representar esta comparación de valores específicos de tiempo frente a categorías de tamaño en este contexto experimental.
+El método de **filtración** se utiliza para separar sólidos insolubles de un líquido.
+1.  **Mezcla 1 (Agua + Cloruro de sodio):** El cloruro de sodio es soluble en agua, formando una disolución (mezcla homogénea). Al ser una mezcla a nivel molecular, la sal atraviesa los poros del papel filtro junto con el agua, por lo que en el vaso de precipitados se obtiene nuevamente una mezcla.
+2.  **Mezcla 2 (Agua + Carbonato de calcio):** El carbonato de calcio es insoluble. Al filtrar, el sólido queda retenido en el papel y al vaso pasa agua pura.
+
+Como el estudiante afirmó que se obtenían sustancias puras en *ambos* casos, su aseveración es **inválida**, principalmente debido a lo que ocurre con la mezcla 1.
 
 </details>
+ 
+## 27.
+ 
+ <!--
+ fuente: AM
+ año: 2021
+ -->
+ 
+ Un estudiante tiene un líquido azul (sustancia M) en un recipiente y realiza la siguiente destilación.
+ 
+ ![Comienzo y final de la destilación](/img/quimica/comienzo-final-destilacion.webp)
+ 
+ El estudiante calienta la sustancia M y observa que esta hierve y se produce un vapor. Luego, el vapor generado se enfría con un condensador y al otro lado del condensador se recoge un líquido transparente (sustancia R). Cuando se evapora la totalidad se obtiene un sólido azul (sustancia T).
+ 
+ De acuerdo con lo anterior, ¿cuáles son los componentes del líquido azul (sustancia M)?
+ 
+ - A. Un líquido (sustancia R) y un sólido soluble (sustancia T).
+ - B. Un gas (sustancia M), un líquido (sustancia R) y un sólido soluble (sustancia T).
+ - C. Un líquido (sustancia T) y un sólido soluble (sustancia R).
+ - D. Un gas (sustancia T) y dos líquidos (sustancia M y sustancia R).
+ 
+ <details>
+ <summary>✅ Respuesta</summary>
+ 
+ <!-- RETROALIMENTACIÓN CON MARCADORES -->
+ El estudiante tiene un ==líquido azul (sustancia M)==... se recoge un ==líquido transparente (sustancia R)==... se obtiene un ==sólido azul (sustancia T)==.
+ 
+ ==¿cuáles son los componentes del líquido azul (sustancia M)?==
+ 
+ - A. ==Un líquido (sustancia R) y un sólido soluble (sustancia T)==. ✅
+ - B. ~~Un gas (sustancia M)~~, un líquido (sustancia R)... (M es la mezcla líquida inicial, no un gas)
+ - C. ~~Un líquido (sustancia T)~~ y un sólido soluble (sustancia R). (T es el sólido residual, R es el líquido recolectado)
+ - D. ~~Un gas (sustancia T)~~ y dos líquidos... (T es un sólido)
+ 
+ **Respuesta: A**
+ 
+ **Explicación:**
+ El proceso descrito es una **destilación simple**, que se utiliza para separar un sólido disuelto en un líquido (mezcla homogénea). Para entenderlo mejor, podemos compararlo con ejemplos de la vida real:
+ 
+ 1.  **Como el agua de mar:** Si destilamos agua salada (Sustancia M), el vapor se convierte en agua pura (Sustancia R, transparente) y en el recipiente queda la sal sólida (Sustancia T).
+ 2.  **Como una bebida hidratante azul (tipo Gatorade):** Si la calentáramos en este equipo, recuperaríamos agua pura y transparente al final del condensador, mientras que el colorante y las sales sólidas quedarían como un residuo azul en el matraz original.
+ 
+ En el experimento:
+ - La **sustancia M** es la mezcla inicial (líquido azul).
+ - Al calentar, solo el líquido se evapora y luego se condensa para formar la **sustancia R** (líquido transparente).
+ - El sólido azul que estaba disuelto no se evapora y queda como residuo sólido, la **sustancia T**.
+ 
+ Por lo tanto, el líquido azul (M) está compuesto por el líquido transparente (R) y el sólido azul (T).
+ 
+ </details>
+ 
+## 28.
+
+<!--
+fuente: AM
+año: 2021
+-->
+
+La siguiente tabla muestra algunas propiedades físicas de 3 sustancias.
+
+| Sustancias | Punto de ebullición (°C) | Solubilidad a 25 °C (Agua) | Solubilidad a 25 °C (Éter) |
+| :--- | :---: | :---: | :---: |
+| X | 100 | NO | SI |
+| T | 110 | SI | NO |
+| Q | 270 | SI | NO |
+
+Un recipiente contiene una mezcla preparada con las sustancias X, T y Q. Para separar esta mezcla se empleará el procedimiento que se muestra en el diagrama siguiente.
+
+![Mezcla filtrada](/img/quimica/mezcla-filtrado-solido-gas.webp)
+
+De acuerdo con la información de la tabla y el procedimiento de separación, es correcto afirmar que el sólido 1 es
+
+- A. una mezcla de las sustancias X y Q.
+- B. la sustancia X.
+- C. una mezcla de las sustancias T y Q.
+- D. la sustancia T.
+
+<details>
+<summary>✅ Respuesta</summary>
+
+<!-- RETROALIMENTACIÓN CON MARCADORES -->
+La tabla indica que: X (==Solubilidad Agua: NO==), T (==Solubilidad Agua: SI==), Q (==Solubilidad Agua: SI==).
+
+Procedimiento: ==Agregar agua, agitar y filtrar==.
+
+==Es correcto afirmar que el sólido 1 es:==
+
+- A. ~~una mezcla de las sustancias X y Q~~. (Q es soluble en agua, por lo tanto pasa al filtrado)
+- B. ==la sustancia X==. ✅ (X es la única insoluble en agua, por lo que queda retenida en el filtro como sólido 1)
+- C. ~~una mezcla de las sustancias T y Q~~. (Ambas son solubles en agua, forman parte del Filtrado 1)
+- D. ~~la sustancia T~~. (T es soluble en agua, no queda como sólido en el primer paso)
+
+**Respuesta: B**
+
+**Explicación:**
+El procedimiento de separación se basa en la **solubilidad selectiva** en agua:
+1.  Al **agregar agua y agitar**, las sustancias **T** y **Q** se disuelven por completo (ya que son solubles en agua según la tabla), mientras que la sustancia **X** permanece en estado sólido (porque es insoluble).
+2.  Al **filtrar**, el papel filtro permite el paso de la parte líquida (agua con T y Q disueltos), lo cual constituye el **Filtrado 1**.
+3.  El componente que no se disolvió (**X**) es retenido por el filtro como un sólido, constituyendo así el **Sólido 1**.
+
+De esta manera, el sólido 1 corresponde a la **sustancia X**.
+
+</details>
+
+## 29.
+<!-- imprimible: ancho-completo -->
+
+<!--
+fuente: AM
+año: 2021
+-->
+
+Un estudiante desea separar dos muestras en sus componentes. Para esto, sumerge en etanol un extremo de dos tiras de papel que tienen una muestra diferente, permitiendo la absorción ascendente del etanol sobre el papel, generándose la separación de los componentes de las muestras. El procedimiento empleado después de emplear el etanol y otros disolventes se esquematiza en la siguiente figura.
+
+![Cromatografía de muestras 1 y 2](/img/quimica/cromatografia-de-muestras-1-y-2.webp)
+
+Después de observar estos resultados, el estudiante puede concluir que
+
+- A. la muestra 1 es una sustancia pura y la muestra 2 es una mezcla homogénea.
+- B. la muestra 1 y la muestra 2 son sustancias puras.
+- C. la muestra 1 y la muestra 2 son mezclas homogéneas.
+- D. la muestra 1 es una mezcla homogénea y la muestra 2 una sustancia pura.
+
+<details>
+<summary>✅ Respuesta</summary>
+
+<!-- RETROALIMENTACIÓN CON MARCADORES -->
+El experimento muestra una ==separación de componentes== mediante cromatografía en papel.
+
+En los resultados:
+1.  La **Muestra 1** presenta ==dos manchas distintas== a diferentes alturas.
+2.  La **Muestra 2** presenta ==una sola mancha==.
+
+==Después de observar estos resultados, el estudiante puede concluir que:==
+
+- A. ~~la muestra 1 es una sustancia pura~~ (Falso: se separó en dos componentes)
+- B. ~~la muestra 1~~ y la muestra 2 ~~son sustancias puras~~. (Muestra 1 es mezcla)
+- C. la muestra 1 y ~~la muestra 2 son mezclas homogéneas~~. (Muestra 2 no mostró separación)
+- D. la ==muestra 1 es una mezcla homogénea== y la ==muestra 2 una sustancia pura==. ✅
+
+**Respuesta: D**
+
+**Explicación:**
+La **cromatografía** es una técnica de separación de mezclas que se basa en las diferentes velocidades a las que los componentes se desplazan por un medio (papel) arrastrados por un disolvente (etanol). 
+1.  Si una muestra es una **mezcla homogénea** (como la Muestra 1), sus componentes se separarán en diferentes manchas dependiendo de su afinidad con el papel y el disolvente.
+2.  Si una muestra es una **sustancia pura** (como la Muestra 2), solo se observará una mancha, ya que no tiene componentes diferentes que separar.
+
+</details>
+
+## 30.
+<!-- imprimible: ancho-completo -->
+
+<!--
+fuente: AM
+año: 2021
+-->
+
+Un estudiante quiere separar tres muestras (M1, M2 y M3) en sus componentes. Para esto sumerge en etanol un extremo de tres tiras de papel que tienen una muestra diferente y permiten la absorción ascendente del etanol sobre el papel, generándose la separación de los componentes de las muestras a distintas alturas del papel. El procedimiento realizado y el modelo de separación de los componentes se observa a continuación.
+
+![Cromatografía de 3 sustancias](/img/quimica/cromatografia-de-3-sustancias.webp)
+
+De acuerdo con el modelo de separación mostrado para las tres muestras, ¿cuál de las siguientes inferencias es válida?
+
+- A. Las muestras M1, M2 y M3 tienen la misma composición química.
+- B. La muestra M3 tiene más componentes que las muestras M1 y M2.
+- C. Cuando la muestra M1 reacciona con la muestra M2, produce los mismos productos presentes en la muestra M3.
+- D. Cuando las muestras M1 y M2 reaccionan con el papel, se vuelven más oscuras; mientras que la muestra M3 no reacciona.
+
+<details>
+<summary>✅ Respuesta</summary>
+
+<!-- RETROALIMENTACIÓN CON MARCADORES -->
+El modelo de ==separación de los componentes== muestra el número de sustancias que componen cada mezcla.
+
+Al observar el resultado final:
+1.  **Muestra M1**: Se separó en ==dos componentes== (dos manchas).
+2.  **Muestra M2**: Se observa ==un solo componente== (una mancha).
+3.  **Muestra M3**: Se separó en ==tres componentes== (tres manchas).
+
+==¿cuál de las siguientes inferencias es válida?==
+
+- A. ~~Las muestras M1, M2 y M3 tienen la misma composición química~~. (Falso: cada una se desplaza y separa de forma distinta)
+- B. ==La muestra M3 tiene más componentes que las muestras M1 y M2==. ✅ (M3 tiene 3 manchas, mientras que M1 tiene 2 e M2 tiene 1)
+- C. ~~Cuando la muestra M1 reacciona con la muestra M2... produce los mismos productos~~. (No hay evidencia de reacciones químicas entre muestras; es una separación física)
+- D. ~~Cuando las muestras M1 y M2 reaccionan con el papel... se vuelven más oscuras~~. (No se observa tal reacción ni cambio de oscuridad en el modelo)
+
+**Respuesta: B**
+
+**Explicación:**
+En una **cromatografía en papel**, el número de manchas obtenidas al final del proceso indica la cantidad de sustancias o componentes que forman la mezcla original.
+- El hecho de que **M3** presente tres manchas a diferentes alturas significa que está compuesta por al menos tres sustancias diferentes.
+- Como **M1** solo tiene dos y **M2** solo una, es correcto inferir que **M3** es la que posee una mayor complejidad en su composición (más componentes).
+
+</details>
+
+---
+
+

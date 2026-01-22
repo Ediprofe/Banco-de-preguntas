@@ -201,6 +201,9 @@ function parsePregunta(section, numeroGlobal) {
         contexto = parrafos.slice(0, -1).join('\n\n').trim();
     }
 
+    // Detectar si requiere ancho completo (antes de limpiar comentarios)
+    const fullWidth = section.includes('<!-- imprimible: ancho-completo -->');
+
     return {
         numeroGlobal,
         texto: texto.trim(),       // Mantener para compatibilidad
@@ -210,7 +213,8 @@ function parsePregunta(section, numeroGlobal) {
         respuestaCorrecta,
         explicacion,
         retroalimentacion,          // NUEVO: Versión con marcadores ==resaltado== y ~~tachado~~
-        metadatos
+        metadatos,
+        fullWidth                   // NUEVO: Indicador explícito de ancho completo
     };
 }
 
